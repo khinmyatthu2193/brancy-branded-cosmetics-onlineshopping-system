@@ -1,0 +1,448 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block content %}
+
+
+    <style>
+        /* Basic styles for the body and container */
+        body {
+            margin: 0;
+            padding: 0;
+            
+            background-color: rgba(255, 192, 203, 0.318);
+            height: 200vh;
+        }
+
+        .container1 {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            height: 150%;
+            margin-top: 0;
+            padding: 10px 10px;
+        }
+
+        /* Main blog content styling */
+        .main-content {
+            width: 70%;
+            flex: 2;
+            padding: 5px;
+            height: 100%;
+        }
+
+        .main-content img {
+            width: 100%;
+            height: 20%;
+            border-radius: 10px;
+        }
+
+        .main-content h1 {
+            font-size: 24px;
+            margin-top: 20px;
+        }
+
+        .main-content p {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .read-more {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 15px;
+            background-color: black;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            width: 30%;
+            text-align: center;
+
+        }
+        .content {
+            overflow: hidden;
+            max-height: 0;
+            opacity: 0;
+            transition: max-height 0.5s ease, opacity 0.5s ease;
+        }
+
+        .content.expanded {
+            max-height: 500px;
+            opacity: 1;
+        }
+
+        .quote {
+            font-size: 12px;
+            font-style: italic;
+            border-left: 4px solid #e74c3c;
+            padding-left: 10px;
+            margin-bottom: 20px;
+        }
+        .feature-list {
+            margin-top: 15px;
+            list-style: none;
+            padding: 0;
+        }
+        .feature-list li {
+            margin: 5px 0;
+            display: flex;
+            align-items: center;
+        }
+        .feature-list li::before {
+            content: '✔';
+            margin-right: 10px;
+            color: #e74c3c;
+        }
+
+        /* Related posts styling */
+        .related-posts {
+            width: 40%;
+            flex: 1;
+            margin-left: 10px;
+            background-color: #ffff;
+            margin-top: 50px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+            max-height: 100vh;
+            max-height: 100vh;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .related-posts::-webkit-scrollbar {
+            display: none;
+        }
+
+        .related-posts h2 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid pink;
+            line-height: 40px;
+        }
+
+        .related-post {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .related-post img {
+            width: 70px;
+            height: 70px;
+            margin-right: 10px;
+            border-radius: 10px;
+        }
+
+        .related-post h3 {
+            font-size: 16px;
+            flex-grow: 1;
+            width: 250px;
+        }
+
+        .related-post .view {
+            margin-left: 30px;
+            background-color: black;
+            color: white;
+            padding: 5px 5px;
+            text-decoration: none;
+            border-radius: 5px;
+            width: 25%;
+            text-align: center;
+
+        }
+        /* Video section styling */
+        .videos {
+            margin-top: 70px;
+        }
+
+        .videos iframe {
+            width: 100%;
+            height: 450px;
+            margin-bottom: 20px;
+            border: none;
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container1">
+        <!-- Main Blog Section -->
+        <div class="main-content" id="main-content">
+            <h1>သနပ်ခါးအကြောင်း</h1>
+            <img src="{% static 'imges/LocalBrand/min_khant_cover (2).jpg'%}" alt="Blog Image">
+            <p>သနပ်ခါးကို မြန်မာနိုင်ငံအလယ်ပိုင်း မိုးနည်းရပ်ဝန်းဒေသများဖြစ်ကြသော စစ်ကိုင်းတိုင်းနှင့် မန္တလေးတိုင်းနှင့် မကွေးတိုင်းတို့တွင် အများဆုံး စိုက်ပျိုးထုတ်လုပ်လျှက်ရှိရာ ယခင်နှစ်ကထက် ယခုကာလ၌ သနပ်ခါးဈေးကွက် ဈေးကောင်းရရှိနေကြောင်းသိရှိရသည်။ စစ်ကိုင်းတိုင်းဒေသကြီး၊ မုံရွာခရိုင်အတွင်းရှိ သနပ်ခါးစိုက်ပျိုးထွက်ရှိရာဒေသများအနက် “သနပ်ခါးမြို့တော်” 
+                ဟုတင်စားခေါ်ကြသော အရာတော်မြို့၌ သနပ်ခါးကို တစ်နိုင်တစ်ပိုင်စိုက်ပျိုးရာမှ စီးပွားဖြစ် စိုက်ပျိုးထုတ်လုပ်လာကြောင်း သိရသည်။
+            </p>
+            <div class="content" id="content">
+                <p>သနပ်ခါးပင်ကို အပူပိုင်းမိုးနည်းရပ်ဝန်းဒေသများတွင် အဓိကစိုက်ပျိုးကြသည်။ သနပ်ခါးပင်သည် ရေငတ်ဒဏ်နှင့်ပူပြင်းသော ရာသီဥတုဒဏ်ကို ကောင်းစွာခံနိုင်သော နှစ်ရှည်ပင်ဖြစ် သော်လည်း ဂရုတစိုက်ပြုစုပျိုးထောင်ရသောအပင်မျိုး ဖြစ်ပေသည်။ မိမိကဂရုတစိုက်ပြုပြင်ပေးခြင်း၊ မြေပြုပြင်ပြီး မြေဆီ၊ မြေခွန်ကျွေးလျှင် ကြိုးစားသလောက် အကျိုးအမြတ်ရနိုင်သော အပင်မျိုးဖြစ်သည်။ သနပ်ခါးပင်ကို မြေချ၍စတင်စိုက်ပျိုးသည့် နေ့မှသုံးနှစ်အထိ အချိန်ကာလတစ်ခုအား စောင့်ဆိုင်းရပါမည်။ သနပ်ခါးပင်သည် တစ်ဖန်ပြန်၍ စိုက်ပျိုးစရာမလိုသော အဖိုးတန်နှစ်ရှည်ပင်ဖြစ်သည်။
+
+                    ယခင်နှစ်ကာလများ၌ လျှော်ဖြူစိုက်ခင်းများ၊ ဇင်ရွေးစိုက်ခင်းများ၊ မိရိုးဖလာစိုက်ပျိုးသီး နှံများဖြစ်ကြသော ပဲအမျိုးမျိုး၊ ဝါ၊ နှမ်း၊ ပြောင်းနှင့်ဆီထွက်သီးနှံတို့ကိုသာ အဓိကထားစိုက်ပျိုး ကြသော်လည်း ယခုအခါသနပ်ခါးစိုက်ပျိုးခြင်းကို  စီးပွားဖြစ်စိုက်ပျိုးလာကြောင်း တွေ့ရှိရသည်။ သနပ်ခါးပင်မျိုးစိတ်ကို ရှေးရိုးအပင်မျိုးစေ့နှင့်စိန်မင်းဟုခေါ်သော  ပြုပြင်ဖန်တီးထားသော စပ်မျိုး မျိုးစိတ်ဟူ၍ နှစ်မျိုးတွေ့ရသည်။ သနပ်ခါးပင်များသည် မြေနီကျောက်ကုန်းများတွင် လျှင်မြန်စွာထွန်းလွယ်၍ အခေါက်ထူပြီး အပွေးသန်ကာ ရနံပိုမိုမွှေးကြိုင်ကြောင်း သိရှိရပါသည်။ သနပ်ခါးအစေ့မှ ပျိုးပင်ပေါက်ရန် အချိန်ကာလအားဖြင့် (၁)လခွဲခန့်ကြာကြောင်း၊ သနပ်ခါးပျိုး ပင်များစိုက်ပျိုးရာတွင် ပျိုးထုပ်များအတွင်း၌ မြေဆွေးနှင့်နုန်းမြေကိုမျှတစွာ ထည့်ပြီးစိုက်ပျိုးရ ကြောင်း၊ သနပ်ခါးပျိုးပင်ပေါက်များကိုမြေချ၍ စိုက်ပျိုးရန်အကောင်းဆုံးအချိန်မှာ ဝါဆို၊ ဝါခေါင် လများဖြစ်ကြောင်း သိရှိရပါသည်။ သနပ်ခါးပျိုးပင်များစိုက်ပျိုးရာတွင် (၅) တောင်ခြား၍သော် လည်းကောင်း၊ (၆)တောင်ခြား၍ သော်လည်းကောင်း မိမိနှစ်သက်ရာအကွာအဝေးဖြင့် အတန်း အလိုက်စိုက်ပျိုးကာ တစ်ဧကလျှင် ပျိုးပင်(၂၅၀-၃၀၀)အထိ စိုက်ပျိုးနိုင်ကြောင်း၊ အချို့သနပ်ခါးခြံများတွင် နေရာအကျယ်အဝန်းနှင့်  အရေအတွက်အနည်းအများပေါ်မူတည်ကာ ပျိုးပင်(၃၀၀-၃၅၀) အထိလည်းစိုက်ပျိုးနိုင်ကြောင်း သိရသည်။
+                    
+                    သနပ်ခါးပင်သည် နှစ်ရှည်ပင်အမျိုးအစားတွင်ပါဝင်သော အပင်တစ်မျိုးဖြစ်ရာ ပျိုးပင်မြေချစိုက်ပျိုးသည့်ရက်မှ (၅-၇) နှစ်အတွင်း အရွယ်ရောက်ပြီးသော သနပ်ခါးပင်များကို စတင်ခုတ်ယူနိုင်ပြီး တဖန်ပြန်၍အတက်ပေါက်သနပ်ခါးပင်များကိုလည်း (၃)နှစ်တစ်ခါ ခုတ်ယူနိုင်ကြောင်း သိရသည်။ သနပ်ခါးခုတ်ယူရန်အကောင်းဆုံးအချိန်မှာ တော်သလင်းလပြည့်ကျော်မှ သီတင်း ကျွတ်လအတွင်းဖြစ်သည်။ ခုတ်ယူရရှိသောသနပ်ခါးပင်များကို ဖြတ်တောက်၍ မြန်မာနိုင်ငံတစ်ဝန်းသို့ အတုံးဈေးဖြင့်သော်လည်းကောင်း၊ သနပ်ခါးခဲ(လက်သွေးခဲ)အဖြစ်ပြုလုပ်၍ သော်လည်းကောင်း၊ အဖျားသားများကို နာမည်ကြီးဒေါ်သီအမှတ်တံဆိပ်နှင့် ရွှေပြည်နန်းသနပ်ခါး စက်ရုံများသို့လည်း တင်ပို့ရောင်းချ၍ ဒေသတွင်း၌လည်း အသုံးပြုသူများခြင်း၊ ဝယ်လိုအားများခြင်းတို့ကြောင့် ဈေးကောင်းရနေကြောင်း၊ သနပ်းခါးပင်များကို(၃)နှစ်တစ်ခါ ခုတ်ယူရာတွင် တစ်ဧကလျှင် (၂၅)သိန်းခန့် အမြတ်ကျန်ရှိကြောင်း၊ တစ်နှစ်ပျှမ်းမျှနှုန်းဖြင့် တစ်ဧကလျှင်(၈) သိန်းခန့်အမြတ်ရ၍ သနပ်ခါးစိုက်ဧကများကို တိုးချဲ့စိုက်ပျိုးသင့်ပါကြောင်း အရာတော်မြို့နယ် သနပ်ခါးစိုက်တောင်သူတစ်ဦးထံမှ လေ့လာသိရှိရပါသည်။
+                    
+                    အချုပ်အားဖြင့်ဆိုရသော် မြန်မာတို့၏ရိုးရာသနပ်ခါးကို ပြည်တွင်း၌ ရောင်းဝယ်ကုန်သွယ်မှုပြုလုပ်ခြင်းသာမက အရည်အသွေးမြှင့်တင်၍ ကုန်ချောအဖြစ်ထုတ်လုပ်ကာ နိုင်ငံခြားဝင်ငွေရရှိရေးအတွက် ပြည်ပနိုင်ငံများသို့တင်ပို့လျှင် အကျိုးအမြတ်ပိုမိုဖြစ်ထွန်းနိုင်ကြောင်း ရေးသား တင်ပြလိုက်ရပါသည်။
+                    
+                    DOCA(စစ်ကိုင်း)</p>
+                <div class="quote">
+                    ပြန်ကြားရေးဝန်ကြီးဌာနမှ ကူးယူဖော်ပြသည်။
+                </div>
+                <ul class="feature-list" id="featureList">
+                    <li>အုန်းဆီအကြောင်း</li>
+                    <li>ရေခဲကပ်ခြင်း၏ အကျိုးကျေးဇူးများ</li>
+                    <li>အသားအရေကို ဘယ်လိုထိန်းသိမ်ကြမလဲ</li>
+                </ul>
+            </div>
+            <a href="#" class="read-more" id="readMoreBtn">READ MORE</a>
+            <!-- Vlogger Videos -->
+            <div class="videos">
+                <h3>Watch Vlogger Videos:</h3>
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/j2H3qk0ZN5Q?si=qcqZTrc8tK2qQsSA"
+                    title="YouTube video player" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/vNpafKvDbzk?si=H6j46HWHhA-KmwIZ"
+                    title="YouTube video player" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
+        </div>
+
+        <!-- Related Posts Section -->
+        <div class="related-posts">
+            <h2>Recent Posts</h2>
+            <div class="related-post">
+                <img src="{% static 'imges/bp2.png'%}" alt="Related Post Image">
+                <h3>အလှကုန်ပစ္စည်းတွေ ဘယ်လိုရွေးဝယ်ကြမလဲ။၊</h3><br>
+                <a href="#" class="view" onclick="showPost('post1')">View article</a>
+            </div>
+            <div class="related-post">
+                <img src="{% static 'imges/bp3.png' %}" alt="Related Post Image">
+                <h3>မိတ်ကပ်အခြေခံ</h3><br>
+                <a href="#" class="view" onclick="showPost('post2')">View article</a>
+            </div>
+            <div class="related-post">
+                <img src="{% static 'imges/bpp3.png' %}" alt="Related Post Image">
+                
+                <h3>ဆံသား ထိန်းသိမ်းနည်းများ </h3>
+                <a href="#" class="view" onclick="showPost('post4')">View article</a>
+            </div>
+            <div class="related-post">
+                <img src="{% static 'imges/bpp4.png'%}" alt="Related Post Image">
+                <h3>Budget save သည့် အသားအရေ ထိန်းသိမ်းနည်းများ</h3>
+                <a href="#" class="view" onclick="showPost('post5')">View article</a>
+            </div>
+            <div class="related-post">
+                <img src="{% static 'imges/bp1.png' %}" alt="Related Post Image">
+                <h3>Lotion ကို ဘယ်လိုရွေးဝယ်ကြမလဲ။</h3>
+                <a href="#" class="view" onclick="showPost('post6')">View article</a>
+            </div>
+            <div class="related-post">
+                <img src="{% static 'imges/bb2.jpg' %}" alt="Related Post Image">
+                <h3>သဘာဝအသားအရေ ထိန်းသိမ်းနည်းများ</h3>
+                <a href="#" class="view" onclick="showPost('post7')">View article</a>
+            </div>
+            <div class="related-post">
+                <img src="{% static 'imges/bp1.png' %}" alt="Related Post Image">
+                <h3>Maybelline_newyork</h3>
+                <a href="#" class="view" onclick="showPost('post8')">View article</a>
+            </div>
+            <div class="related-post">
+                <img src="{% static 'imges/bb2.jpg' %}" alt="Related Post Image">
+                <h3>Trendy makeup brush sets to try...</h3>
+                <a href="#" class="view" onclick="showPost('post9')">View article</a>
+            </div>
+            <div class="related-post">
+                <img src="{% static 'imges/bp1.png' %}" alt="Related Post Image">
+                <h3>Makeup brush types and their uses...</h3>
+                <a href="#" class="view" onclick="showPost('post10')">View article</a>
+            </div>
+        </div>
+    </div>
+</body>
+
+    <script>
+        const content = document.getElementById('content');
+        const readMoreBtn = document.getElementById('readMoreBtn');
+        const featureList = document.getElementById('featureList');
+
+        // Toggle extra content in the main content
+        readMoreBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            content.classList.toggle('expanded');
+            if (content.classList.contains('expanded')) {
+                readMoreBtn.textContent = 'READ LESS';
+            } else {
+                readMoreBtn.textContent = 'READ MORE';
+            }
+        });
+        // Sample blog post data
+        const blogPosts = {
+            post1: {
+                title: "The ordinary System",
+                content: "Detailed content about applying luxury beauty products...",
+                image: "{% static 'imges/bp2.png' %}",
+                extraContent: `
+                <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.</p>
+                <h3>Ready For Perfect Fitness</h3>
+                <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <div class="quote">
+                    “Strange as it seems, no amount of learning can cure stupidity, and higher education positively fortifies it.”
+                    <br>— JOHN DOE
+                </div>
+                <ul class="feature-list">
+                    <li>Proin gravida nibh vel velit auctor aliquet.</li>
+                    <li>Get personalized diet plans and nutrition advice.</li>
+                    <li>Enjoy modern gym facilities with the latest equipment.</li>
+                    <li>Focus on mental and physical well-being.</li>
+                </ul>
+            `,
+            },
+            post2: {
+                title: "Makeup Tutorials",
+                content: "Explore techniques for achieving a lightweight makeup look...",
+                extraContent: `
+                <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.</p>
+                <h3>Ready For Perfect Fitness</h3>
+                <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <div class="quote">
+                    “Strange as it seems, no amount of learning can cure stupidity, and higher education positively fortifies it.”
+                    <br>— JOHN DOE
+                </div>
+                <ul class="feature-list">
+                    <li>Proin gravida nibh vel velit auctor aliquet.</li>
+                    <li>Get personalized diet plans and nutrition advice.</li>
+                    <li>Enjoy modern gym facilities with the latest equipment.</li>
+                    <li>Focus on mental and physical well-being.</li>
+                </ul>
+            `,
+                image: "{% static 'imges/bp3.png' %}",
+            },
+            post3: {
+                title: "Romand in your daily bag",
+                content: "Learn about the benefits of herbal ingredients in your beauty routine...",
+                image: "{% static 'imges/bpp3.png' %}",
+            },
+            post4: {
+                title: "Tips for Hair Care",
+                content: "Essential tips for maintaining your hair for longevity...",
+                image: "{% static 'imges/bb2.jpg'%}",
+            },
+            post5: {
+                title: "Tips for Hair Care",
+                content: "Essential tips for maintaining your hair for longevity...",
+                image: "{% static 'imges/bb3.jpg' %}",
+            }
+        };
+        // Function to show the blog post
+        function showPost(postId) {
+            const post = blogPosts[postId];
+            if (post) {
+                document.getElementById('main-content').innerHTML = `
+                 <h1>${post.title}</h1>
+                <p>${new Date().toLocaleDateString()}</p>
+                <img src="${post.image}" alt="Blog Image">
+                <p>${post.content}</p>
+                <div class="content" id="content">
+                        <p>${post.extraContent}</p>
+                    </div>
+                <a href="#" class="read-more" id="readMoreBtn">READ MORE</a>
+
+                <div class="videos">
+                    <h3>Watch Vlogger Videos:</h3>
+                    <iframe src="https://www.youtube.com/embed/j2H3qk0ZN5Q?si=qcqZTrc8tK2qQsSA" title="YouTube video" allowfullscreen></iframe>
+                    <iframe src="https://www.youtube.com/embed/vNpafKvDbzk?si=H6j46HWHhA-KmwIZ" title="YouTube video" allowfullscreen></iframe>
+                </div>
+            `;
+                const newReadMoreBtn = document.getElementById('readMoreBtn');
+                const newContent = document.querySelector('.content');
+                newReadMoreBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    newContent.classList.toggle('expanded');
+                    if (newContent.classList.contains('expanded')) {
+                        newReadMoreBtn.textContent = 'READ LESS';
+                    } else {
+                        newReadMoreBtn.textContent = 'READ MORE';
+                    }
+                });
+            }
+        }
+    </script>
+    <script>
+    function displayBlogDetails() {
+        const title = localStorage.getItem('blogTitle');
+        const date = localStorage.getItem('blogDate');
+        const image = localStorage.getItem('blogImage');
+        const shortDescription = localStorage.getItem('blogShortDesc');
+        const extendedContent = localStorage.getItem('blogLongDesc');
+        const quote = localStorage.getItem('blogQuote'); // Retrieve the quote
+        const features = JSON.parse(localStorage.getItem('blogFeatures'));
+        const video1 = localStorage.getItem('blogVideo1');
+        const video2 = localStorage.getItem('blogVideo2');
+    
+        if (title && image && shortDescription) {
+            document.getElementById('main-content').innerHTML = `
+                <h1>${title}</h1>
+                <p>${date ? date : 'No Date Provided'}</p>
+                <img src="${image}" alt="${title}">
+                <p>${shortDescription}</p>
+                
+                <div class="content" id="content">
+                    <blockquote>${quote ? quote : ''}</blockquote> <!-- Display the quote if available -->
+                    <p>${extendedContent}</p>
+                </div>
+    
+                <a href="#" class="read-more" id="readMoreBtn">READ MORE</a>
+    
+                <div class="features">
+                    <h3>Features:</h3>
+                    <ul id="feature-list"></ul>
+                </div>
+    
+                <div class="videos">
+                    <h3>Watch Vlogger Videos:</h3>
+                    <iframe width="560" height="315" src="${video1}" title="YouTube video player" allowfullscreen></iframe>
+                    <iframe width="560" height="315" src="${video2}" title="YouTube video player" allowfullscreen></iframe>
+                </div>
+            `;
+    
+            // Populate the features list
+            const featureList = document.getElementById('feature-list');
+            if (features && features.length > 0) {
+                features.forEach(feature => {
+                    const li = document.createElement('li');
+                    li.textContent = feature;
+                    featureList.appendChild(li);
+                });
+            } else {
+                document.querySelector('.features').style.display = 'none';
+            }
+    
+            // Add "READ MORE/READ LESS" functionality
+            const readMoreBtn = document.getElementById('readMoreBtn');
+            const content = document.getElementById('content');
+    
+            readMoreBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                content.classList.toggle('expanded');
+                if (content.classList.contains('expanded')) {
+                    readMoreBtn.textContent = 'READ LESS';
+                } else {
+                    readMoreBtn.textContent = 'READ MORE';
+                }
+            });
+    
+        } else {
+            document.getElementById('main-content').innerHTML = `<p>No blog details available.</p>`;
+        }
+    }
+    
+    // Call the function to display the blog details when the page loads
+    window.onload = displayBlogDetails;
+</script>
+    
+</html>
+{% endblock %}

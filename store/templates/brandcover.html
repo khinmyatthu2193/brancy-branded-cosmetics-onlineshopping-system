@@ -1,0 +1,266 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block content %}
+
+
+   
+    <style>
+          
+        /* Columns */
+        .container {
+            display: flex;
+            justify-content: center;
+            /* Centers the .right-column horizontally */
+            align-items: center;
+            /* Centers the .right-column vertically (if needed) */
+            height: 100vh;
+            /* Optional: makes the container fill the full viewport height */
+            padding: 15px;
+        }
+
+        .right-column {
+            width: 100%;
+            padding: 100px;
+            max-width: 1200px;
+            margin-left: 50px;
+            margin-top: 0px;
+
+        }
+
+        /* Categories */
+        .category {
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        .sublist {
+            display: none;
+            margin-left: 15px;
+            list-style-type: none;
+        }
+
+        .sublist li {
+            margin-bottom: 5px;
+        }
+
+        /* Product Layout */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 15px;
+            justify-content: center;
+            padding: 10px;
+        }
+
+        .product {
+            position: relative;
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+            background-color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .product img {
+            max-width: 100%;
+            transition: transform 0.3s ease;
+            display: block;
+        }
+
+        .product:hover img {
+            transform: scale(1.1);
+        }
+
+        .product a {
+            display: none;
+            position: absolute;
+            top: 80%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.355);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .product:hover a {
+            display: block;
+        }
+        
+    </style>
+</head>
+
+<body>
+  
+  
+   
+
+    <!-- Right Column: Products -->
+    <div class="hi" style="margin: 0px 30px 30px 30px">
+        <div class="product-grid">
+            <div class="product">
+                <img src="{% static 'imges/nacific.jpg' %}" alt="brand1">
+                <!-- <h3>Nacific</h3> -->
+                <a href="{% url 'brandshoppage' 'Nacific' %}" onclick="toggleProducts()">See all products</a>
+            </div>
+            <div class="product">
+                <img src="{% static 'imges/bioderma.jpg' %}" alt="brand2">
+                <!-- <h3>Bioderma</h3> -->
+                <a href="{% url 'brandshoppage' 'Bioderma' %}" onclick="toggleProducts()">See all products</a>
+            </div>
+            <div class="product">
+                <img src="{% static 'imges/cerave.jpg' %}" alt="brand3">
+                <!-- <h3>CeraVe</h3> -->
+                <a href="{% url 'brandshoppage' 'CeraVe' %}" onclick="toggleProducts()">See all products</a>
+            </div>
+            {% comment %} <div class="product">
+                <img src="{% static 'imges/cetaphil.jpg' %}" alt="brand4">
+                <!-- <h3>Cetaphil</h3> -->
+                <a href="{% url 'brandshoppage' 'Cetaphil' %}" onclick="toggleProducts()">See all products</a>
+            </div> {% endcomment %}
+            <div class="product">
+                <img src="{% static 'imges/innisfree.jpg' %}" alt="brand5">
+                <!-- <h3>Innisfree</h3> -->
+                <a href="{% url 'brandshoppage' 'Innisfree' %}" onclick="toggleProducts()">See all products</a>
+            </div>
+            {% comment %} <div class="product">
+                <img src="{% static 'imges/larocheposay.jpg' %}" alt="brand6">
+                <!-- <h3>La Roche Posay</h3> -->
+                <a href="{% url 'brandshoppage' 'LaRocheposy' %}" onclick="toggleProducts()">See all products</a>
+            </div> {% endcomment %}
+            <div class="product">
+                <img src="{% static 'imges/lorealparis.jpg' %}" alt="brand7">
+                <!-- <h3>LOreal Paris</h3> -->
+                <a href="{% url 'brandshoppage' 'LOreal' %}" onclick="toggleProducts()">See all products</a>
+            </div>
+            <div class="product">
+                <img src="{% static 'imges/naturerepublic.jpg' %}" alt="brand8">
+                <!-- <h3>Nature Republic</h3> -->
+                <a href="{% url 'brandshoppage' 'Nature Republic' %}" onclick="toggleProducts()">See all products</a>
+            </div>
+            <div class="product">
+                <img src="{% static 'imges/skii.jpg' %}" alt="brand9">
+                <!-- <h3>SK II</h3> -->
+                <a href="{% url 'brandshoppage' 'SKII' %}" onclick="toggleProducts()">See all products</a>
+            </div>
+            <div class="product">
+                <img src="{% static 'imges/theordinary.jpg' %}" alt="brand10">
+                <!-- <h3>The Ordinary</h3> -->
+                <a href="{% url 'brandshoppage' 'The Ordinary' %}" onclick="toggleProducts()">See all products</a>
+            </div>
+            <div class="product">
+                <img src="{% static 'imges/tonymoly.jpg' %}" alt="brand11">
+                <!-- <h3>Tony Moly</h3> -->
+                <a href="{% url 'brandshoppage' 'TonyMoly' %}" onclick="toggleProducts()">See all products</a>
+            </div>
+            <div class="product">
+                <img src="{% static 'imges/revlon.png' %}" alt="brand12">
+                <!-- <h3>Tony Moly</h3> -->
+                <a href="{% url 'brandshoppage' 'REVLON' %}" onclick="toggleProducts()">See all products</a>
+            </div>
+            <div class="product">
+                <img src="{% static 'imges/maybellinelogo.png' %}" alt="brand13">
+                <!-- <h3>Tony Moly</h3> -->
+                <a href="{% url 'brandshoppage' 'Maybelline NewYork' %}" onclick="toggleProducts()">See all products</a>
+            </div>
+            <div class="product">
+                <img src="{% static 'imges/Diorlogo.jpg' %}" alt="brand13">
+                <!-- <h3>Tony Moly</h3> -->
+                <a href="{% url 'brandshoppage' 'Dior' %}" onclick="toggleProducts()">See all products</a>
+            </div>
+            <div class="product">
+                <img src="{% static 'imges/maclogo.png' %}" alt="brand13">
+                <!-- <h3>Tony Moly</h3> -->
+                <a href="{% url 'brandshoppage' 'MAC' %}" onclick="toggleProducts()">See all products</a>
+            </div>
+            <div class="product">
+                <img src="{% static 'imges/romandlogo.png' %}" alt="brand13">
+                <!-- <h3>Tony Moly</h3> -->
+                <a href="{% url 'brandshoppage' 'Romand' %}" onclick="toggleProducts()">See all products</a>
+            </div>
+            <div class="product">
+                <img src="{% static 'imges/viktor.png' %}" alt="brand13">
+                <!-- <h3>Tony Moly</h3> -->
+                <a href="{% url 'brandshoppage' 'Viktor' %}" onclick="toggleProducts()">See all products</a>
+            </div>
+            <div class="product">
+                <img src="{% static 'imges/nivea.jpg' %}" alt="brand13">
+                <!-- <h3>Tony Moly</h3> -->
+                <a href="{% url 'brandshoppage' 'Nivea' %}" onclick="toggleProducts()">See all products</a>
+            </div>
+            <div class="product">
+                <img src="{% static 'imges/pantene.jpg' %}" alt="brand13">
+                <!-- <h3>Tony Moly</h3> -->
+                <a href="{% url 'brandshoppage' 'Pantene' %}" onclick="toggleProducts()">See all products</a>
+            </div>
+            <div class="product">
+                <img src="{% static 'imges/vaselline.jpg' %}" alt="brand13">
+                <!-- <h3>Tony Moly</h3> -->
+                <a href="{% url 'brandshoppage' 'Vaseline' %}" onclick="toggleProducts()">See all products</a>
+            </div>
+            <div class="product">
+                <img src="{% static 'imges/Chanel.jpg' %}" alt="brand13">
+                <!-- <h3>Tony Moly</h3> -->
+                <a href="{% url 'brandshoppage' 'Chanel' %}" onclick="toggleProducts()">See all products</a>
+            </div>
+            <div class="product">
+                <img src="{% static 'imges/Victorias Secret.jpg' %}" alt="brand13">
+                <!-- <h3>Tony Moly</h3> -->
+                <a href="{% url 'brandshoppage' 'Victorias Secret' %}" onclick="toggleProducts()">See all products</a>
+            </div>
+            <div class="product">
+                <img src="{% static 'imges/dove.png' %}" alt="brand13">
+                <!-- <h3>Tony Moly</h3> -->
+                <a href="{% url 'brandshoppage' 'Dove' %}" onclick="toggleProducts()">See all products</a>
+            </div>
+            <div class="product">
+                <img src="{% static 'imges/La Roche Posay.jpg' %}" alt="brand13">
+                <!-- <h3>Tony Moly</h3> -->
+                <a href="{% url 'brandshoppage' 'La Roche-Posay' %}" onclick="toggleProducts()">See all products</a>
+            </div>
+            <div class="product">
+                <img src="{% static 'imges/cetaphil.jpg' %}" alt="brand13">
+                <!-- <h3>Tony Moly</h3> -->
+                <a href="{% url 'brandshoppage' 'Cetaphil' %}" onclick="toggleProducts()">See all products</a>
+            </div>
+            <div class="product">
+                <img src="{% static 'imges/shisheido.jpg' %}" alt="brand13">
+                <!-- <h3>Tony Moly</h3> -->
+                <a href="{% url 'brandshoppage' 'Shishedo' %}" onclick="toggleProducts()">See all products</a>
+            </div>
+            <div class="product">
+                <img src="{% static 'imges/olay-logo.jpg' %}" alt="brand13">
+                <!-- <h3>Tony Moly</h3> -->
+                <a href="{% url 'brandshoppage' 'Olay' %}" onclick="toggleProducts()">See all products</a>
+            </div>
+        </div>
+    </div>
+    
+
+</body>
+
+<script>
+    function toggleSublist(id) {
+        var sublist = document.getElementById(id);
+        if (sublist.style.display === "none" || sublist.style.display === "") {
+            sublist.style.display = "block";
+        } else {
+            sublist.style.display = "none";
+        }
+    }
+
+    function changeImage(element, src) {
+        element.src = src;
+    }
+
+</script>
+</html>
+
+
+{% endblock %}
+
+

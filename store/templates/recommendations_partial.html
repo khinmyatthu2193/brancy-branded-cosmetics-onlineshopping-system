@@ -1,0 +1,31 @@
+{% for product in recommended_products %}
+    <div class="pcarousel-item">
+        <div class="timage-container">
+            <img class="image-main" src="{{ product.main_image.url }}" alt="{{ product.name }}">
+            <img class="image-secondary" src="{{ product.secondary_image.url }}" alt="{{ product.name }}">
+            {% if product.is_sale %}
+                <div style="position: absolute; top: 0.5rem; right: 0.5rem; background-color: #dc3545; color: white; padding: 0.25rem 0.5rem; border-radius: 0.7rem; font-size: 1rem;">
+                    Sale
+                </div>
+            {% endif %}
+            <div class="overlay">
+                <button class="quick-shop"><a href="{% url 'productDetail' product.id %}">Quick Shop</a></button>
+            </div>
+        </div>
+        <div class="product-info">
+            <h3>{{ product.name }}</h3>
+            <p class="price-info">
+                {% if product.is_sale %}
+                    <span class="regular-price">Price: <strike>MMK {{ product.price }}</strike></span>
+                    <span class="sale-price">MMK {{ product.sale_price }}</span>
+                {% else %}
+                    <span class="sale-price">Price: MMK {{ product.price }}</span>
+                {% endif %}
+            </p>
+            <span class="heart">
+                <i class="fas fa-heart" onclick="addToWishlist({{ product.id }})"></i>
+            </span>
+            <button class="add-to-cart" data-product-id="{{ product.id }}" onclick="addToCart({{ product.id }})">Add to Cart</button>
+        </div>
+    </div>
+{% endfor %}

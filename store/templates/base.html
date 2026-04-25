@@ -1,0 +1,570 @@
+{% load static %}
+
+{% include 'nav.html'%}
+
+{% block content %}
+{% endblock %}
+<!--footer-->
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-logo">
+            <div class="social-icons">
+                <a href="#"><img src="{% static 'imges/icons8-instagram-24.png' %}" alt="Facebook"></a>
+                <a href="#"><img src="{% static 'imges/icons8-facebook-24.png' %}" alt="Instagram"></a>
+            </div>
+        </div>
+        <div class="footer-links">
+            <div>
+                <h3>Customer Service</h3>
+                <ul>
+                    <li><a href="{% url 'aboutus' %}">Frequently Asked Questions</a></li>
+                    <li><a href="{% url 'shoppage' %}">Shipping Information</a></li>
+                    <li><a href="{% url 'aboutus' %}">+95 092342210</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3>Products</h3>
+                <ul>
+                    <li><a href="{% url 'blogpost' %}">Beauty Blogs</a></li>
+                    <li><a href="{% url 'brandcover' %}">Brands</a></li>
+
+
+                </ul>
+            </div>
+            <div>
+                <h3>About Us</h3>
+                <ul>
+                    <li><a href="{% url 'aboutus' %}">About Us</a></li>
+                    <li><a href="{% url 'accsetting' %}">Account setting</a></li>
+                    <li><a href="{% url 'login' %}">Login</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2024 Cosmetic Capital</p>
+                <div class="payment-methods">
+                    <img src="{% static 'imges/kpay.png' %}" alt="PayPal">
+                    <img src="{% static 'imges/visa.png' %}" alt="Afterpay">
+                    <img src="{% static 'imges/paypal_PNG9.png' %}" alt="Zip">
+                    <img src="{% static 'imges/aya_logo.jpg' %}" alt="Zip">
+
+                </div>
+            </div>
+        </div>
+</footer>
+
+
+
+<script src="https://unpkg.com/@phosphor-icons/web"></script>
+<script>
+
+    document.getElementById("search-icon").addEventListener("click", function () {
+        var searchBar = document.getElementById("search-bar");
+        if (searchBar.style.display === "flex") {
+            searchBar.style.display = "none";
+        } else {
+            searchBar.style.display = "flex";
+        }
+    });
+</script>
+<!-- categories -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const toggleBtns = document.querySelectorAll('.ccategories > li > .toggle-btn');
+        toggleBtns.forEach(btn => {
+            btn.addEventListener('click', function () {
+                const subcategories = this.nextElementSibling;
+                subcategories.style.display = subcategories.style.display === "none" ? "block" : "none";
+                this.textContent = this.textContent === '+' ? '-' : '+';
+            });
+        });
+    });
+</script>
+
+
+<script>
+    // Pass the authenticated status from Django to JavaScript
+    const isAuthenticated = {{ user.is_authenticated|yesno:"true,false" }};
+
+    let cart = [];
+    let wishlist = [];
+    let count = 0;
+    const cartCount = document.getElementById("count");
+    const wishlistCount = document.getElementById("wishlistCount");
+
+
+    const addToCart = (id) => {
+        if (!isAuthenticated) {
+            alert("Please log in to add items to your cart.");
+            window.location.href = "{% url 'login' %}?next=" + window.location.pathname;
+            return;
+        }
+    
+        const productElement = document.querySelector(`[data-product-id="${id}"]`).closest('.pcarousel-item');
+        const title = productElement.querySelector('h3').innerText;
+    
+        let salePriceElement = productElement.querySelector('.sale-price');
+        let regularPriceElement = productElement.querySelector('.product-info p');
+        let price = salePriceElement
+            ? parseFloat(salePriceElement.innerText.replace(/[^0-9.]/g, ''))
+            : parseFloat(regularPriceElement.innerText.replace(/[^0-9.]/g, ''));
+    
+        if (isNaN(price)) {
+            console.error("Invalid price detected:", price);
+            return;
+        }
+    
+        const mainImage = productElement.querySelector('.image-main').src;
+        const productInCart = cart.find(item => item.id === id);
+    
+        if (productInCart) {
+            productInCart.quantity += 1;
+        } else {
+            cart.push({
+                id: id,
+                title: title,
+                price: price,
+                mainImage: mainImage,
+                quantity: 1
+            });
+        }
+    
+        count++;
+        cartCount.innerHTML = count;
+        updateCartDisplay();
+        saveCartToLocalStorage();
+        saveCartToProfile();  // Call saveCartToProfile here to save cart to backend
+    };
+    
+    // Save Cart to Profile on the backend
+    const saveCartToProfile = async () => {
+        if (isAuthenticated) {
+            try {
+                const csrftoken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+                await fetch("{% url 'save_cart_to_profile' %}", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRFToken": csrftoken
+                    },
+                    body: JSON.stringify({ cart })
+                });
+            } catch (error) {
+                console.error("Error saving cart to profile:", error);
+            }
+        }
+    };
+
+
+    // Function to update the display of the wishlist
+    const updateWishlistDisplay = () => {
+        const wishlistContainer = document.getElementById("wishlistContent");
+        wishlistContainer.innerHTML = ''; // Clear the container before updating
+
+        if (wishlist.length === 0) {
+            wishlistContainer.innerHTML = '<p>Your wishlist is empty!</p>';
+        } else {
+            wishlist.forEach(item => {
+                const wishlistItemHTML = `
+                <div id="wishlist-item-${item.id}" class="wishlist_item">
+                    <img src="${item.mainImage}" alt="${item.title}">
+                    <span>${item.title}</span>
+                    <i class="fas fa-trash remove-item" onclick="removeFromWishlist(${item.id})"></i>
+                </div>
+            `;
+                wishlistContainer.innerHTML += wishlistItemHTML;
+            });
+        }
+    };
+
+    // Function to load the wishlist from local storage
+    const loadWishlistFromLocalStorage = () => {
+        wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+        wishlistCount.innerHTML = wishlist.length; // Update the count
+        updateWishlistDisplay(); // Update the display based on loaded wishlist
+    };
+
+    // Function to add an item to the wishlist
+    const addToWishlist = (id) => {
+        if (!isAuthenticated) {
+            alert("Please log in to add items to your wishlist.");
+            window.location.href = "{% url 'login' %}?next=" + window.location.pathname;
+            return;
+        }
+
+        const productElement = document.querySelector(`[data-product-id="${id}"]`).closest('.pcarousel-item');
+        const title = productElement.querySelector('h3').innerText;
+        const mainImage = productElement.querySelector('.image-main').src;
+
+        const productInWishlist = wishlist.find(item => item.id === id);
+        if (!productInWishlist) {
+            wishlist.push({
+                id: id,
+                title: title,
+                mainImage: mainImage,
+            });
+            wishlistCount.innerHTML = wishlist.length; // Update the count
+            saveWishlistToLocalStorage(); // Save to local storage
+            saveWishlistToProfile(); // Ensure this is called
+            updateWishlistDisplay(); // Update display after adding
+        }
+    };
+
+    // Function to remove an item from the wishlist
+    // Function to remove an item from the wishlist
+    const removeFromWishlist = (id) => {
+        // Find the item element in the DOM
+        const itemElement = document.getElementById(`wishlist-item-${id}`);
+
+        // Remove the item from the wishlist array
+        wishlist = wishlist.filter(item => item.id !== id);
+
+        // Update local storage
+        localStorage.setItem("wishlist", JSON.stringify(wishlist));
+        wishlistCount.innerHTML = wishlist.length;
+        if (itemElement) {
+            itemElement.remove(); // Remove the item from the DOM
+        }
+
+        saveWishlistToProfile();
+
+        updateWishlistDisplay();
+    };
+
+
+    // Call loadWishlistFromLocalStorage on page load to set initial state
+    document.addEventListener('DOMContentLoaded', loadWishlistFromLocalStorage);
+
+
+
+    const saveWishlistToProfile = async () => {
+        if (isAuthenticated) {
+            try {
+                const csrftoken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+                await fetch("{% url 'save_wishlist_to_profile' %}", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRFToken": csrftoken
+                    },
+                    body: JSON.stringify({ wishlist })
+                });
+            } catch (error) {
+                console.error("Error saving cart to profile:", error);
+            }
+        }
+    };
+
+
+    // Save Cart to LocalStorage
+    const saveCartToLocalStorage = () => {
+        localStorage.setItem("cart", JSON.stringify(cart));
+    };
+
+    // Load Cart from LocalStorage
+    const loadCartFromLocalStorage = () => {
+        cart = JSON.parse(localStorage.getItem("cart")) || [];
+        count = cart.reduce((acc, item) => acc + item.quantity, 0);
+        cartCount.innerHTML = count;
+        updateCartDisplay();
+    };
+
+    // Save Wishlist to LocalStorage
+    const saveWishlistToLocalStorage = () => {
+        localStorage.setItem("wishlist", JSON.stringify(wishlist));
+    };
+
+
+
+    // Update Cart Display
+    const updateCartDisplay = () => {
+        const cartContent = document.getElementById("cartContent");
+        cartContent.innerHTML = cart.length > 0 ? '' : '<p>Your shopping cart is empty!</p>';
+        let totalPrice = 0;
+
+        cart.forEach(item => {
+            totalPrice += item.price * item.quantity;
+
+            const cartItemHTML = `
+              <div class="cart_item">
+                  <img src="${item.mainImage}" alt="${item.title}">
+                  <span>${item.title}</span>
+                  <div class="quantity-controls">
+                      <span onclick="updateQuantity(${item.id}, false)">-</span>
+                      <span>${item.quantity}</span>
+                      <span onclick="updateQuantity(${item.id}, true)">+</span>
+                  </div>
+                  <span>MMK ${(item.price * item.quantity).toFixed(2)}</span>
+                  <i class="fas fa-trash remove-item" onclick="removeFromCart(${item.id})"></i>
+              </div>
+          `;
+
+            cartContent.innerHTML += cartItemHTML;
+        });
+
+        const total = document.getElementById("total");
+        total.innerHTML = `MMK ${totalPrice.toFixed(2)}`;
+    };
+
+    // Update Quantity in Cart
+    const updateQuantity = (id, increment) => {
+        const productInCart = cart.find(item => item.id === id);
+        if (productInCart) {
+            if (increment) {
+                productInCart.quantity += 1;
+                count++;
+            } else if (productInCart.quantity > 1) {
+                productInCart.quantity -= 1;
+                count--;
+            } else {
+                removeFromCart(id);
+                return;
+            }
+            cartCount.innerHTML = count;
+            updateCartDisplay();
+            saveToLocalStorage("checkoutCart", cart);
+        }
+    };
+
+    // Remove from Cart
+    const removeFromCart = (id) => {
+        const productIndex = cart.findIndex(item => item.id === id);
+        if (productIndex !== -1) {
+            count -= cart[productIndex].quantity;
+            cart.splice(productIndex, 1);
+            cartCount.innerHTML = count;
+            updateCartDisplay();
+            saveCartToLocalStorage();
+            saveCartToProfile();  // This will send the updated cart data to the backend
+        }
+    };
+
+    // Checkout function
+    const createOrderUrl = "{% url 'create_order' %}";
+const orderConfirmationUrl = "{% url 'order_success' %}";
+const checkUrl = "{% url 'check' %}";
+// Checkout function
+const checkout = async () => {
+    if (cart.length === 0) {
+        alert("Your cart is empty!");
+        return;
+    }
+
+    try {
+        const csrftoken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+
+        const response = await fetch(createOrderUrl, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": csrftoken
+            },
+            body: JSON.stringify({ cart })
+        });
+
+        // Log the response for debugging
+        console.log("Response Status:", response.status);
+        console.log("Response Headers:", response.headers);
+
+        // Check if the response is not OK
+        if (!response.ok) {
+            const errorData = await response.json(); // Try to get the error response
+            console.error("HTTP error", response.status, errorData);  // Log the HTTP status and response
+            alert("An error occurred on the server: " + (errorData.message || "Please try again."));
+            return;
+        }
+
+        const data = await response.json();
+
+        // Check if the response indicates success
+        if (data.status === "success") {
+            //alert("Order placed successfully! Your order ID is: " + data.order_id);
+            localStorage.removeItem("cart");
+            location.href = `${checkUrl}?order_id=${data.order_id}`;
+        } else {
+            console.error("Server error:", data);  // Log server response
+            alert("Failed to place order. Please try again.");
+        }
+    } catch (error) {
+        console.error("Error:", error);
+        alert("An error occurred. Please try again.");
+    }
+    saveToLocalStorage("checkoutCart", cart);
+}; 
+  
+const cchheecckk = async () => {
+    if (cart.length === 0) {
+        alert("Your cart is empty!");
+        return;
+    }
+    saveToLocalStorage("checkoutCart", cart);
+    window.location.href =  "{% url 'check' %}";
+};
+
+    // Cart Icon and Overlay Control
+    const cartIcon = document.getElementById("cartIcon");
+    const cartOverlay = document.getElementById("cartOverlay");
+    const closeCart = document.getElementById("closeCart");
+    const saveToLocalStorage = (key, data) => localStorage.setItem(key, JSON.stringify(data));
+
+    function openCart() {
+        cartOverlay.classList.add("cart-active");
+    }
+
+    function closeCartOverlay() {
+        cartOverlay.classList.remove("cart-active");
+    }
+
+    cartIcon.addEventListener("click", openCart);
+    closeCart.addEventListener("click", closeCartOverlay);
+
+    document.addEventListener("click", function (event) {
+        if (!cartOverlay.contains(event.target) && !cartIcon.contains(event.target)) {
+            closeCartOverlay();
+        }
+    });
+
+    cartOverlay.addEventListener("click", function (event) {
+        event.stopPropagation();
+    });
+
+    // Sticky header on scroll
+    window.addEventListener('scroll', function () {
+        const header = document.querySelector('.header_top');
+        header.classList.toggle('sticky-header', window.scrollY > 50);
+    });
+
+    // Initialize Cart and Wishlist on Page Load
+    window.onload = () => {
+        loadCartFromLocalStorage();
+        loadWishlistFromLocalStorage();
+    };
+
+    // Clear cart and wishlist on logout if flag is set
+    if (document.cookie.includes('clearLocalStorage=true')) {
+        localStorage.removeItem("cart");
+        localStorage.removeItem("wishlist");
+        document.cookie = "clearLocalStorage=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        if (isAuthenticated) {
+            // Fetch cart from Profile.old_cart after login if not received in login response
+            fetch("{% url 'get_user_cart' %}")
+                .then(response => response.json())
+                .then(data => {
+                    // Populate cart array and update cart count/display
+                    cart = data;
+                    count = cart.reduce((acc, item) => acc + item.quantity, 0);
+                    cartCount.innerHTML = count;
+                    updateCartDisplay();
+                })
+                .catch(error => console.error("Error loading cart:", error));
+        }
+    });
+    
+
+</script>
+<!-- <script>
+    function changeLanguage(lang) {
+        let elementsToTranslate = [
+            'homeLink', 'shopLink', 'brandLink', 'localBrandLink', 
+            'internationalBrandLink', 'blogLink', 'skinQuizLink', 
+            'aboutUsLink', 'addtocart'
+        ];
+
+        if (lang === 'my') {
+            // Change text to Myanmar
+            document.getElementById('homeLink').textContent = 'ပင်မစာမျက်နှာ';
+            document.getElementById('shopLink').textContent = 'ဈေးဝယ်ရန်';
+            document.getElementById('brandLink').textContent = 'အမှတ်တံဆိပ်';
+            document.getElementById('localBrandLink').textContent = 'ပြည်တွင်းအမှတ်တံဆိပ်';
+            document.getElementById('internationalBrandLink').textContent = 'နိုင်ငံတကာအမှတ်တံဆိပ်';
+            document.getElementById('blogLink').textContent = 'ဘလော့ဂ်';
+            document.getElementById('skinQuizLink').textContent = 'အရေပြားစစ်ဆေးမှု';
+            document.getElementById('aboutUsLink').textContent = 'ကျွန်ုပ်တို့အကြောင်း';
+            document.getElementById('addtocart').textContent = 'ဝယ်မည်';
+
+            elementsToTranslate.forEach(id => {
+                let element = document.getElementById(id);
+                if (element) {
+                    element.classList.add('myanmar-text');
+                    applyBurmeseStyle(id);
+                }
+            });
+
+        } else if (lang === 'en') {
+            // Change text back to English
+            document.getElementById('homeLink').textContent = 'Home';
+            document.getElementById('shopLink').textContent = 'Shop';
+            document.getElementById('brandLink').textContent = 'Brand';
+            document.getElementById('localBrandLink').textContent = 'Local Brands';
+            document.getElementById('internationalBrandLink').textContent = 'International Brands';
+            document.getElementById('blogLink').textContent = 'Blog';
+            document.getElementById('skinQuizLink').textContent = 'Skin Quiz';
+            document.getElementById('aboutUsLink').textContent = 'About Us';
+            document.getElementById('addtocart').textContent = 'Add to Cart';
+
+            elementsToTranslate.forEach(id => {
+                let element = document.getElementById(id);
+                if (element) {
+                    element.classList.remove('myanmar-text');
+                    element.style.fontSize = ''; // Reset font size for English
+                }
+            });
+        }
+    }
+
+    function applyBurmeseStyle(id) {
+        let element = document.getElementById(id);
+        if (element && /[\u1000-\u109F]/.test(element.textContent)) {
+            element.style.fontSize = '12px'; // Smaller font for Burmese text
+        }
+    }
+</script> -->
+<script>
+    // Function to change language
+    function changeLanguage(lang) {
+        // Save the selected language to localStorage
+        localStorage.setItem('preferredLanguage', lang);
+        // Update the page language
+        updateLanguage(lang);
+    }
+
+    // Function to update the page language
+    function updateLanguage(lang) {
+        // Example: Update text based on language
+        if (lang === 'en') {
+            document.getElementById('homeLink').textContent = 'Home';
+            document.getElementById('shopLink').textContent = 'Shop';
+            document.getElementById('brandLink').textContent = 'Brand';
+            document.getElementById('localBrandLink').textContent = 'Local Brands';
+            document.getElementById('internationalBrandLink').textContent = 'International Brands';
+            document.getElementById('blogLink').textContent = 'Blog';
+            document.getElementById('skinQuizLink').textContent = 'Skin Quiz';
+            document.getElementById('aboutUsLink').textContent = 'About Us';
+            document.getElementById('pagedropdown').textContent = 'Pages';
+            document.getElementById('contactUs').textContent = 'Contact Us';
+            
+        } else if (lang === 'my') {
+            document.getElementById('homeLink').textContent = 'ပင်မစာမျက်နှာ';
+            document.getElementById('shopLink').textContent = 'ဈေးဝယ်ရန်';
+            document.getElementById('brandLink').textContent = 'အမှတ်တံဆိပ်';
+            document.getElementById('localBrandLink').textContent = 'ပြည်တွင်းအမှတ်တံဆိပ်';
+            document.getElementById('internationalBrandLink').textContent = 'နိုင်ငံတကာအမှတ်တံဆိပ်';
+            document.getElementById('blogLink').textContent = 'ဆောင်းပါး';
+            document.getElementById('skinQuizLink').textContent = 'အရေပြားစစ်ဆေးမှု';
+            document.getElementById('aboutUsLink').textContent = 'ကျွန်ုပ်တို့အကြောင်း';
+            document.getElementById('pagedropdown').textContent = 'အခြား';
+            document.getElementById('contactUs').textContent = 'ဆက်သွယ်ရန်';
+        }
+    }
+
+    // On page load, check for stored language preference
+    document.addEventListener('DOMContentLoaded', function () {
+        const preferredLanguage = localStorage.getItem('preferredLanguage');
+        if (preferredLanguage) {
+            updateLanguage(preferredLanguage);
+        }
+    });
+</script>

@@ -1,0 +1,185 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Voucher</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f3f7;
+            color: #444;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0 15px;
+        }
+
+        /* Container Styling */
+        .voucher-container {
+            max-width: 800px;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            border: 2px dashed #f0c1d4;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin: 20px auto;
+        }
+
+        /* Header */
+        h1 {
+            font-size: 1.8em;
+            color: #d63384;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        /* Voucher Details */
+        .voucher-details {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #fef6fa;
+            text-align: left;
+        }
+
+        .voucher-details p {
+            font-size: 1em;
+            margin: 10px 0;
+            color: #555;
+        }
+
+        .voucher-details p span {
+            font-weight: bold;
+            color: #d63384;
+            display: inline-block;
+            width: 150px;
+        }
+
+        /* Order Items */
+        .voucher-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.9em;
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .voucher-item-details {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .voucher-item img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        /* Totals Styling */
+        h3 {
+            font-size: 1.1em;
+            color: #555;
+            margin-top: 10px;
+        }
+
+        .voucher-total {
+            font-size: 1.3em;
+            color: #d63384;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        /* Button Styling */
+        .home-button, .print-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 30px;
+            font-size: 1em;
+            color: #fff;
+            background-color: #d63384;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+            border: none;
+        }
+
+        .home-button:hover, .print-button:hover {
+            background-color: #bf2d73;
+        }
+    </style>
+</head>
+<body>
+    <div class="voucher-container">
+        <h1>Order Voucher</h1>
+        
+        <div class="voucher-details">
+            {% comment %} <p><span>Order ID:</span> {{ order.id }}</p> {% endcomment %}
+            <p><span>Customer Name:</span> {{ order.customer_name }}</p>
+            <p><span>Address:</span> {{ order.customer_address }}</p>
+            <p><span>City:</span> {{ order.customer_city }}</p>
+            <p><span>Phone Number:</span> {{ order.customer_phone }}</p>
+        </div>
+        
+        <h2>Items in Your Order</h2>
+        <div id="voucherContent" class="checkoutvouncher"></div>
+        
+        <h3>Subtotal: MMK <span id="voucherSubtotal"></span></h3>
+        <h3>Shipping Fee: MMK <span id="voucherShipping"></span></h3>
+        <h3 class="voucher-total">Total: MMK <span id="voucherTotal"></span></h3>
+        
+        <a href="{% url 'accsetting' %}" class="home-button">Exit</a>
+        <button class="print-button" onClick="window.print()">Print Voucher</button>
+    </div>
+
+    <script>
+        // Load cart and shipping details from local storage
+        let subtotal = 0;
+        const checkoutCart = JSON.parse(localStorage.getItem("checkoutCart")) || [];
+        const shippingFee = JSON.parse(localStorage.getItem("shippingFee")) || 0;
+
+        const voucherContent = document.getElementById("voucherContent");
+        const voucherSubtotal = document.getElementById("voucherSubtotal");
+        const voucherShipping = document.getElementById("voucherShipping");
+        const voucherTotal = document.getElementById("voucherTotal");
+
+        if (!checkoutCart || checkoutCart.length == 0) {
+            voucherContent.innerHTML = "<p>Your cart is empty!</p>";
+            voucherSubtotal.innerHTML = "0.00";
+            voucherShipping.innerHTML = "0.00";
+            voucherTotal.innerHTML = "0.00";
+        } else {
+            let subtotal = 0;
+
+            checkoutCart.forEach(item => {
+                const itemPrice = item.price * item.quantity;
+                subtotal += itemPrice;
+
+                const voucherItemHTML = `
+                    <div class="voucher-item">
+                        <div class="voucher-item-details">
+                            <img src="${item.mainImage}" alt="${item.title}">
+                            <span>${item.title} (x${item.quantity})</span>
+                        </div>
+                        <span>${itemPrice}.00 MMK</span>
+                    </div>
+                `;
+                voucherContent.innerHTML += voucherItemHTML;
+            });
+
+            voucherSubtotal.innerHTML = `${subtotal}.00`;
+            voucherShipping.innerHTML = `${shippingFee}.00`;
+            const total = subtotal + shippingFee;
+            voucherTotal.innerHTML = `${total}.00`;
+        }
+    </script>
+</body>
+</html>

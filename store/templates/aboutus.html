@@ -1,0 +1,958 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block content %}
+<style>
+
+
+  
+
+  /*about us*/
+  .aboutuscontent {
+    background-color: #000;
+    height: 500px;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  .maintext {
+    width: 400px;
+    color: #ffffff;
+    line-height: 50px;
+    height: 300px;
+    margin-top: 80px;
+
+
+
+  }
+  
+  .maintext a {
+    color: #ccc;
+    position: relative;
+    text-decoration: none;
+    border: 2px solid #fff;
+    width: 200px;
+    height: 50px;
+    padding: 10px;
+    margin-top: 40px;
+
+  }
+
+  .maintext a:hover {
+    background-color: #ffffff39;
+  }
+
+  .storycontent a::before {
+    content: '';
+    position: absolute;
+    width: 200px;
+    height: 2px;
+    border-radius: 4px;
+    background-color: #DC1559;
+    bottom: 4;
+    left: 0;
+    transform-origin: right;
+    transform: scaleX(0);
+    transition: transform .3s ease-in-out;
+  }
+
+  .storycontent a:hover::before {
+    transform-origin: left;
+    transform: scaleX(1);
+  }
+
+  .aboutuscontent img {
+    width: 500px;
+    height: 490px;
+  }
+
+  /*story content*/
+  .storycontent {
+    width: 100%;
+    height: 400px;
+    font-size: 27px;
+    font-weight: 300;
+    text-align: center;
+    margin-top: 60px;
+
+  }
+
+  .storycontent a {
+    text-align: center;
+    line-height: 40px;
+    height: 10px;
+    position: relative;
+  }
+
+  .storycontent p {
+    width: 900px;
+    margin-left: 350px;
+    padding: 20px;
+    height: 300px;
+    line-height: 40px;
+
+
+  }
+
+  /*abtstory*/
+  .abtphoto {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    height: 500px;
+    padding: 20px 20px;
+  }
+
+  .photocontent {
+    padding: 10px;
+  }
+
+  .abtphoto h1 {
+    text-align: center;
+    width: 450px;
+    font-size: 50px;
+    line-height: 60px;
+    border-bottom: 1px solid #2d2d2d;
+  }
+
+  .abtphoto p {
+    text-align: center;
+    width: 500px;
+    font-size: 20px;
+    line-height: 30px;
+  }
+
+  /*abtmain*/
+  .abtmain1 {
+    width: 100%;
+    padding: 10px 50px;
+    height: 500px;
+    margin-top: 70px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    color: #000;
+    gap: 40px;
+    padding: 20px 20px;
+
+  }
+
+
+
+  .missionpar h1 {
+    color: #000;
+    margin-bottom: 40px;
+    border-bottom: 2px solid #000;
+    width: 400px;
+    line-height: 35px;
+
+
+
+  }
+
+  .missionpar p {
+    width: 700px;
+    margin-bottom: 25px;
+    font-size: 22px;
+    line-height: 30px;
+  }
+
+
+
+  #contact {
+    padding: 10px 10px;
+    border: 2px solid #000;
+    background-color: #fff;
+    color: #000;
+    font-size: 15px;
+    transition: 0.3s;
+
+
+  }
+
+  #contact:hover {
+    background-color: #0000001a;
+  }
+
+  .skill-bars {
+    width: 30%;
+  }
+
+  .skill-bar {
+    margin-bottom: 20px;
+    color: #000;
+  }
+
+  .skill-label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 18px;
+    color: #000;
+  }
+
+  .bar {
+    position: relative;
+    background-color: #e0e0e0;
+    height: 20px;
+    width: 100%;
+    color: #fff;
+  }
+
+  .bar::after {
+    content: attr(data-percent);
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 14px;
+    font-weight: bold;
+    color: #000;
+  }
+
+  .bar div {
+    height: 100%;
+    background-color: #000;
+    width: 0;
+  }
+
+  @keyframes fill-bar {
+    from {
+      width: 0;
+    }
+
+    to {
+      width: var(--bar-width);
+    }
+  }
+
+ 
+
+
+
+
+  /*faq*/
+  .faqcontainer {
+    display: flex;
+    height: 600px;
+    margin-top: 60px;
+  }
+
+  .faqsidebar {
+    width: 40%;
+    border-right: 1px solid #ccc;
+    padding: 10px;
+  }
+
+  .faqsidebar .dfaqtab {
+    display: block;
+    margin: 10px 0;
+    text-decoration: none;
+    color: #000;
+    cursor: pointer;
+    padding: 10px;
+    border: 1px solid transparent;
+    line-height: 35px;
+    font-size: 23px;
+  }
+
+  .faqsidebar .dfaqtab.active {
+    border: 1px solid #0000;
+    color: #fff;
+  }
+
+  .faqcontent {
+    width: 90%;
+    padding: 20px;
+    height: 800px;
+    font-size: 22px;
+    line-height: 35px;
+  }
+
+  .faqcontent .dfaqcontent {
+    display: none;
+    padding: 10px;
+  }
+
+  .faqcontent .dfaqcontent.active {
+    display: block;
+    background-color: #e0e0e0;
+  }
+
+  .faq {
+    width: 90%;
+    margin: 0 auto;
+    font-size: 20px;
+
+  }
+
+  .faq-item {
+    border-bottom: 1px solid #ccc;
+    padding: 10px 0;
+  }
+
+  .faq-question {
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+  }
+
+  .faq-answer {
+    display: none;
+    padding: 10px 0;
+
+  }
+
+  #shipping p {
+    margin-top: 40px;
+    padding: 20px;
+    width: 90%;
+  }
+
+  #returns ul>li {
+    list-style: circle;
+    line-height: 33px;
+    padding: 20px;
+    margin-left: 50px;
+
+
+  }
+
+
+  /*member*/
+  .member {
+    display: grid;
+    width: 100%;
+    padding: 10px 20px;
+    margin-top: 30px;
+    color: #000;
+    height: 500px;
+
+  }
+
+  .logomember {
+    text-align: center;
+  }
+
+
+  .mmimg {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    width: 1000px;
+    padding: 10px 10px;
+    margin-left: 240px;
+
+  }
+
+  .team-member h3,
+  h5 {
+    text-align: center;
+  }
+
+
+
+  .mimage-container {
+    position: relative;
+    width: 320px;
+    height: 380px;
+    overflow: hidden;
+  }
+
+  .mimage-container img {
+    width: 400px;
+    height: 400px;
+    transition: transform 0.5s ease;
+  }
+
+  .mimage-container .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 105, 180, 0.33);
+    /* Pink overlay */
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .mimage-container .mmicon h5 {
+    line-height: 20px;
+    font-weight: 250;
+
+
+  }
+
+  .mimage-container .mmicon h3 {
+    line-height: 20px;
+    font-weight: 400;
+
+
+  }
+
+
+
+  .mimage-container:hover img {
+    transform: scale(1.1);
+  }
+
+  .mimage-container:hover .overlay {
+    opacity: 2;
+  }
+
+
+  /*promotion*/
+
+  .lcontainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 409px;
+    background-color: #000;
+    position: relative;
+    color: #fff;
+    margin-top: 50px;
+  }
+
+  .lcontent {
+    width: 500px;
+    padding: 20px;
+    text-align: left;
+    margin-left: 100px;
+  }
+
+  .lcontent h1 {
+    font-size: 1.5rem;
+    font-weight: normal;
+    letter-spacing: 2px;
+  }
+
+  .lcontent h2 {
+    font-size: 3rem;
+    font-weight: bold;
+    margin: 10px 0;
+    text-transform: uppercase;
+  }
+
+  .lcontent p {
+    font-size: 1rem;
+    margin-bottom: 20px;
+  }
+
+  .lcontent button {
+    padding: 10px 20px;
+    border: 1px solid white;
+    background: none;
+    color: white;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+
+  .lcontent button:hover {
+    background-color: #00000016;
+  }
+
+  .limage-container {
+    width: 700px;
+    text-align: right;
+  }
+
+  .limage-container img {
+    width: 400px;
+    height: 300px;
+    height: auto;
+    object-fit: cover;
+  }
+
+
+
+  /*brand*/
+  .slider {
+    height: 250px;
+    margin: auto;
+    position: relative;
+    width: 90%;
+    display: grid;
+    place-items: center;
+    margin-top: 50px;
+  }
+
+  .slide-track {
+    display: flex;
+    width: calc(250px * 18);
+    animation: scroll 40s linear infinite;
+    overflow: hidden;
+    
+
+  }
+
+  .slide-track:hover {
+    animation-play-state: paused;
+  }
+
+  @keyframes scroll {
+    0% {
+      transform: translateX(0);
+    }
+
+    100% {
+      transform: translateX(calc(-250px * 9));
+    }
+  }
+
+  .slide {
+    height: 200px;
+    width: 250px;
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    perspective: 100px;
+  }
+
+  .slide img {
+    width: 100%;
+    transition: transfrom 1s;
+  }
+
+  .slide img:hover {
+    transform: translateZ(20px);
+  }
+
+  .slider::before,
+  .slider::after {
+
+    content: '';
+    height: 100%;
+    position: absolute;
+    width: 15%;
+    z-index: 2;
+
+  }
+
+  .slider::before {
+    left: 0;
+    top: 0;
+  }
+
+  .slider::after {
+    right: 0;
+    top: 0;
+    transform: rotateZ(180deg);
+  }
+</style>
+
+<body>
+  
+  <!-- </div>  mainpage-->
+  <div class="aboutuscontent">
+    <div class="maintext">
+      <h1>OUR STORY</h1>
+      <h3>"Where Elegance Meets Innovation – Redefining Beauty, One Shade at a Time."</h3>
+      <a href="#">Shop With Us</a>
+
+    </div>
+    <img src="{% static 'imges/fnl2.jpg'%} ">
+
+  </div>
+  <div class="storycontent">
+    <a href="">COMMITMENT</a><br>
+    <p>Ever realized that your reflection is uniquely yours? Each detail speaks to your individuality. We saw a gap in
+      the beauty industry's acknowledgment of this uniqueness and stepped in. Function of Beauty celebrates you with
+      tailor-made, naturally-derived formulas, crafted by in-house chemists and beauty experts. Since 2015 we’ve created
+      15 million unique, customized products and counting…</p>
+  </div>
+  <div class="abtphoto">
+    <img src="{% static 'imges/black and white page.jpg'%}" alt="" width="600px" height="650px">
+    <div class="photocontent">
+      <h1>About</h1>
+      <p>The idea for our luxury shopping page was born from a desire to create an online destination that embodies
+        elegance and exclusivity. As beauty enthusiasts, we sought to design a platform that offers more than just
+        products—it delivers an immersive experience that celebrates the art of beauty. Inspired by the craftsmanship of
+        high-end cosmetics, we meticulously crafted a space where every detail reflects sophistication, ensuring our
+        customers enjoy a seamless, luxurious shopping experience that mirrors the exclusivity of a high-end boutique.
+      </p>
+    </div>
+  </div>
+  <!--Mission-->
+  <div class="abtmain1">
+    <div class="missionpar">
+      <h1>FOR RED CARPET BEAUTY</h1>
+      <p>Our mission is to revolutionize the beauty shopping experience by offering a curated selection of
+        high-quality, branded cosmetics through an innovative and user-friendly e-commerce platform. We are
+        dedicated to empowering our customers with the latest trends, expert advice, and personalized
+        recommendations, ensuring every purchase enhances their unique beauty and confidence. By fostering a
+        seamless and enjoyable shopping journey, we aim to become the go-to destination for beauty enthusiasts
+        worldwide.
+      </p>
+      <button id="contact">Contact us</button>
+    </div>
+
+    <div class="skill-bars">
+      <div class="skill-bar">
+        <span class="skill-label">UI & UX DESIGN</span>
+        <div class="bar" data-percent="85%"></div>
+      </div>
+      <div class="skill-bar">
+        <span class="skill-label">WEB DESIGN</span>
+        <div class="bar" data-percent="90%"></div>
+      </div>
+      <div class="skill-bar">
+        <span class="skill-label">APPS DESIGN</span>
+        <div class="bar" data-percent="75%"></div>
+      </div>
+      <div class="skill-bar">
+        <span class="skill-label">SKETCH DESIGN</span>
+        <div class="bar" data-percent="68%"></div>
+      </div>
+    </div>
+
+
+  </div>
+  
+  <!--faq-->
+  <div class="faqcontainer">
+    <div class="faqsidebar">
+      <div class="dfaqtab active" data-content="faq">FAQs</div>
+      <div class="dfaqtab" data-content="shipping">Shipping Policy</div>
+      <div class="dfaqtab" data-content="returns">Returns & Refunds</div>
+    </div>
+    <div class="faqcontent">
+      <div id="faq" class="dfaqcontent active">
+        <h2>FAQs</h2>
+        <div class="faq">
+          <div class="faq-item">
+            <div class="faq-question" onclick="toggleAnswer(this)">
+              <span>1. How secure is your online payment system?</span>
+              <span>+</span>
+            </div>
+            <div class="faq-answer">
+              I use the latest SSL encryption technology to protect your personal and financial information. Multiple
+              secure payment options are available, including major credit cards and PayPal.
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question" onclick="toggleAnswer(this)">
+              <span>2. What steps do we follow to make a purchase?</span>
+              <span>+</span>
+            </div>
+            <div class="faq-answer">
+              Simply add products to your cart, proceed to checkout, enter shipping details, and select your payment
+              method. Once your payment is confirmed, you'll receive an order confirmation and tracking details. </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question" onclick="toggleAnswer(this)">
+              <span>3. Do you offer gift wrapping or personalized notes?</span>
+              <span>+</span>
+            </div>
+            <div class="faq-answer">
+              Yes, I offer complimentary gift wrapping and personalized notes. Just select the gift wrap option at
+              checkout and add your message.
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question" onclick="toggleAnswer(this)">
+              <span>4. Can I save my payment information for future purchases?</span>
+              <span>+</span>
+            </div>
+            <div class="faq-answer">
+              Absolutely! You can securely save your payment details during checkout for quicker future purchases, and
+              manage them in your account settings.
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question" onclick="toggleAnswer(this)">
+              <span>5. What types of products do you offer, and how do you ensure quality?</span>
+              <span>+</span>
+            </div>
+            <div class="faq-answer">
+              I offer a curated selection of luxury beauty products, all carefully chosen for their quality,
+              effectiveness, and authenticity. Every product meets high standards and is cruelty-free.
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question" onclick="toggleAnswer(this)">
+              <span>6. How do you support my shopping experience?</span>
+              <span>+</span>
+            </div>
+            <div class="faq-answer">
+              I’m here to help! Whether you need product advice, order tracking, or assistance with any issues, I’m
+              available via email, live chat, or phone to ensure you have a great shopping experience.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="shipping" class="dfaqcontent">
+        <h2>Shipping Policy</h2>
+        <p>--- I offer fast, reliable shipping with tracking provided for all orders. Domestic delivery typically takes
+          3-5 business days, and international options are available. Your products will arrive quickly and securely,
+          ready for you to enjoy.</p>
+
+      </div>
+      <div id="returns" class="dfaqcontent">
+        <h2>Return and Refund Policy</h2>
+        <ul>
+          <li>
+            Returns must be initiated within 14 days of receipt.
+          </li>
+          <li>
+            Condition: Items must be unused, in original packaging, and with tags attached.
+          </li>
+          <li>
+            Exclusions: Custom and final sale items cannot be returned.
+          </li>
+        </ul>
+
+      </div>
+    </div>
+  </div>
+  
+
+   <!--Team member-->
+   <div class="member">
+    <div class="logomember">
+      <img src="{% static 'imges/logo-02.png' %}" alt="" width="100px" height="50px">
+      <h1>Team Member</h1>
+      <h5>Some of our popular team member</h5>
+    </div>
+    <div class="mmimg">
+      <div class="mimage-container">
+        <img src="{% static 'imges/khin.jpg'%}" alt="" width="400px" height="500px">
+        <div class="overlay">
+          <div class="mmicon">
+            <h3>2021-miit-cse-020</h3>
+            <h5>Web developer</h5>
+          </div>
+        </div>
+
+      </div>
+      <div class="mimage-container">
+        <img src="{% static 'imges/lin.jpg' %}" alt="" width="400px" height="500px">
+        <div class="overlay">
+          <div class="mmicon">
+            <h3>2021-miit-cse-020</h3>
+            <h5>Web developer</h5>
+          </div>
+        </div>
+      </div>
+
+      <div class="mimage-container">
+        <img src="{% static 'imges/us1.jpg' %}" alt="" width="400px" height="500px">
+        <div class="overlay">
+          <div class="mmicon">
+            <h3>2021-miit-cse-074</h3>
+            <h5>Web developer</h5>
+          </div>
+        </div>
+      </div>
+      </div>
+      </div>
+  
+  <!--promotion-->
+  <div class="lcontainer">
+    <div class="lcontent">
+      <h1>LIMITED EDITION</h1>
+      <h2>THE SET</h2>
+      <p>2 lip colour shades for 2 stolen moments of the night, presented in a collector's edition coffret.</p>
+      <button>Shop Now</button>
+    </div>
+    <div class="limage-container">
+      <img src="{% static 'imges/fnal2.jpg'%} " alt="The Set Lipsticks">
+    </div>
+  </div>
+
+
+
+ 
+      <!--Brand -->
+      <div class="slider">
+        <div class="slide-track">
+          <div class="slide">
+            <img src="{% static 'imges/ordinary.png' %}" alt="">
+          </div>
+          <div class="slide">
+            <img src="{% static 'imges/armani-removebg-preview.png' %}" alt="">
+          </div>
+          <div class="slide">
+            <img src="{% static 'imges/c59bdd94d54d0463a122ff2a0f00f7e9-removebg-preview.png' %}" alt="">
+          </div>
+          <div class="slide">
+            <img src="{% static 'imges/bioderma.png' %}" alt="">
+          </div>
+          <div class="slide">
+            <img src="{% static 'imges/d4d2184d5300852386ccd1108f0069c3-removebg-preview.png' %}" alt="">
+          </div>
+          <div class="slide">
+            <img src="{% static 'imges/drG.png' %}" alt="">
+          </div>
+          <div class="slide">
+            <img src="{% static 'imges/garnier-removebg-preview.png' %}" alt="">
+          </div>
+          <div class="slide">
+            <img src="{% static 'imges/esteee.png' %}" alt="">
+          </div>
+          <div class="slide">
+            <img src="{% static 'imges/glossier-removebg-preview.png'%}" alt="">
+          </div>
+          <div class="slide">
+            <img src="{% static 'imges/images-removebg-preview (1).png' %}" alt="">
+          </div>
+          <div class="slide">
+            <img src="{% static 'imges/innisfere.png'%} " alt="">
+          </div>
+          <div class="slide">
+            <img src="{% static 'imges/lancome.png' %}" alt="">
+          </div>
+          <div class="slide">
+            <img src="{% static 'imges/mac.png' %}" alt="">
+          </div>
+          <div class="slide">
+            <img src="{% static 'imges/nature.png' %}" alt="">
+          </div>
+          <div class="slide">
+            <img src="{% static 'imges/olay.png' %}" alt="">
+          </div>
+          <div class="slide">
+            <img src="{% static 'imges/rare.png'%}" alt="">
+          </div>
+          <div class="slide">
+            <img src="{% static 'imges/revlon.png' %}" alt="">
+          </div>
+          <div class="slide">
+            <img src="{% static 'imges/aac9ea1d511cde7af23a9abd28625449-removebg-preview.png' %}" alt="">
+          </div>
+          <div class="slide">
+            <img src="{% static 'imges/dior.png' %} " alt="">
+          </div>
+          <div class="slide">
+            <img src="{% static 'imges/502579519a7548e8daf58bbed16eac12-removebg-preview.png' %}" alt="">
+          </div>
+          <div class="slide">
+            <img src="{% static 'imges/loreal-removebg-preview.png' %}" alt="">
+          </div>
+          <div class="slide">
+            <img src="{% static 'imges/download-removebg-preview.png'%}" alt="">
+          </div>
+        </div>
+      </div>
+
+   
+
+</body>
+
+<script>
+  //menu hover
+  document.querySelectorAll('.navbar a.new').forEach((newLink) => {
+    const submenuId = newLink.getAttribute('data-submenu');
+    const submenu = document.getElementById(submenuId);
+    const nav = document.querySelector('.navbar');
+
+    newLink.addEventListener('mouseenter', () => {
+      submenu.style.display = 'block';
+      submenu.style.height = '370px';
+      submenu.style.color = '#000';
+      submenu.style.backgroundColor = '#fff';
+
+
+
+      nav.classList.add('blur-background');
+    });
+
+    submenu.addEventListener('mouseleave', () => {
+      submenu.style.display = 'none';
+      nav.classList.remove('blur-background');
+    });
+  });
+</script>
+
+<script>
+
+</script>
+<script>
+  const dfaqtabs = document.querySelectorAll('.dfaqtab');
+  const dfaqcontents = document.querySelectorAll('.dfaqcontent');
+
+  dfaqtabs.forEach(dfaqtab => {
+    dfaqtab.addEventListener('click', () => {
+      dfaqtabs.forEach(t => t.classList.remove('active'));
+      dfaqcontents.forEach(c => c.classList.remove('active'));
+
+      dfaqtab.classList.add('active');
+      document.getElementById(dfaqtab.dataset.content).classList.add('active');
+    });
+  });
+
+  function toggleAnswer(element) {
+    const answer = element.nextElementSibling;
+    const symbol = element.querySelector('span:last-child');
+    if (answer.style.display === "block") {
+      answer.style.display = "none";
+      symbol.textContent = "+";
+    } else {
+      answer.style.display = "block";
+      symbol.textContent = "-";
+    }
+  }
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const skillBars = document.querySelectorAll('.bar');
+    const options = {
+      threshold: 0.5
+    };
+
+    function fillBar(entries, observer) {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const bar = entry.target;
+          const percent = bar.getAttribute('data-percent');
+          bar.style.setProperty('--bar-width', percent);
+          bar.innerHTML = `<div style="animation: fill-bar 2s forwards;"></div>`;
+          observer.unobserve(bar);
+        }
+      });
+    }
+
+    const observer = new IntersectionObserver(fillBar, options);
+    skillBars.forEach(bar => {
+      observer.observe(bar);
+    });
+  });
+</script>
+<script>
+  const carousel = document.getElementById('carousel');
+  const prev = document.getElementById('prev');
+  const next = document.getElementById('next');
+  let scrollPosition = 0;
+
+  next.addEventListener('click', () => {
+    const carouselWidth = carousel.scrollWidth;
+    const containerWidth = carousel.clientWidth;
+    const cardWidth = carousel.children[0].clientWidth + 2 * parseFloat(getComputedStyle(carousel.children[0]).marginRight);
+    const maxScroll = carouselWidth - containerWidth;
+
+    if (scrollPosition + cardWidth <= maxScroll) {
+      scrollPosition += cardWidth;
+      carousel.style.transform = `translateX(-${scrollPosition}px)`;
+    }
+  });
+
+  prev.addEventListener('click', () => {
+    const cardWidth = carousel.children[0].clientWidth + 2 * parseFloat(getComputedStyle(carousel.children[0]).marginRight);
+
+    if (scrollPosition - cardWidth >= 0) {
+      scrollPosition -= cardWidth;
+      carousel.style.transform = `translateX(-${scrollPosition}px)`;
+    }
+  });
+</script>
+
+
+
+{% endblock %}

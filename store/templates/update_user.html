@@ -1,0 +1,1157 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block content %}
+
+    <style>
+        body {
+            font-family: "Avenir", Arial, sans-serif;
+            margin: 0;
+            background-color: #fff;
+            color: #333;
+        }
+        /* common styling */
+
+        * {
+            padding: 0;
+            margin: 0;
+
+        }
+
+        body {
+            height: 100vh;
+            box-sizing: border-box;
+            overflow-x: hidden;
+            background-color: rgba(255, 192, 203, 0.318);
+
+        }
+
+        a,
+        button {
+            color: inherit;
+            line-height: inherit;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .btn:focus {
+            box-shadow: none;
+        }
+
+        a,
+        button,
+        img,
+        input,
+        span {
+            transition: all 0.3s ease 0s;
+        }
+
+        *:focus {
+            outline: none !important;
+        }
+
+
+        button,
+        input[type="submit"] {
+            cursor: pointer;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        ul {
+            list-style: outside none none;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        .header_black .header_top {
+            border-bottom: 2px solid #000;
+        }
+
+
+        .header_black .dropdown_links li {
+            border-bottom: 1px solid #000000;
+        }
+
+
+        .header_black .dropdown_links li a:hover {
+            color: #DC1559;
+        }
+
+        .logoname h1 {
+            width: 160px;
+            padding: 10px 10px;
+            font-size: 35px;
+            letter-spacing: 30px;
+            margin-left: 90px;
+            
+        }
+
+        .header_top {
+            display: flex;
+            justify-content: space-between;
+            height: 50px;
+            padding: 10px;
+            width: 100%;
+            background-color: #fff;
+
+
+        }
+
+        .header_top.sticky-header {
+            display: flex;
+            justify-content: space-between;
+            height: 50px;
+            padding: 10px;
+            width: 100%;
+            position: fixed;
+            z-index: 99;
+            top: 0;
+            animation: fadeInDown 0.9s cubic-bezier(0.2, 1, 0.22, 1);
+        }
+
+        .top_right {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 130px;
+            margin-left: 60px;
+
+        }
+
+        .top_right i {
+            font-size: 25px;
+        }
+
+
+        .top_right>ul {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-left: 0px;
+            position: relative;
+        }
+
+
+
+        .header_black .top_right>ul>li:hover ul.dropdown_links {
+            top: 100%;
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .top_right>ul>li:first-child {
+            padding-right: 0;
+            margin-right: 0;
+        }
+
+        .top_right>ul>li::before {
+            position: absolute;
+            content: "";
+            width: 1px;
+            height: 15px;
+            background: #ffffff;
+            top: 80%;
+            right: 0px;
+            transform: translateY(-90%);
+        }
+
+        .top_right>ul>li:first-child::before {
+            display: none;
+        }
+
+        .top_right>ul>li>a {
+            text-align: right;
+            color: #000000;
+            font-weight: bold;
+            text-transform: capitalize;
+            line-height: 26px;
+            font-size: 12px;
+            cursor: pointer;
+            display: block;
+            font-weight: 400;
+            padding: 9px 0;
+        }
+
+
+        .top_right>ul>li>a i {
+            margin-right: 50px;
+            font-size: 20px;
+            font-weight: 400;
+        }
+
+        .header_black .dropdown_links {
+            position: absolute;
+            background: #000000;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0);
+            width: 60px;
+            text-align: center;
+            top: 160%;
+            transition: all 0.3s ease-out;
+            overflow: hidden;
+            right: 2px;
+            z-index: 9999;
+            padding: 0 10px;
+            border-radius: 5px;
+            opacity: 0;
+            visibility: hidden;
+            background-color: aqua;
+        }
+
+        .header_black .dropdown_links {
+            background: #000;
+        }
+
+
+        .header_black .dropdown_links li:last-child {
+            border-bottom: 0;
+        }
+
+        .header_black .dropdown_links li a {
+            color: #ffffff;
+        }
+
+        .header_black .dropdown_links li {
+            line-height: 30px;
+            padding: 5px 0;
+        }
+
+
+        .header_black .dropdown_links li:last-child {
+            border-bottom: 0;
+        }
+
+        .header_black .dropdown_links li a:hover {
+            color: #DC1559;
+            /* font-weight: bold; */
+        }
+
+        /* *****************Middle Header******************** */
+        .header_black {
+            height: 100px;
+
+
+        }
+
+        .middel_right {
+            font-family: "EB Garamond", serif;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            width: 400px;
+            height: 50px;
+            margin-right: 20px;
+        }
+
+        .middel_right i {
+            font-size: 20px;
+
+
+        }
+
+        /* Container for the search bar */
+        .search-container {
+            display: flex;
+            align-items: center;
+            background-color: #f4f4f4;
+            border-radius: 25px;
+            padding: 10px 20px;
+            width: 240px;
+            border: 2px solid transparent;
+            transition: border 0.3s ease;
+        }
+
+        /* Search icon styling */
+        .search-container svg {
+            fill: black;
+            margin-right: 10px;
+        }
+
+        /* Search input styling */
+        .search-container input {
+            border: none;
+            outline: none;
+            background-color: transparent;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        /* Border changes on focus */
+        .search-container input:focus {
+            outline: none;
+        }
+
+        /* Change border color on focus */
+        .search-container:focus-within {
+            border-color: pink;
+        }
+
+
+
+
+        /* ************************ Header Down ( 3rd ) ******************** */
+        .header_bottom {
+
+            display: flex;
+            justify-content: space-between;
+            text-align: center;
+            width: 100%;
+            height: 40px;
+            position: absolute;
+            top: 70px;
+
+
+
+
+        }
+
+
+
+        /*nav bar*/
+        .navbar {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            position: relative;
+            z-index: 10;
+            width: 700px;
+            height: 40px;
+            font-size: 20px;
+            margin-left: 400px;
+
+        }
+
+        #csss {
+            position: relative;
+            width: 100px;
+        }
+
+        #csss::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 4px;
+            border-radius: 4px;
+            background-color: #000;
+            bottom: 0;
+            left: 0;
+            transform-origin: right;
+            transform: scaleX(0);
+            transition: transform .3s ease-in-out;
+        }
+
+        #csss:hover::before {
+            transform-origin: left;
+            transform: scaleX(1);
+        }
+
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #000;
+            min-width: 160px;
+            top: 60%;
+            left: 80%;
+            overflow: auto;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            border-radius: 10px;
+            color: #ffffff;
+            transition: all 0.3s ease-out;
+
+
+        }
+
+        .dropdown-content a {
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            color: #c21450;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+
+
+        .show {
+            display: block;
+            transform: translateY(10%);
+
+
+        }
+
+        .heart {
+            display: flex;
+            justify-content: space-around;
+            font-size: 23px;
+            width: 30px;
+            padding: 10px;
+            position: relative;
+        }
+
+        .heart p {
+            font-size: 15px;
+
+
+        }
+
+        /* Styling for the dropdown */
+        .pagedropdown {
+            position: relative;
+        }
+
+        .pagedropdown-content {
+            display: none;
+            position: absolute;
+            top: 40px;
+
+            background-color: white;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            min-width: 150px;
+            border: 1px solid lightgray;
+            z-index: 1;
+            animation: flyout 0.3s ease-out;
+        }
+
+        /* Links inside the dropdown */
+        .pagedropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            white-space: nowrap;
+        }
+
+        .pagedropdown-content a:hover {
+            background-color: #dc155b70;
+        }
+
+        /* Show the dropdown on hover */
+        .pagedropdown:hover .pagedropdown-content {
+            display: block;
+        }
+
+        .cart {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            position: relative;
+            text-align: center;
+        }
+
+        /* Sticky Animation */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .cart {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            position: relative;
+            text-align: center;
+        }
+
+        .cart-overlay {
+            position: fixed;
+            top: 0;
+            right: -550px;
+            width: 450px;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.97);
+            box-shadow: -5px 0px 15px rgba(0, 0, 0, 0.2);
+            transition: right 0.3s ease;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .cart-active {
+            right: 0;
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 10px;
+        }
+
+        .cart-header h2 {
+            font-size: 29px;
+        }
+
+        .cart-header span {
+            font-size: 29px;
+        }
+
+        .close-btn {
+            font-size: 27px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .cart-content {
+            margin-top: 20px;
+            flex-grow: 1;
+            overflow-y: auto;
+            width: 430px;
+        }
+
+        .cart_item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .cart_item img {
+            width: 50px;
+            margin-right: 10px;
+        }
+
+        .foot {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            padding-top: 10px;
+            border-top: 1px solid #ccc;
+
+        }
+
+        .checkout {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            width: 100%;
+            height: 60px;
+            margin-bottom: 80px;
+        }
+
+        .checkout button {
+            background-color: #DC1559;
+            color: #ccc;
+            padding: 10px;
+            text-decoration: none;
+            width: 200px;
+            height: 50px;
+            border: 1px solid #000;
+            border-radius: 10px;
+
+        }
+
+        .checkout button a {
+            text-decoration: none;
+            color: #000;
+            font-size: 15px;
+
+        }
+
+        /* Additional styles for trash icon */
+        .cart_item .remove-item {
+            color: #DC1559;
+            cursor: pointer;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+        }
+
+        .quantity-controls span {
+            margin: 0 10px;
+            cursor: pointer;
+        }
+
+
+        .container {
+            width: 100%;
+        }
+
+        .acc {
+            background-image: url("{% static 'imges/breadcrumb-01.jpg' %}"); /* Add your image URL */
+            background-position: top;
+            background-repeat: no-repeat;
+            height: 200px;
+            text-align: center;
+            color: rgba(0, 0, 0, 0.5);
+            width: 100%;
+            opacity: 0.7;
+
+        }
+
+        .acc h1 {
+            font-size: 40px;
+            color: #000;
+            margin-top: 30px;
+            padding: 20px;
+
+        }
+
+        .acc nav {
+            font-size: 1.2em;
+            color: #444;
+        }
+
+       .acc nav a {
+            color: #444;
+            text-decoration: none;
+        }
+
+       .acc nav a:hover {
+            text-decoration: underline;
+        }
+        
+/* Styles specifically for the registration form */
+.signup-form {
+    background-color: #ffffff; /* White background for the form */
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 300px;
+    margin: 0 auto; /* Center the form */
+    margin-top: 50px;
+    margin-bottom: 25px;
+}
+
+.signup-form h2 {
+    text-align: center;
+    color: #d81b60; /* Change this to your preferred color */
+    margin-bottom: 10px;
+}
+
+/* Specific styles for input fields */
+.signup-form input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #e0a8d9; /* Initial pink border */
+    border-radius: 5px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s ease; /* Smooth transition for border color */
+}
+
+/* Change border color on focus */
+.signup-form input:focus {
+    border-color: #ca6694; /* Darker pink on focus */
+    box-shadow: 0 0 7px rgba(216, 27, 96, 0.5); /* Subtle glow effect */
+}
+
+/* Placeholder color */
+.signup-form input::placeholder {
+    color: #e7a6bc; /* Placeholder text color */
+}
+
+/* Button styles */
+.signup-form button {
+    width: 100%;
+    background-color: #e91e63; /* Pink button */
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: background-color 0.3s ease; /* Smooth transition for button color */
+}
+
+/* Change button color on hover */
+.signup-form button:hover {
+    background-color: #d81b60; /* Darker pink on hover */
+}
+
+/* Error message styles */
+.signup-form .error {
+    color: red; /* Error message color */
+    font-size: 12px;
+    margin-top: 5px;
+    text-align: left; /* Center the text */
+    display: block; /* Ensures the error message occupies a block space */
+}
+
+
+/* Link styles */
+.signup-form .login-link {
+    margin-top: 20px;
+}
+
+.signup-form .login-link a {
+    color: #e91e63; /* Link color */
+    text-decoration: none;
+}
+
+.signup-form .login-link a:hover {
+    text-decoration: underline;
+}
+
+/*--------------------------------------------------------------------------------------------------------------------------*/
+   
+/*footer*/
+.footer {
+    background-color: #000000fd;
+    color: #c21450;
+    padding: 20px 0;
+    width: 100%;
+    margin-top: 80px;
+  }
+  
+  .footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  
+  
+  
+  .social-icons a img {
+    width: 30px;
+    margin: 0 10px;
+  }
+  
+  .footer-links {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  
+  .footer-links>div {
+    flex: 1;
+    min-width: 200px;
+    padding: 20px 0;
+  }
+  
+  .footer-links h3 {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+  
+  .footer-links ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .footer-links ul li {
+    margin-bottom: 10px;
+  }
+  
+  .footer-links ul li a {
+    text-decoration: none;
+    color: #fff;
+  }
+  
+  .footer-links ul li a:hover {
+    text-decoration: underline;
+  }
+  
+  .footer-bottom {
+    text-align: center;
+    padding: 20px 0;
+    border-top: 1px solid #ddd;
+  }
+  
+  .footer-bottom p {
+    margin: 10px 0;
+  }
+  
+  .footer-bottom-links {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    margin: 10px 0;
+  }
+  
+  .footer-bottom-links li {
+    margin: 0 10px;
+  }
+  
+  .footer-bottom-links a {
+    text-decoration: none;
+    color: #333;
+  }
+  
+  .footer-bottom-links a:hover {
+    text-decoration: underline;
+  }
+  
+  .payment-methods img {
+    width: 50px;
+    margin: 0 5px;
+  }
+    </style>
+<body>
+ 
+  <!-- <div class="home_black_version"> -->
+  <header class="header_area header_black">
+    <div class="header_top sticky-header">
+      <div class="top_right">
+        <ul>
+          <li class="top_links">
+            <i class="ph ph-globe"></i>
+            <ul class="dropdown_links">
+              <li><a onclick="changeLanguage('en')">English</a></li>
+              <li><a onclick="changeLanguage('my')">Myanmar</a> </li>
+            </ul>
+          </li>
+        </ul>
+        <ul>
+          <li class="top_links">
+            <a href="{% url 'accsetting' %}"></a><i class="ph ph-user"></i></a>
+            <ul class="dropdown_links">
+            {% if user.is_authenticated %}
+              <li><a href="{% url 'logout' %}">Logout</a></li>
+            {% else %}
+              <li><a href="{% url 'login' %}">Login</a></li>
+              <li><a href="{% url 'register' %}">Register</a></li>
+            {% endif %}
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div class="logoname">
+        <h1>BRANCY</h1>
+      </div>
+      <div class="middel_right">
+        <form method="POST" action="{% url 'search' %}" class="search-form">
+          {% csrf_token %}
+          <div class="search-container">
+              <input type="text" class="form-control" placeholder="Search with Product name..." name="searched" required>
+              
+          </div>
+        </form>
+      
+        <div class="hearti">
+          <div class="heart" id="heartIcon"><a href="{% url 'wishlist' %}">
+            <i class="ph ph-heart-straight"></i>
+        </a>
+              <p id="c">0</p>
+              </i>
+          </div>
+      </div>
+        <div class="carti">
+          <div class="cart" id="cartIcon"><i class="ph ph-shopping-cart-simple"></i>
+            <p id="count">0</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    <!-- header middle starts -->
+    <div class="header_bottom ">
+      <nav class="navbar">
+        <a href="{% url 'home' %}" id="csss">Home</a>
+        <a href="{% url 'shoppage' %}" id="csss">Shop</a>
+        <a href="{% url 'brandcover' %}" id="csss">Brand</a>
+        <div class="pagedropdown">
+          <a href="#">Pages</a>
+          <div class="pagedropdown-content">
+            <a href="{% url 'aboutus' %}">About us</a>
+                        <a href="{% url 'blogpost' %}">Blog Page</a>
+                        <a href="{% url 'accsetting' %}">Account</a>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+
+    <div class="container">
+        <div class="acc">
+            <h1>Update Profile</h1>
+            <nav>
+                <a href="{% url 'home' %}">Home</a> / Create Account
+            </nav>
+        </div>
+      </div>
+
+
+        <div class="signup-form" id="signupForm">
+            <h2>Update Profile</h2>
+            <form method="POST" id="UpdateForm" action="{% url 'update_user' %}">
+                {% csrf_token %}
+        
+                <div>
+                    <input type="text" name="username" id="id_username" placeholder="Username">
+                    <!-- JS Error -->
+                    <span class="error" id="usernameError"></span>
+                    <!-- Django Error -->
+                    <span class="error">{{ form.username.errors }}</span>
+                </div>
+
+                <div>
+                  <input type="text" name="firstname" id="id_firstname" placeholder="First Name">
+                  <!-- JS Error -->
+                  <span class="error" id="firstnameError"></span>
+                  <!-- Django Error -->
+                  <span class="error">{{ form.firstname.errors }}</span>
+              </div>
+
+              <div>
+                <input type="text" name="lastname" id="id_lastname" placeholder="Last name">
+                <!-- JS Error -->
+                <span class="error" id="lastnameError"></span>
+                <!-- Django Error -->
+                <span class="error">{{ form.lastname.errors }}</span>
+            </div>
+        
+                <div>
+                    <input type="email" name="email" id="id_email" placeholder="Email Address">
+                    <!-- JS Error -->
+                    <span class="error" id="emailError"></span>
+                    <!-- Django Error -->
+                    <span class="error">{{ form.email.errors }}</span>
+                </div>
+        
+                <div>
+                    <input type="password" name="password" id="id_password" placeholder="Password">
+                    <!-- JS Error -->
+                    <span class="error" id="passwordError"></span>
+                    <!-- Django Error -->
+                    <span class="error">{{ form.password.errors }}</span>
+                </div>
+        
+                <div>
+                    <input type="password" name="password_confirm" id="id_password_confirm" placeholder="Confirm Password">
+                    <!-- JS Error -->
+                    <span class="error" id="passwordConfirmError"></span>
+                    <!-- Django Error -->
+                    <span class="error">{{ form.password_confirm.errors }}</span>
+                </div>
+        
+                <button type="submit">Update Profile</button>
+            </form>
+            <p class="login-link">Already have an account? <a href="{% url 'login' %}">Sign in</a></p>
+        </div>
+        
+        
+        <!-- JavaScript for client-side validation -->
+        <script>
+            document.getElementById('UpdateForm').addEventListener('submit', function(event) {
+    event.preventDefault();  // Prevent form from submitting immediately
+    clearErrors();
+
+    let form = new FormData(this);
+    let errors = {};
+
+    // Validate username
+    if (form.get('username').trim() === '') {
+        errors['username'] = 'Username is required';
+    }
+
+    if (form.get('firstname').trim() === '') {
+        errors['firstname'] = 'First name is required';
+    }
+
+    if (form.get('lastname').trim() === '') {
+        errors['lastname'] = 'Last name is required';
+    }
+    // Validate email or phone number
+    const emailOrPhone = form.get('email').trim();
+    if (emailOrPhone === '') {
+        errors['email'] = 'Email is required';
+    } else if (!validateEmailOrPhone(emailOrPhone)) {
+        errors['email'] = 'Invalid email format';
+    }
+
+    // Validate password
+    if (form.get('password').trim() === '') {
+        errors['password'] = 'Password is required';
+    }
+
+    // Validate password confirmation
+    const password = form.get('password').trim();
+    const passwordConfirm = form.get('password_confirm').trim();
+    if (passwordConfirm === '') {
+        errors['password_confirm'] = 'Confirm Password is required';
+    } else if (password !== passwordConfirm) {
+        errors['password_confirm'] = "Passwords don't match";
+    }
+
+    // If errors exist, display them
+    if (Object.keys(errors).length > 0) {
+        displayErrors(errors);
+    } else {
+        this.submit();  // Submit the form if no errors
+    }
+});
+
+// Function to clear previous error messages
+function clearErrors() {
+    document.getElementById('usernameError').innerHTML = '';
+    document.getElementById('emailError').innerHTML = '';
+    document.getElementById('passwordError').innerHTML = '';
+    document.getElementById('passwordConfirmError').innerHTML = '';
+}
+
+// Function to display error messages
+function displayErrors(errors) {
+    if (errors['username']) {
+        document.getElementById('usernameError').innerHTML = errors['username'];
+    }
+    if (errors['firstname']) {
+        document.getElementById('firstnameError').innerHTML = errors['firstname'];
+    }
+    if (errors['username']) {
+        document.getElementById('lastnameError').innerHTML = errors['lastname'];
+    }
+    if (errors['email']) {
+        document.getElementById('emailError').innerHTML = errors['email'];
+    }
+    if (errors['password']) {
+        document.getElementById('passwordError').innerHTML = errors['password'];
+    }
+    if (errors['password_confirm']) {
+        document.getElementById('passwordConfirmError').innerHTML = errors['password_confirm'];
+    }
+}
+
+// Function to validate email or phone number
+function validateEmailOrPhone(input) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Email regex
+    
+    return emailRegex.test(input);
+}
+
+
+
+        </script>
+        
+              {% if messages %}
+        <ul class="messages">
+      {% for message in messages %}
+        <li class="{{ message.tags }}">{{ message }}</li>
+      {% endfor %}
+        </ul>
+      {% endif %}
+    </div>
+    {% if messages %}
+  <div>
+    {% for message in messages %}
+      <div class="alert" style="border: 1px solid #ffc107; background-color: #fff3cd; color: #856404; padding: 10px; margin: 10px 0; position: relative;">
+        {{ message }}
+        <button onclick="this.parentElement.style.display='none'" style="position: absolute; right: 10px; top: 5px; border: none; background: none; color: #856404; font-weight: bold; cursor: pointer;">&times;</button>
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+      
+      
+    <!--footer-->
+ <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-logo">
+        <div class="social-icons">
+          <a href="#"><img src="{% static 'imges/icons8-instagram-24.png' %}" alt="Facebook"></a>
+          <a href="#"><img src="{% static 'imges/icons8-facebook-24.png' %}" alt="Instagram"></a>
+        </div>
+      </div>
+      <div class="footer-links">
+        <div>
+          <h3>Customer Service</h3>
+          <ul>
+            <li><a href="#">Frequently Asked Questions</a></li>
+            <li><a href="#">Returns Policy</a></li>
+            <li><a href="#">Shipping Information</a></li>
+            <li><a href="#">Afterpay</a></li>
+            <li><a href="#">+95 092342210</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Products</h3>
+          <ul>
+            <li><a href="#">Beauty Blogs</a></li>
+            <li><a href="#">Brands</a></li>
+            <li><a href="#">Promotions</a></li>
+            <li><a href="#">Videos</a></li>
+
+          </ul>
+        </div>
+        <div>
+          <h3>About Us</h3>
+          <ul>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Account</a></li>
+            <li><a href="#">Skin quiz</a></li>
+          </ul>
+        </div>
+       
+        <div class="footer-bottom">
+          <p>&copy; 2024 Cosmetic Capital</p>
+          <div class="payment-methods">
+            <img src="{% static 'imges/kpay.png' %}" alt="PayPal">
+            <img src="{% static 'imges/visa.png' %}" alt="Afterpay">
+            <img src="{% static 'imges/paypal_PNG9.png' %}" alt="Zip">
+
+          </div>
+        </div>
+      </div>
+  </footer>
+
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <script>
+
+      function togglePasswordVisibility(passwordId, eyeIconId) {
+        const passwordField = document.getElementById(passwordId);
+        const eyeIcon = document.getElementById(eyeIconId);
+    
+        if (passwordField.type === 'password') {
+            passwordField.type = 'text';
+            eyeIcon.className = 'ph ph-eye'; // Change icon to open eye
+        } else {
+            passwordField.type = 'password';
+            eyeIcon.className = 'ph ph-eye-closed'; // Change icon to closed eye
+        }
+    }
+    </script>
+    <!-- sticky -->
+<script>
+    window.addEventListener('scroll', function () {
+      const header = document.querySelector('.header_top');
+      header.classList.toggle('sticky-header', window.scrollY > 50);
+    });
+  </script>
+  <!-- search -->
+  <script>
+  
+    const searchBar = document.querySelector('.search-container input');
+    const searchContainer = document.querySelector('.search-container');
+  
+    searchBar.addEventListener('focus', () => {
+      searchContainer.style.width = "250px"; // Expand on focus
+    });
+  
+    searchBar.addEventListener('blur', () => {
+      searchContainer.style.width = "240px"; // Revert when focus is lost
+    });
+  
+  </script>
+
+</body>
+</html>
+{% endblock %}

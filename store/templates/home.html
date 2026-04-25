@@ -1,0 +1,717 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block content %}
+<style>
+/* Best seller */
+.pcontainer {
+  display: flex;
+  width: 100%;
+  justify-content: center; /* Center carousel */
+  margin-bottom: 30px;
+}
+
+.best-sellers-carousel {
+  width: 100%;
+  text-align: center;
+  margin-top: 40px;
+  height: 600px;
+}
+
+.section-title {
+  font-size: 35px;
+  font-weight: bold;
+  text-align: center;
+  width: 100%;
+  line-height: 35px;
+  padding: 10px;
+}
+
+.section-subtitle {
+  font-weight: bold;
+  margin-bottom: 40px;
+  text-align: center;
+  width: 100%;
+  padding: 10px;
+  font-size: 17px;
+  color: #666;
+}
+
+
+</style>
+
+<body>
+  <!--headerbottomend-->
+  <div class="carousel">
+    <div class="carousel-slides">
+      <!-- Slide 1 -->
+      <div class="carousel-slide" id="f">
+        <img src="{% static 'imges/pink1.jpg' %}" alt="Beauty Image">
+        <div class="slide1-content">
+          <h1>BRANCY</h1>
+          <p>"Nurture your skin with our natural skincare and cosmetics for a glowing, confident you."</p>
+          <button><a href="{% url 'shoppage' %}" style="text-decoration: none;">Shop Collection</a></button>
+        </div>
+        <img src="{% static 'imges/page2.jpg' %}" alt="Beauty Image">
+        <img src="{% static 'imges/page3.jpg' %}" alt="Beauty Image">
+      </div>
+      <!-- Slide 2 -->
+      <div class="carousel-slide">
+        <div class="slide-content">
+          <div class="header">
+            <h1>Makeup Kit Reset</h1>
+            <h2>UPDATE YOUR LOOK FOR BACK TO SCHOOL</h2>
+            <div class="offer">6 for $60</div>
+            <div class="subtext">Makeup must-haves*</div>
+            <button><a href="{% url 'shoppage' %}" style="text-decoration: none;">Shop Now</a></button>
+            <div class="note">*Exclusions apply. Offer valid now through 8/26 (3:00am EST). Discounts at checkout.</div>
+          </div>
+          <img src="{% static 'imges/harper-sunday-A_ZiNBM1J5c-unsplash.jpg'%}" alt="Second Slide">
+
+        </div>
+      </div>
+      <!-- Slide 3: Discount Slide -->
+      <div class="carousel-slide">
+        <div class="slide3-content">
+          <img src="{% static 'imges/ff.jpg' %}" alt="Discount Slide">
+
+          <div class="nars">
+            <h1>NARS Beauty</h1>
+            <div class="subtitle">Re-Stock !</div>
+            <p class="offer">Up to <span>60% off</span> RRPs</p>
+            <button class="carousel-button"><a href="{% url 'shoppage' %}" style="text-decoration: none;">Shop Now</a></button>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Slide 4: Video Slide -->
+    <div class="carousel-slide" id="video">
+      <video autoplay muted loop>
+        <source src="{%static 'video2.mp4'%}" type="video/mp4">
+      </video>
+
+    </div>
+    <!-- Slide 6: Authentic Skincare -->
+    <div class="carousel-slide" id="four">
+      <img src="{% static 'imges/or1.jpg' %}" alt="Authentic Skincare">
+      <img src="{% static 'imges/or3.jpg' %}" alt="Authentic Skincare">
+      <img src="{% static 'imges/or4.jpg' %}" alt="Authentic Skincare">
+
+      <div class="slide6-content">
+        <h1>Authentic Skincare</h1>
+        <p>Experience the purity and effectiveness of Ordinary.</p>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <!-- Progress Dots -->
+  <div class="progress-dots">
+    <span class="dot" onclick="currentSlide(1)"></span>
+    <span class="dot" onclick="currentSlide(2)"></span>
+    <span class="dot" onclick="currentSlide(3)"></span>
+    <span class="dot" onclick="currentSlide(4)"></span>
+    <span class="dot" onclick="currentSlide(5)"></span>
+  </div>
+
+  <!-- catalog -->
+  <div class="catalog-container">
+    <div class="catalog-item" id="l">
+      <img src="{% static 'imges/catmakeup.png' %}" alt="Make Up Brush">
+      <div class="catalog-text">
+        <h3 id="h3">Cosmetic</h3>
+        <p>" To look amazing, often referring to bold makeup."</p>
+      </div>
+      <div class="catalogoverlay">
+        <a href="{% url 'product_filter_shop' 'Makeup' %}" class="shop-now">Shop Now</a>
+
+      </div>
+    </div>
+
+    <div class="catalog-item" id="s">
+      <img src="{% static 'imges/sk.png' %}" alt="Professional Lipstick">
+      <div class="catalog-text">
+        <h3 id="h3">Skin Care</h3>
+        <p>"For Fresh, hydrated, glowing skin."</p>
+      </div>
+      <div class="catalogoverlay">
+
+        <a href="{% url 'product_filter_shop' 'Skin care' %}" class="shop-now">Shop Now</a>
+      </div>
+    </div>
+
+    <div class="catalog-item" id="p">
+      <img src="{% static 'imges/hh.png' %}" alt="Makeup Brush Cleaner">
+      <div class="catalog-text">
+        <h3 id="h3">Fragrance</h3>
+        <p>"Meet with Brancy's Scents"</p>
+      </div>
+      <div class="catalogoverlay">
+
+        <a href="{% url 'product_filter_shop' 'Fragrance' %}"" class="shop-now">Shop Now</a>
+      </div>
+    </div>
+  </div>
+  
+
+  <!-- best seller -->
+  <div class="homecontainer" width="100%">
+      <h6 class="section-subtitle" style="font-size: 25pt; margin-top: 10px;color: #000;" >Browse our authentic products</h6>
+      <div class="hcarousel-wrapper" style="width: 100%; align-items: center; margin-left: 130px;">
+
+        <div class="pcarousel-items">      
+          {% for product in combined_items %}
+              {% if product.is_sale %}
+              <div class="pcarousel-item">
+                  <div class="timage-container">
+                      <img class="image-main" src="{{ product.main_image.url }}" alt="{{ product.name }}">
+                      <img class="image-secondary" src="{{ product.secondary_image.url }}" alt="{{ product.name }}">
+                      <div
+                          style="position: absolute; top: 0.5rem; right: 0.5rem; background-color: #dc3545; color: white; padding: 0.25rem 0.5rem; border-radius: 0.7rem; font-size: 1rem;">
+                          Sale
+                      </div>
+                      <div class="overlay">
+                          <button class="quick-shop"><a href="{% url 'productDetail' product.id %}">Quick Shop</a></button>
+                      </div>
+                  </div>
+                  <div class="product-info">
+                      <h3>{{ product.name }}</h3>
+                      <p class="price-info">
+                          <span class="regular-price">Price: <strike>MMK {{ product.price }}</strike></span>
+                          <span class="sale-price">MMK {{ product.sale_price }}</span>
+                      </p>
+                      <span class="heart">
+                          <i class="fas fa-heart" onclick="addToWishlist({{ product.id }})"></i>
+                      </span>
+                      <button class="add-to-cart" data-product-id="{{ product.id }}" onclick="addToCart({{ product.id }})" id = "addtocart">Add to Cart</button>
+                  </div>
+              </div>
+              {% else %}
+              <div class="pcarousel-item">
+                  <div class="timage-container">
+                      <img class="image-main" src="{{ product.main_image.url }}" alt="{{ product.name }}">
+                      <img class="image-secondary" src="{{ product.secondary_image.url }}" alt="{{ product.name }}">
+                      <div class="overlay">
+                          <button class="quick-shop"><a href="{% url 'productDetail' product.id %}">Quick Shop</a></button>
+                      </div>
+                  </div>
+                  <div class="product-info">
+                      <h3>{{ product.name }}</h3>
+                      <p class="sale-price">Price: MMK {{ product.price }}</p>
+                      <span class="heart">
+                          <i class="fas fa-heart" onclick="addToWishlist({{ product.id }})"></i>
+                      </span>
+                      <button class="add-to-cart" data-product-id="{{ product.id }}" onclick="addToCart({{ product.id }})"  id = "addtocart">Add to Cart</button>
+                  </div>
+              </div>
+                          {% endif %}
+                          {% empty %}
+                          {% comment %} <p>No products found.</p> {% endcomment %}
+                      {% endfor %}
+              </div>
+  
+              <div class="pcarousel-items">      
+                  {% for product in products %}
+                      {% if product.is_sale %}
+                      <div class="pcarousel-item">
+                          <div class="timage-container">
+                              <img class="image-main" src="{{ product.main_image.url }}" alt="{{ product.name }}">
+                              <img class="image-secondary" src="{{ product.secondary_image.url }}" alt="{{ product.name }}">
+                              <div
+                                  style="position: absolute; top: 0.5rem; right: 0.5rem; background-color: #dc3545; color: white; padding: 0.25rem 0.5rem; border-radius: 0.7rem; font-size: 1rem;">
+                                  Sale
+                              </div>
+                              <div class="overlay">
+                                  <button class="quick-shop"><a href="{% url 'productDetail' product.id %}">Quick Shop</a></button>
+                              </div>
+                          </div>
+                          <div class="product-info">
+                              <h3>{{ product.name }}</h3>
+                              <p class="price-info">
+                                  <span class="regular-price">Price: <strike>MMK {{ product.price }}</strike></span>
+                                  <span class="sale-price">MMK {{ product.sale_price }}</span>
+                              </p>
+                              <span class="heart">
+                                  <i class="fas fa-heart" onclick="addToWishlist({{ product.id }})"></i>
+                              </span>
+                              <button class="add-to-cart" data-product-id="{{ product.id }}" onclick="addToCart({{ product.id }})"  id = "addtocart">Add to Cart</button>
+                          </div>
+                      </div>
+                      {% else %}
+                      <div class="pcarousel-item">
+                          <div class="timage-container">
+                              <img class="image-main" src="{{ product.main_image.url }}" alt="{{ product.name }}">
+                              <img class="image-secondary" src="{{ product.secondary_image.url }}" alt="{{ product.name }}">
+                              <div class="overlay">
+                                  <button class="quick-shop"><a href="{% url 'productDetail' product.id %}">Quick Shop</a></button>
+                              </div>
+                          </div>
+                          <div class="product-info">
+                              <h3>{{ product.name }}</h3>
+                              <p class="sale-price">Price: MMK {{ product.price }}</p>
+                              <span class="heart">
+                                  <i class="fas fa-heart" onclick="addToWishlist({{ product.id }})"></i>
+                              </span>
+                              <button class="add-to-cart" data-product-id="{{ product.id }}" onclick="addToCart({{ product.id }})"  id = "addtocart">Add to Cart</button>
+                          </div>
+                      </div>
+                              {% endif %}
+                              {% empty %}
+                                  {% comment %} <p>No products found.</p> {% endcomment %}
+                              {% endfor %}
+                      </div>
+  
+  
+              <div class="pcarousel-items">
+                  {% if searched %}
+                  {% if results %}
+                      <h2>Search results for: "{{ searched }}"</h2><br><br>
+                      {% for product in results %}
+                          {% if product.is_sale %}
+                          <div class="pcarousel-item" style="padding-top: 30px;">
+                              <div class="timage-container">
+                                  <img class="image-main" src="{{ product.main_image.url }}" alt="{{ product.name }}">
+                                  <img class="image-secondary" src="{{ product.secondary_image.url }}" alt="{{ product.name }}">
+                                  <div
+                                      style="position: absolute; top: 0.5rem; right: 0.5rem; background-color: #dc3545; color: white; padding: 0.25rem 0.5rem; border-radius: 0.7rem; font-size: 1rem;">
+                                      Sale
+                                  </div>
+                                  <div class="overlay">
+                                      <button class="quick-shop"><a href="{% url 'productDetail' product.id %}">Quick Shop</a></button>
+                                  </div>
+                              </div>
+                              <div class="product-info">
+                                  <h3>{{ product.name }}</h3>
+                                  <p class="price-info">
+                                      <span class="regular-price">Price: <strike>MMK {{ product.price }}</strike></span>
+                                      <span class="sale-price">MMK {{ product.sale_price }}</span>
+                                  </p>
+                                  <span class="heart">
+                                      <i class="fas fa-heart" onclick="addToWishlist({{ product.id }})"></i>
+                                  </span>
+                                  <button class="add-to-cart" data-product-id="{{ product.id }}" onclick="addToCart({{ product.id }})"  id = "addtocart">Add to Cart</button>
+                              </div>
+                          </div>
+                          {% else %}
+                          <div class="pcarousel-item">
+                              <div class="timage-container">
+                                  <img class="image-main" src="{{ product.main_image.url }}" alt="{{ product.name }}">
+                                  <img class="image-secondary" src="{{ product.secondary_image.url }}" alt="{{ product.name }}">
+                                  <div class="overlay">
+                                      <button class="quick-shop"><a href="{% url 'productDetail' product.id %}">Quick Shop</a></button>
+                                  </div>
+                              </div>
+                              <div class="product-info">
+                                  <h3>{{ product.name }}</h3>
+                                  <p class="sale-price">Price: MMK {{ product.price }}</p>
+                                  <span class="heart">
+                                      <i class="fas fa-heart" onclick="addToWishlist({{ product.id }})"></i>
+                                  </span>
+                                  <button class="add-to-cart" data-product-id="{{ product.id }}" onclick="addToCart({{ product.id }})"  id = "addtocart">Add to Cart</button>
+                              </div>
+                          </div>
+                          {% endif %}
+                      {% endfor %}
+                  {% else %}
+                      <p>No products found for "{{ searched }}".</p>
+                  {% endif %}
+              {% endif %}
+              </div>
+          </div>
+      </div>
+      
+      
+      </div>
+
+      <!-- service -->
+      <div class="services-section">
+        <h2>Our Services</h2>
+        <div class="services-container">
+          <div class="service">
+            <i class="fa-solid fa-truck-fast"></i>
+            <h3>Free Delivery</h3>
+            <p>On all orders over MMK 100000.</p>
+          </div>
+          <div class="service">
+            <i class="fa-solid fa-money-bill"></i>
+            <h3>100% payment secure</h3>
+            <p>Your payment are safe with us.</p>
+          </div>
+          <div class="service">
+            <i class="fas fa-user-circle"></i>
+            <h3> Support 24/7 </h3>
+            <p>Contact us 24 hours a day.</p>
+          </div>
+          <div class="service">
+            <i class="fas fa-gift gift-voucher"></i>
+            <h3 class="gift-voucher">Gift Voucher</h3>
+            <p>Be a BRANCY's VIP customer! we provide you with excess opportunities.</p>
+          </div>
+        </div>
+      </div>
+      <!--blog post carousal-->
+      <!--blog post carousal-->
+      <div class="bpp">
+        <h1>Our beauty blogs</h1>
+        <h6>Your go-to source for beauty tips, makeup tutorials, product insights, and more.</h6>
+
+        <section class="blogpost-carousel">
+          <div class="bpcarousel-container">
+            <div class="bpcarousel-item" id="k">
+              <img src="{% static 'imges/bp1.png'%}" alt="Complexion Catalog">
+              <h2>A guide to K-beauty</h2>
+              <p>K-beauty has garned musch attention around the world for how effortless and flawless it is.With a
+                preference..</p>
+              <a href="{% url 'blogpost' %}" class="bpview" class="view" onclick="storeBlogDetails(
+              'A guide to K-beauty', 
+              'June 17, 2023',
+              '{% static 'imges/bp1.png' %}', 
+              'No matter your hair type,texture or need ,you are going to find a go-to.', 
+               '“K-beauty, or Korean beauty, has taken the global beauty industry by storm, known for its innovative products and multi-step skincare routines. A standout feature of K-beauty products is their emphasis on hydration and nourishment, often incorporating unique ingredients like snail mucin, propolis, and green tea extract. For instance, the COSRX Advanced Snail 92 All in One Cream has garnered rave reviews for its ability to deeply moisturize and repair the skin without feeling greasy, making it a favorite for those with dry or combination skin. Another popular product, the Laneige Water Sleeping Mask, is celebrated for its lightweight formula that provides intense hydration overnight, leaving the skin plump and refreshed by morning. Additionally, the Etude House SoonJung pH 5.5 Relief Toner is lauded for its gentle, low pH formula that soothes sensitive skin while effectively balancing moisture levels. Moreover, K-beauty brands like Innisfree and Missha offer a variety of sheet masks that are not only fun to use but also packed with beneficial ingredients, providing an instant boost to the skin. However, some consumers find the extensive range of products and the 10-step routine overwhelming, leading to skepticism about whether such a routine is necessary for everyone. Despite this, the K-beauty philosophy of prioritizing skin health and using high-quality ingredients has won over many, making these products worthy of their growing popularity in beauty markets worldwide.”', 
+              ['Train with the best experts...', 'Our personal trainers...', 'Trainers will build...'], 
+              '', 
+              'https://www.youtube.com/embed/VJBtCuPpMhU?si=z8elLn09snvSIhdA'
+           )"> View article</a>
+            </div>
+
+            <div class="bpcarousel-item" id="H">
+              <img src="{% static 'imges/hairproducts.jpg' %}" alt="Dripped in Hydration">
+              <h2>HAIRCARE TRULY FOR ALL</h2>
+              <p>No matter your hair type,texture or need ,you're going to find a go-to.</p>
+              <a href="{% url 'blogpost' %}" class="bpview" class="view" onclick="storeBlogDetails(
+              'HAIRCARE TRULY FOR ALL', 
+              'June 17, 2023',
+              '{% static 'imges/hairproducts.jpg'%}', 
+              'No matter your hair type,texture or need ,you are going to find a go-to.', 
+               '“A consistent haircare routine is essential for maintaining healthy, beautiful hair for all women, regardless of hair type or lifestyle. Start by washing your hair 2-3 times a week with a mild, sulfate-free shampoo to keep your scalp clean without stripping away natural oils. Follow up with a conditioner to hydrate and detangle, focusing on the ends of your hair. Once a week, treat your hair to a deep conditioning or hair mask to restore moisture and strength. If you live in a humid or tropical climate, consider using leave-in conditioners or hair serums to combat frizz and keep your hair manageable. Regularly trim your hair every 6-8 weeks to prevent split ends and maintain healthy growth. Depending on your styling preferences, minimize the use of heat tools, and always apply a heat protectant when you do. Incorporating scalp massages into your routine can also stimulate blood flow and promote hair growth. Lastly, ensure a balanced diet rich in vitamins, especially biotin and omega-3 fatty acids, as they play a crucial role in keeping your hair strong and shiny. With this routine, your hair will stay vibrant and healthy, no matter your hair type or daily activities.”', 
+              ['Train with the best experts...', 'Our personal trainers...', 'Trainers will build...'], 
+               '', 
+              'https://www.youtube.com/embed/ebEdYZfl83o?si=I2_Uw98Ts_ecly1a', 
+           )"> View article</a>
+            </div>
+
+            <div class="bpcarousel-item" id="B">
+              <img src="{% static 'imges/bp3.png' %}" alt="Haircare for All">
+              <h2>BEAUTY HACKS</h2>
+              <p>Discover simple,game-changing beauty hacks to streamline your routine and enhance your natural glow.
+              </p>
+              <a href="{% url 'blogpost' %}" class="bpview" class="view" onclick="storeBlogDetails(
+              'BEAUTY HACKS', 
+              'April 17, 2023',
+              '{% static 'imges/bp3.png' %}', 
+              'No matter your hair type,texture or need ,you are going to find a go-to.', 
+               '“For teenage girls looking to enhance their beauty routine with simple hacks, starting with skincare is crucial; cleanse your face twice daily with a gentle cleanser to keep breakouts at bay, and always moisturize afterward to maintain hydration. Incorporating a lightweight sunscreen into your morning routine will protect your skin from harmful UV rays and prevent premature aging. When it comes to makeup, use a tinted moisturizer or BB cream for a natural look while providing coverage, and a touch of concealer can effectively cover blemishes or dark circles. Opt for cream blush and highlighter for a fresh, dewy finish, as they blend seamlessly into the skin. For your eyes, using a clear or tinted brow gel can help tame unruly brows, while a swipe of mascara can open up your eyes without the need for heavy eyeliner. A natural lip tint or gloss adds a pop of color and keeps your lips hydrated. Additionally, keeping your hair healthy is essential; try using a silk pillowcase to reduce frizz and breakage while sleeping, and don’t forget to experiment with fun hairstyles like braids or ponytails for a stylish look. Lastly, drink plenty of water, eat a balanced diet rich in fruits and vegetables, and get enough sleep, as these lifestyle choices will reflect in your overall appearance and boost your confidence.”', 
+              ['Train with the best experts...', 'Our personal trainers...', 'Trainers will build...'], 
+              '',
+              'https://www.youtube.com/embed/wbg_6QtBTxg?si=qZbTI7eBgk4CodQo', 
+           )"> View article</a>
+            </div>
+
+            <div class="bpcarousel-item" id="L">
+              <img src="{% static 'imges/liplineup.jpg' %}" alt="Haircare for All">
+              <h2>LIP LINEUP</h2>
+              <p>Express your every mood with game-changing formulas in hella shades.</p>
+              <a href="{% url 'blogpost' %}" class="bpview" class="view" onclick="storeBlogDetails(
+              'BEAUTY HACKS', 
+              'April 17, 2023',
+              '{% static 'imges/bp3.png'%}', 
+              'No matter your hair type,texture or need ,you are going to find a go-to.', 
+               '“For teenage girls looking to enhance their beauty routine with simple hacks, starting with skincare is crucial; cleanse your face twice daily with a gentle cleanser to keep breakouts at bay, and always moisturize afterward to maintain hydration. Incorporating a lightweight sunscreen into your morning routine will protect your skin from harmful UV rays and prevent premature aging. When it comes to makeup, use a tinted moisturizer or BB cream for a natural look while providing coverage, and a touch of concealer can effectively cover blemishes or dark circles. Opt for cream blush and highlighter for a fresh, dewy finish, as they blend seamlessly into the skin. For your eyes, using a clear or tinted brow gel can help tame unruly brows, while a swipe of mascara can open up your eyes without the need for heavy eyeliner. A natural lip tint or gloss adds a pop of color and keeps your lips hydrated. Additionally, keeping your hair healthy is essential; try using a silk pillowcase to reduce frizz and breakage while sleeping, and don’t forget to experiment with fun hairstyles like braids or ponytails for a stylish look. Lastly, drink plenty of water, eat a balanced diet rich in fruits and vegetables, and get enough sleep, as these lifestyle choices will reflect in your overall appearance and boost your confidence.”', 
+              ['Train with the best experts...', 'Our personal trainers...', 'Trainers will build...'], 
+              '',
+              'https://www.youtube.com/embed/wbg_6QtBTxg?si=qZbTI7eBgk4CodQo', 
+           )"> View article</a>
+            </div>
+            <div class="bpcarousel-item" id="M">
+              <img src="{% static 'imges/makeup8.jpg'%}" alt="Haircare for All">
+              <h2>MAKEUP TUTORIALS</h2>
+              <p>Mster the art of makeup with our easy-to-follow tutorials.From beginner basics to advanced techniques.
+              </p>
+              <a href="{% url 'blogpost' %}" class="bpview" class="view" onclick="storeBlogDetails(
+              'MAKEUP TUTORIALS', 
+              'May 9, 2024',
+              '{% static 'imges/makeup8.jpg'%}', 
+              'No matter your hair type,texture or need ,you are going to find a go-to.','“K-beauty, or Korean beauty, has taken the global beauty industry by storm, known for its innovative products and multi-step skincare routines. A standout feature of K-beauty products is their emphasis on hydration and nourishment, often incorporating unique ingredients like snail mucin, propolis, and green tea extract. For instance, the COSRX Advanced Snail 92 All in One Cream has garnered rave reviews for its ability to deeply moisturize and repair the skin without feeling greasy, making it a favorite for those with dry or combination skin. Another popular product, the Laneige Water Sleeping Mask, is celebrated for its lightweight formula that provides intense hydration overnight, leaving the skin plump and refreshed by morning. Additionally, the Etude House SoonJung pH 5.5 Relief Toner is lauded for its gentle, low pH formula that soothes sensitive skin while effectively balancing moisture levels. Moreover, K-beauty brands like Innisfree and Missha offer a variety of sheet masks that are not only fun to use but also packed with beneficial ingredients, providing an instant boost to the skin. However, some consumers find the extensive range of products and the 10-step routine overwhelming, leading to skepticism about whether such a routine is necessary for everyone. Despite this, the K-beauty philosophy of prioritizing skin health and using high-quality ingredients has won over many, making these products worthy of their growing popularity in beauty markets worldwide.”', 
+            ['Train with the best experts...', 'Our personal trainers...', 'Trainers will build...'], 
+            '',
+            'https://www.youtube.com/embed/hFSY2OwSoPI?si=8uh3wTPeh3d_oU9W', 
+            'https://www.youtube.com/embed/vNpafKvDbzk?si=H6j46HWHhA-KmwIZ'
+         )"> View article</a>
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+
+
+      <!-- testimonal -->
+      <!-- <section class="testimonial-section">
+        <h1>Our Testimonial</h1>
+
+        <div class="profile-container">
+          <div class="profile" data-testimonial="1">
+            <img src="{% static 'imges/client1.png' %}" alt="Profile 1">
+          </div>
+          <div class="profile" data-testimonial="2">
+            <img src="{% static 'imges/client2.png' %}" alt="Profile 2">
+          </div>
+          <div class="profile" data-testimonial="3">
+            <img src="{% static 'imges/client1.png' %}" alt="Profile 3">
+          </div>
+        </div>
+
+        <div class="testimonial-content active">
+          <div class="testimonial-text" id="testimonial-text">
+            Sed vitae placerat velit, non sempernib Mae cenas pharetra risus vitaesodales vulputate. Praesentaccumsan,
+            minecorem IpsumsusSed vitae placerat velit, non sempernib Mae cenas pharetra risus vitaesodales vulputate.
+          </div>
+          <div class="testimonial-name" id="testimonial-name">
+            luies charls
+          </div>
+          <div class="testimonial-role" id="testimonial-role">
+            luies charls
+          </div>
+        </div>
+
+      </section> -->
+      <!--Brand -->
+      <div class="slider">
+        <div class="slide-track">
+          <a href="{% url 'brandshoppage' 'Nacific' %}" onclick="toggleProducts()">
+            <div class="slide">
+              <img src="{% static 'imges/nacific.jpg' %}" alt="">
+            </div>
+          </a>
+          <a href="{% url 'brandshoppage' 'The Ordinary' %}" onclick="toggleProducts()">
+            <div class="slide">
+              <img src="{% static 'imges/ordinary.png' %}" alt="">
+            </div>
+          </a>
+          <a href="{% url 'brandshoppage' 'Bioderma' %}" onclick="toggleProducts()">
+            <div class="slide">
+              <img src="{% static 'imges/bioderma.png' %}" alt="">
+            </div>
+          </a>
+          
+          <a href="{% url 'brandshoppage' 'Shishedo' %}" onclick="toggleProducts()">
+            <div class="slide">
+              <img src="{% static 'imges/shisheido.jpg' %}" alt="">
+            </div>
+          </a>
+          <a href="{% url 'brandshoppage' 'CeraVe' %}" onclick="toggleProducts()">
+            <div class="slide">
+              <img src="{% static 'imges/cerave.jpg' %}" alt="">
+            </div>
+          </a>
+          <a href="{% url 'brandshoppage' 'LOreal' %}" onclick="toggleProducts()">
+            <div class="slide">
+              <img src="{% static 'imges/lorealparis.jpg' %}" alt="">
+            </div>
+          </a>
+          <a href="{% url 'brandshoppage' 'Nature Republic' %}" onclick="toggleProducts()">
+            <div class="slide">
+              <img src="{% static 'imges/naturerepublic.jpg' %}" alt="">
+            </div>
+          </a>
+          <a href="{% url 'brandshoppage' 'SKII' %}" onclick="toggleProducts()">
+            <div class="slide">
+              <img src="{% static 'imges/skii.jpg' %}" alt="">
+            </div>
+          </a>
+          <a href="{% url 'brandshoppage' 'TonyMoly' %}" onclick="toggleProducts()">
+            <div class="slide">
+              <img src="{% static 'imges/tonymoly.jpg' %}" alt="">
+            </div>
+          </a>
+          <a href="{% url 'brandshoppage' 'REVLON' %}" onclick="toggleProducts()">
+            <div class="slide">
+              <img src="{% static 'imges/revlon.png' %}" alt="">
+            </div>
+          </a>
+          <a href="{% url 'brandshoppage' 'Maybelline NewYork' %}" onclick="toggleProducts()">
+            <div class="slide">
+              <img src="{% static 'imges/maybellinelogo.png' %}" alt="">
+            </div>
+          </a>
+          <a href="{% url 'brandshoppage' 'Dior' %}" onclick="toggleProducts()">
+            <div class="slide">
+              <img src="{% static 'imges/Diorlogo.jpg' %}" alt="">
+            </div>
+          </a>
+          <a href="{% url 'brandshoppage' 'MAC' %}" onclick="toggleProducts()">
+            <div class="slide">
+              <img src="{% static 'imges/maclogo.png' %}" alt="">
+            </div>
+          </a>
+          <a href="{% url 'brandshoppage' 'Romand' %}" onclick="toggleProducts()">
+            <div class="slide">
+              <img src="{% static 'imges/romandlogo.png' %}" alt="">
+            </div>
+          </a>
+          <a href="{% url 'brandshoppage' 'Viktor' %}" onclick="toggleProducts()">
+            <div class="slide">
+              <img src="{% static 'imges/viktor.jpg' %}" alt="">
+            </div>
+          </a>
+          <a href="{% url 'brandshoppage' 'Nivea' %}" onclick="toggleProducts()">
+            <div class="slide">
+              <img src="{% static 'imges/nivea.jpg' %}" alt="">
+            </div>
+          </a>
+          <a href="{% url 'brandshoppage' 'Pantene' %}" onclick="toggleProducts()">
+            <div class="slide">
+              <img src="{% static 'imges/pantene.jpg' %}" alt="">
+            </div>
+          </a>
+          <a href="{% url 'brandshoppage' 'Vaseline' %}" onclick="toggleProducts()">
+            <div class="slide">
+              <img src="{% static 'imges/vaseline.jpg' %}" alt="">
+            </div>
+          </a>
+          <a href="{% url 'brandshoppage' 'Chanel' %}" onclick="toggleProducts()">
+            <div class="slide">
+              <img src="{% static 'imges/Chanel.jpg' %}" alt="">
+            </div>
+          </a>
+          <a href="{% url 'brandshoppage' 'Victorias Secret' %}" onclick="toggleProducts()">
+            <div class="slide">
+              <img src="{% static 'imges/Victorias Secret.jpg' %}" alt="">
+            </div>
+          </a>
+          <a href="{% url 'brandshoppage' 'Dove' %}" onclick="toggleProducts()">
+            <div class="slide">
+              <img src="{% static 'imges/Dove.png' %}" alt="">
+            </div>
+          </a>
+          <a href="{% url 'brandshoppage' 'La Roche-Posay' %}" onclick="toggleProducts()">
+            <div class="slide">
+              <img src="{% static 'imges/La Roche-Posay.jpg' %}" alt="">
+            </div>
+          </a>
+          <a href="{% url 'brandshoppage' 'Cetaphil' %}" onclick="toggleProducts()">
+            <div class="slide">
+              <img src="{% static 'imges/cetaphil.jpg' %}" alt="">
+            </div>
+          </a>
+          
+          <a href="{% url 'brandshoppage' 'Olay' %}" onclick="toggleProducts()">
+            <div class="slide">
+              <img src="{% static 'imges/olay-logo.jpg' %}" alt="">
+            </div>
+          </a>
+      </div>
+    </div>
+    <!----discount post-->
+    <div class="discount-section">
+      <div class="text-content">
+        <h1>Discount makeup and cosmetics online</h1>
+        <p>Transform your makeup bag with genuine, discounted cosmetics from top brands. Find your favourites and new
+          treasures, all at exceptional prices.</p>
+        <button class="shop-sale-now"><a href="{% url 'shoppage' %}" style="text-decoration: none;">Shop sale now</a></button>
+      </div>
+      <div class="image-content">
+        <div class="image-box">
+          <img src="{% static 'imges/gift box.jpg' %}" alt="Gift Pack">
+          <button class="shop-button">➔ Shop Gift Packs</button>
+        </div>
+        <div class="image-box">
+          <img src="{% static 'imges/Screenshot 2024-08-19 023034.png' %}" alt="New Products">
+          <button class="shop-button">➔ Shop New</button>
+        </div>
+      </div>
+    </div>
+
+    <!--subscribe-->
+    <div class="subscription-container">
+      <div class="subscription-content">
+        <img src="{% static 'imges/logo-02.png' %}" alt="" width="100px" height="50px">
+        <p>Subscribe to our newsletter to get the latest updates and offers.</p>
+        <form class="subscription-form">
+          <input type="email" placeholder="Enter your email address" required>
+          <button type="submit">SUBSCRIBE</button>
+        </form>
+      </div>
+    </div>
+    
+
+</body>
+
+</html>
+<script src="https://unpkg.com/@phosphor-icons/web"></script>
+<!-- sticky -->
+<script>
+  window.addEventListener('scroll', function () {
+    const header = document.querySelector('.header_top');
+    header.classList.toggle('sticky-header', window.scrollY > 50);
+  });
+</script>
+<!-- search -->
+<script>
+
+  const searchBar = document.querySelector('.search-container input');
+  const searchContainer = document.querySelector('.search-container');
+
+  searchBar.addEventListener('focus', () => {
+    searchContainer.style.width = "250px"; // Expand on focus
+  });
+
+  searchBar.addEventListener('blur', () => {
+    searchContainer.style.width = "240px"; // Revert when focus is lost
+  });
+
+
+
+</script>
+<!-- slide -->
+<script>
+  let slideIndex = 0;
+  showSlides(slideIndex);
+
+  function currentSlide(n) {
+    showSlides(slideIndex = n - 1);
+  }
+
+  function showSlides(n) {
+    let slides = document.getElementsByClassName("carousel-slide");
+    let dots = document.getElementsByClassName("dot");
+    if (n >= slides.length) {
+      slideIndex = 0;
+    } else if (n < 0) {
+      slideIndex = slides.length - 1;
+    }
+    for (let i = 0; i < slides.length; i++) {
+      slides[i].style.display = "none";
+    }
+    for (let i = 0; i < dots.length; i++) {
+      dots[i].className = dots[i].className.replace(" active", "");
+    }
+    slides[slideIndex].style.display = "block";
+    dots[slideIndex].className += " active";
+  }
+
+  // Auto change slides every 5 seconds
+  setInterval(function () {
+    showSlides(slideIndex += 1);
+  }, 5000);
+
+</script>
+<!-- bpp -->
+
+<script>
+  const carouselContainer = document.querySelector('.carousel-container');
+
+  document.querySelector('.next').addEventListener('click', () => {
+    carouselContainer.scrollBy({ left: 300, behavior: 'smooth' });
+  });
+
+  document.querySelector('.prev').addEventListener('click', () => {
+    carouselContainer.scrollBy({ left: -300, behavior: 'smooth' });
+  });
+</script>
+
+
+
+
+{% endblock %}

@@ -1,0 +1,263 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Skin Type Quiz</title>
+  <style>
+    .quiz-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 70vh;
+    }
+
+    .quiz-container {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      max-width: 500px;
+      width: 90%;
+      text-align: center;
+    }
+
+    .question {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+    }
+    .options button {
+      display: block;
+      background: #fcb69f;
+      border: none;
+      color: #fff;
+      font-size: 1rem;
+      margin: 10px auto;
+      padding: 10px 15px;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 80%;
+      transition: background 0.3s;
+    }
+    .options button:hover {
+      background: #ff805d;
+    }
+    .progress-bar {
+      height: 10px;
+      background: #fcb69f;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      width: 0%;
+      transition: width 0.4s;
+    }
+    .result {
+      display: none;
+      font-size: 1.2rem;
+      margin-top: 20px;
+      animation: fadeIn 1s ease-in-out;
+    }
+    .result-icon {
+      font-size: 4rem;
+      margin-bottom: 10px;
+      animation: bounce 1s ease-in-out;
+    }
+    .result-text {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .result-description {
+      font-size: 1rem;
+      color: #555;
+      margin-bottom: 20px;
+    }
+    .result-button {
+      background: #fcb69f;
+      border: none;
+      color: #fff;
+      font-size: 1rem;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+      margin: 5px;
+    }
+    .result-button:hover {
+      background: #ff805d;
+    }
+    .recommendations {
+      margin-top: 20px;
+    }
+    .recommendations h3 {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+    }
+    .recommendations ul {
+      list-style: none;
+      padding: 0;
+    }
+    .recommendations li {
+      margin-bottom: 5px;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(-20px); }
+      60% { transform: translateY(-10px); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="quiz-wrapper">
+    <div class="quiz-container">
+      <div class="progress-bar" id="progress"></div>
+      <div id="quiz">
+        <div class="question" id="question"></div>
+        <div class="options" id="options"></div>
+      </div>
+      <div class="result" id="result">
+        <div class="result-icon" id="result-icon">🌟</div>
+        <div class="result-text" id="result-text"></div>
+        <div class="result-description" id="result-description"></div>
+        <div class="recommendations" id="recommendations">
+          <h3>Recommended Routine:</h3>
+          <ul id="routine-list"></ul>
+        </div>
+        <button class="result-button" onclick="location.reload()">Retake Quiz</button>
+        <button class="result-button" onclick="shareResult()">Share Your Result</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+  const questions = [
+    {
+      text: "How does your skin feel after washing your face?",
+      options: ["Tight, dry, or flaky", "Smooth and comfortable", "Slightly oily after some time", "Oily and greasy quickly"],
+      values: [2, 1, 2, 3]
+    },
+    {
+      text: "How often does your skin feel greasy or shiny?",
+      options: ["Never or rarely", "Occasionally in the T-zone", "Throughout the day in some areas", "Frequently and all over my face"],
+      values: [2, 2, 3, 3]
+    },
+    {
+      text: "Do you experience dry patches or roughness?",
+      options: ["Yes, very often", "Sometimes, but not always", "No, my skin feels balanced", "Never, my skin is oily everywhere"],
+      values: [3, 2, 1, 2]
+    },
+    {
+      text: "What happens when you use a moisturizer?",
+      options: ["I need a lot to keep my skin hydrated", "Feels good, not too oily or dry", "Some areas absorb it, but others get oily", "Feels heavy, makes my skin greasy fast"],
+      values: [3, 1, 2, 3]
+    },
+    {
+      text: "How does your skin react to new skincare products?",
+      options: ["Easily irritated, red, or itchy", "Sometimes, but not always", "Rarely reacts", "Almost never reacts"],
+      values: [3, 2, 1, 1]
+    },
+    {
+      text: "How visible are your pores?",
+      options: ["Very small or invisible", "Normal size, not too visible", "Enlarged in the T-zone", "Large and visible all over my face"],
+      values: [3, 1, 2, 3]
+    },
+    {
+      text: "How often do you get breakouts or pimples?",
+      options: ["Rarely, my skin is mostly clear", "Occasionally, especially in some areas", "Often, especially in my T-zone", "Very frequently, and my skin is irritated easily"],
+      values: [1, 2, 3, 3]
+    }
+  ];
+
+  let currentQuestion = 0;
+  let totalScore = 0;
+
+  function loadQuestion() {
+    if (currentQuestion < questions.length) {
+      document.getElementById("question").textContent = questions[currentQuestion].text;
+      document.getElementById("options").innerHTML = "";
+      questions[currentQuestion].options.forEach((option, index) => {
+        const btn = document.createElement("button");
+        btn.textContent = option;
+        btn.onclick = () => handleAnswer(questions[currentQuestion].values[index]);
+        document.getElementById("options").appendChild(btn);
+      });
+      document.getElementById("progress").style.width = ((currentQuestion + 1) / questions.length) * 100 + "%";
+    } else {
+      showResult();
+    }
+  }
+
+  function handleAnswer(value) {
+    totalScore += value;
+    currentQuestion++;
+    loadQuestion();
+  }
+
+  function showResult() {
+    let resultText = "";
+    let resultDescription = "";
+    let resultIcon = "";
+    let routine = [];
+
+    if (totalScore <= 9) {
+      resultText = "Normal Skin";
+      resultDescription = "Your skin is well-balanced—neither too oily nor too dry. Keep up the good work!";
+      resultIcon = "😊";
+      routine = ["Gentle cleanser", "Lightweight moisturizer", "Broad-spectrum SPF"];
+    } else if (totalScore <= 13) {
+      resultText = "Combination Skin";
+      resultDescription = "Your skin is a mix of oily and dry areas. Focus on balancing your skincare routine.";
+      resultIcon = "🤔";
+      routine = ["Balancing cleanser", "Hydrating toner", "Oil-free moisturizer"];
+    } else if (totalScore <= 16) {
+      resultText = "Dry Skin";
+      resultDescription = "Your skin needs extra hydration. Look for rich moisturizers and gentle cleansers.";
+      resultIcon = "💧";
+      routine = ["Hydrating cleanser", "Rich moisturizer", "Hyaluronic acid serum"];
+    } else if (totalScore <= 19) {
+      resultText = "Oily Skin";
+      resultDescription = "Your skin produces excess oil. Use oil-free products and mattifying cleansers.";
+      resultIcon = "🛢️";
+      routine = ["Oil-free cleanser", "Mattifying primer", "Salicylic acid toner"];
+    } else {
+      resultText = "Sensitive Skin";
+      resultDescription = "Your skin is easily irritated. Stick to fragrance-free and hypoallergenic products.";
+      resultIcon = "🌿";
+      routine = ["Gentle cleanser", "Fragrance-free moisturizer", "Soothing serum"];
+    }
+
+    document.getElementById("result-icon").textContent = resultIcon;
+    document.getElementById("result-text").textContent = resultText;
+    document.getElementById("result-description").textContent = resultDescription;
+    document.getElementById("progress").style.display = "none"; // Hide progress bar
+    document.getElementById("result").style.display = "block";
+    document.getElementById("quiz").style.display = "none";
+
+    // Display recommended routine
+    const routineList = document.getElementById("routine-list");
+    routineList.innerHTML = routine.map(item => `<li>${item}</li>`).join("");
+  }
+
+  function shareResult() {
+    const resultText = document.getElementById("result-text").textContent;
+    const shareMessage = `I just discovered my skin type is ${resultText} with [Your Brand Name]! What's yours? 🧴✨`;
+    alert(`Share this message on social media: "${shareMessage}"`);
+  }
+
+  loadQuestion();
+</script>
+
+</body>
+</html>
+{% endblock %}

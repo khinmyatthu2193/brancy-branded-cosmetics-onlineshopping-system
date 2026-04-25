@@ -1,0 +1,360 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block content %}
+
+    <style>
+       
+
+        .rcontainer {
+            width: 100%;
+            height: 150vh;
+        }
+
+        .acc {
+            background-image: url("{% static 'imges/breadcrumb-01.jpg' %}"); /* Add your image URL */
+            background-position: top;
+            background-repeat: no-repeat;
+            height: 200px;
+            text-align: center;
+            color: rgba(0, 0, 0, 0.5);
+            width: 100%;
+            opacity: 0.7;
+
+        }
+
+        .acc h1 {
+            font-size: 40px;
+            color: #000;
+            margin-top: 30px;
+            padding: 20px;
+
+        }
+
+        .acc nav {
+            font-size: 1.2em;
+            color: #444;
+        }
+
+       .acc nav a {
+            color: #444;
+            text-decoration: none;
+        }
+
+       .acc nav a:hover {
+            text-decoration: underline;
+        }
+        
+/* Styles specifically for the registration form */
+.signup-form {
+    background-color: #ffffff; /* White background for the form */
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 500px;
+    margin: 0 auto; /* Center the form */
+    margin-top: 50px;
+    margin-bottom: 25px;
+}
+
+.signup-form h2 {
+    text-align: center;
+    color: #d81b60; /* Change this to your preferred color */
+    margin-bottom: 10px;
+}
+
+/* Specific styles for input fields */
+.signup-form input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #e0a8d9; /* Initial pink border */
+    border-radius: 5px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s ease; /* Smooth transition for border color */
+}
+
+/* Change border color on focus */
+.signup-form input:focus {
+    border-color: #ca6694; /* Darker pink on focus */
+    box-shadow: 0 0 7px rgba(216, 27, 96, 0.5); /* Subtle glow effect */
+}
+
+/* Placeholder color */
+.signup-form input::placeholder {
+    color: #e7a6bc; /* Placeholder text color */
+}
+
+/* Button styles */
+.signup-form button {
+    width: 100%;
+    background-color: #e91e63; /* Pink button */
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: background-color 0.3s ease; /* Smooth transition for button color */
+}
+
+/* Change button color on hover */
+.signup-form button:hover {
+    background-color: #d81b60; /* Darker pink on hover */
+}
+
+/* Error message styles */
+.signup-form .error {
+    color: red; /* Error message color */
+    font-size: 12px;
+    margin-top: 5px;
+    text-align: left; /* Center the text */
+    display: block; /* Ensures the error message occupies a block space */
+}
+
+
+/* Link styles */
+.signup-form .login-link {
+    margin-top: 20px;
+}
+
+.signup-form .login-link a {
+    color: #e91e63; /* Link color */
+    text-decoration: none;
+}
+
+.signup-form .login-link a:hover {
+    text-decoration: underline;
+}
+
+
+    </style>
+<body>
+ 
+  
+  {% if messages %}
+  <div>
+    {% for message in messages %}
+      <div class="alert" style="border: 1px solid #ffc107; background-color: #fff3cd; color: #856404; padding: 10px; margin: 10px 0; position: relative;">
+        {{ message }}
+        <button onclick="this.parentElement.style.display='none'" style="position: absolute; right: 10px; top: 5px; border: none; background: none; color: #856404; font-weight: bold; cursor: pointer;">&times;</button>
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+
+    <div class="rcontainer">
+        <div class="acc">
+            <h1>CREATE ACCOUNT</h1>
+            <nav>
+                <a href="{% url 'home' %}">Home</a> / Create Account
+            </nav>
+        </div>
+
+<br>
+        <div class="signup-form" id="signupForm">
+            <h2>Create Account</h2>
+            <form method="POST" id="registrationForm">
+                {% csrf_token %}
+        
+                <div>
+                    <input type="text" name="username" id="id_username" placeholder="Username">
+                    <!-- JS Error -->
+                    <span class="error" id="usernameError"></span>
+                    <!-- Django Error -->
+                    <span class="error">{{ form.username.errors }}</span>
+                </div>
+
+                <div>
+                  <input type="text" name="firstname" id="id_firstname" placeholder="First Name">
+                  <!-- JS Error -->
+                  <span class="error" id="firstnameError"></span>
+                  <!-- Django Error -->
+                  <span class="error">{{ form.firstname.errors }}</span>
+              </div>
+
+              <div>
+                <input type="text" name="lastname" id="id_lastname" placeholder="Last name">
+                <!-- JS Error -->
+                <span class="error" id="lastnameError"></span>
+                <!-- Django Error -->
+                <span class="error">{{ form.lastname.errors }}</span>
+            </div>
+        
+                <div>
+                    <input type="email" name="email" id="id_email" placeholder="Email Address">
+                    <!-- JS Error -->
+                    <span class="error" id="emailError"></span>
+                    <!-- Django Error -->
+                    <span class="error">{{ form.email.errors }}</span>
+                </div>
+        
+                <div>
+                    <input type="password" name="password" id="id_password" placeholder="Password">
+                    <!-- JS Error -->
+                    <span class="error" id="passwordError"></span>
+                    <!-- Django Error -->
+                    <span class="error">{{ form.password.errors }}</span>
+                </div>
+        
+                <div>
+                    <input type="password" name="password_confirm" id="id_password_confirm" placeholder="Confirm Password">
+                    <!-- JS Error -->
+                    <span class="error" id="passwordConfirmError"></span>
+                    <!-- Django Error -->
+                    <span class="error">{{ form.password_confirm.errors }}</span>
+                </div>
+        
+                <button type="submit">Register</button>
+            </form>
+            <p class="login-link">Already have an account? <a href="{% url 'login' %}">Sign in</a></p>
+        </div>
+        
+        
+        <!-- JavaScript for client-side validation -->
+        <script>
+            document.getElementById('registrationForm').addEventListener('submit', function(event) {
+    event.preventDefault();  // Prevent form from submitting immediately
+    clearErrors();
+
+    let form = new FormData(this);
+    let errors = {};
+
+    // Validate username
+    if (form.get('username').trim() === '') {
+        errors['username'] = 'Username is required';
+    }
+
+    if (form.get('firstname').trim() === '') {
+        errors['firstname'] = 'First name is required';
+    }
+
+    if (form.get('lastname').trim() === '') {
+        errors['last name'] = 'Last name is required';
+    }
+    // Validate email or phone number
+    const emailOrPhone = form.get('email').trim();
+    if (emailOrPhone === '') {
+        errors['email'] = 'Email is required';
+    } else if (!validateEmailOrPhone(emailOrPhone)) {
+        errors['email'] = 'Invalid email format';
+    }
+
+    // Validate password
+    if (form.get('password').trim() === '') {
+        errors['password'] = 'Password is required';
+    }
+
+    // Validate password confirmation
+    const password = form.get('password').trim();
+    const passwordConfirm = form.get('password_confirm').trim();
+    if (passwordConfirm === '') {
+        errors['password_confirm'] = 'Confirm Password is required';
+    } else if (password !== passwordConfirm) {
+        errors['password_confirm'] = "Passwords don't match";
+    }
+
+    // If errors exist, display them
+    if (Object.keys(errors).length > 0) {
+        displayErrors(errors);
+    } else {
+        this.submit();  // Submit the form if no errors
+    }
+});
+
+// Function to clear previous error messages
+function clearErrors() {
+    document.getElementById('usernameError').innerHTML = '';
+    document.getElementById('emailError').innerHTML = '';
+    document.getElementById('passwordError').innerHTML = '';
+    document.getElementById('passwordConfirmError').innerHTML = '';
+}
+
+// Function to display error messages
+function displayErrors(errors) {
+    if (errors['username']) {
+        document.getElementById('usernameError').innerHTML = errors['username'];
+    }
+    if (errors['firstname']) {
+        document.getElementById('firstnameError').innerHTML = errors['firstname'];
+    }
+    if (errors['username']) {
+        document.getElementById('lastnameError').innerHTML = errors['lastname'];
+    }
+    if (errors['email']) {
+        document.getElementById('emailError').innerHTML = errors['email'];
+    }
+    if (errors['password']) {
+        document.getElementById('passwordError').innerHTML = errors['password'];
+    }
+    if (errors['password_confirm']) {
+        document.getElementById('passwordConfirmError').innerHTML = errors['password_confirm'];
+    }
+}
+
+// Function to validate email or phone number
+function validateEmailOrPhone(input) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Email regex
+    
+    return emailRegex.test(input);
+}
+
+
+
+        </script>
+        
+              {% if messages %}
+        <ul class="messages">
+      {% for message in messages %}
+        <li class="{{ message.tags }}">{{ message }}</li>
+      {% endfor %}
+        </ul>
+      {% endif %}
+    </div>
+      
+      
+ 
+    <script>
+
+      function togglePasswordVisibility(passwordId, eyeIconId) {
+        const passwordField = document.getElementById(passwordId);
+        const eyeIcon = document.getElementById(eyeIconId);
+    
+        if (passwordField.type === 'password') {
+            passwordField.type = 'text';
+            eyeIcon.className = 'ph ph-eye'; // Change icon to open eye
+        } else {
+            passwordField.type = 'password';
+            eyeIcon.className = 'ph ph-eye-closed'; // Change icon to closed eye
+        }
+    }
+    </script>
+    <!-- sticky -->
+<script>
+    window.addEventListener('scroll', function () {
+      const header = document.querySelector('.header_top');
+      header.classList.toggle('sticky-header', window.scrollY > 50);
+    });
+  </script>
+  <!-- search -->
+  <script>
+  
+    const searchBar = document.querySelector('.search-container input');
+    const searchContainer = document.querySelector('.search-container');
+  
+    searchBar.addEventListener('focus', () => {
+      searchContainer.style.width = "250px"; // Expand on focus
+    });
+  
+    searchBar.addEventListener('blur', () => {
+      searchContainer.style.width = "240px"; // Revert when focus is lost
+    });
+  
+  </script>
+
+</body>
+</html>
+{% endblock %}

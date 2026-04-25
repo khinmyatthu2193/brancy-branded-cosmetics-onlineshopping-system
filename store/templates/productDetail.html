@@ -1,0 +1,1119 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Document</title>
+</head>
+<style>
+   
+
+    .product-details-container {
+        width: 100%;
+        padding: 20px;
+        height: 75%;
+
+    }
+
+    .pds {
+        display: flex;
+        justify-content: space-around;
+        width: 80%;
+        margin-left: 200px;
+        margin-top: 50px;
+
+    }
+
+    .product-images {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #a81045;
+        height: 600px;
+        border: 2px soild #DC1559;
+        max-width: 700px;
+        overflow: hidden;
+        position: relative;
+        border-color: #ca6694; /* Darker pink on focus */
+    box-shadow: 0 0 7px rgba(216, 27, 96, 0.5); /* Subtle glow effect */
+
+
+    }
+
+    .product-main-image {
+        width: 100%;
+        max-width: 600px;
+        background-color: #a81045;
+        height: 500px; /* Maintain aspect ratio */
+        object-fit: cover; /* Ensure the image fits nicely */
+
+    }
+
+    .product-thumbnail-images {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        width: 500px;
+        height: 100px;
+        margin-top: 10px;
+    }
+
+    .product-thumbnail-images img {
+        width: 80px; 
+        height: 80px; 
+        object-fit: cover; 
+        cursor: pointer; 
+        border: 1px solid #ddd; 
+    }
+    
+    .product-details {
+        flex: 1;
+        margin-left: 50px;
+        width: 500px;
+        margin-top: 30px;
+        padding: 20px 50px;
+    }
+
+    .product-details h1 {
+        border-top: 4px solid #000;
+        width: 450px;
+        font-size: 28px;
+        margin-bottom: 10px;
+        line-height: 40px;
+    }
+
+    .product-details .price {
+        font-size: 24px;
+        color: #e60000;
+        margin-bottom: 20px;
+    }
+
+    .product-details .description {
+        font-size: 16px;
+        margin-bottom: 20px;
+    }
+
+    .product-details .colors {
+        margin-bottom: 20px;
+    }
+
+    .related-products {
+        max-width: 1200px;
+        margin: 0 auto 50px;
+        padding: 20px;
+    }
+
+
+    .countable-button {
+        display: inline-flex;
+        align-items: center;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        overflow: hidden;
+    }
+
+    .countable-button button {
+        background: none;
+        border: none;
+        padding: 8px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .countable-button span {
+        padding: 8px 12px;
+        border-left: 1px solid #ccc;
+        border-right: 1px solid #ccc;
+        min-width: 24px;
+        text-align: center;
+    }
+
+    .color-options {
+        display: flex;
+        gap: 10px;
+        margin: 10px 0;
+    }
+
+    .color {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+
+    .add-to-bag {
+        background-color: black;
+        width: 500px;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    .add-to-bag:hover {
+        background-color: pink;
+    }
+    
+      
+    .product-details p {
+        margin: auto;
+    }
+
+    /*description*/
+    .description-container {
+        width: 80%;
+        padding: 10px;
+        margin-bottom: 50px;
+        margin-top: 40px;
+        margin-left: 120px;
+    }
+
+    .dtabs {
+        display: flex;
+        justify-content: space-around;
+        cursor: pointer;
+        border-bottom: 2px solid #ccc;
+        margin-bottom: 30px;
+    }
+
+    .dtab {
+        padding: 10px;
+        color: #ccc;
+        font-weight: bold;
+    }
+
+    .dtab.active {
+        color: #000;
+        border-bottom: 3px solid rgb(13, 13, 13);
+        background-color: #d8d3d3;
+    }
+
+    .dcontent {
+        display: none;
+        font-size: 16px;
+    }
+
+    .dcontent.active {
+        display: block;
+        background-color:#ffc0cb51;
+    }
+
+    .disclaimer {
+        font-size: 0.8em;
+        color: #666;
+        margin-top: 20px;
+    }
+
+    .pdr h1 {
+        font-size: 35px;
+        margin-bottom: 50px;
+        margin-left: 250px;
+    }
+
+   
+
+    .carousel-item {
+        flex: 0 0 auto;
+        margin-right: 20px;
+        text-align: center;
+    }
+
+    .carousel-item img {
+        max-width: 150px;
+        height: auto;
+        border-radius: 8px;
+        margin-bottom: 10px;
+    }
+
+    .carousel-item h4 {
+        font-size: 18px;
+        color: #333;
+    }
+
+    .carousel-item p {
+        font-size: 16px;
+        color: #555;
+    }
+
+    .carousel-item .quick-shop {
+        background-color: #007bff;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        font-size: 14px;
+    }
+
+    .carousel-item .quick-shop:hover {
+        background-color: #0056b3;
+    }
+  /* Review Card */
+  .review-card {
+    width: 900px;
+    padding: 20px;
+    margin-top: 20px;
+    margin-left: 130px;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    position: relative;
+}
+
+.review-card .rleft {
+    width: 150px;
+    text-align: left;
+    padding-right: 20px;
+    border-right: 1px solid #ddd;
+}
+
+.review-card .rleft .stars {
+    display: flex;
+}
+
+.review-card .rleft .stars span {
+    color: #c21450;
+    font-size: 1.5em;
+}
+
+.review-card .rcontent {
+    flex-grow: 1;
+    padding-left: 20px;
+}
+
+.review-card h3 {
+    margin: 0;
+    font-size: 1.5em;
+    color: #444;
+}
+
+.review-card p {
+    margin: 10px 0;
+    color: #666;
+}
+
+.review-card .rfooter {
+    font-size: 0.9em;
+    color: #888;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.review-card .rfooter span {
+    margin-right: 10px;
+}
+
+.review-card .rscreenshot img {
+    max-width: 100px;
+    max-height: 100px;
+    margin-top: 10px;
+}
+
+/* Write Review */
+.write-review {
+    width: 80%;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin-left: 130px;
+}
+
+.write-review textarea {
+    width: 90%;
+    height: 100px;
+    padding: 20px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: none;
+}
+
+/* Star Rating System */
+.write-review .rrating {
+    margin: 10px 0;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+}
+
+.write-review .rrating input {
+    display: none;
+}
+
+.write-review .rrating label {
+    color: #ccc;
+    font-size: 1.5em;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.write-review .rrating input:checked ~ label,
+.write-review .rrating input:checked ~ label ~ label,
+.write-review .rrating label:hover,
+.write-review .rrating label:hover ~ label {
+    color: #c21450;
+}
+
+.write-review button {
+    background-color: #c21450;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 30%;
+    margin-top: 30px;
+}
+
+.write-review button:hover {
+    background-color: #a81045;
+}
+
+.write-review input[type="file"] {
+    margin: 10px 0;
+}
+
+.write-review input[type="email"] {
+    width: 90%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Edit/Delete buttons */
+.review-card .actions {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+}
+
+.review-card .actions button {
+    margin: 5px;
+    background-color: #DC1559;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.review-card .actions button:hover {
+    background-color: #c21450;
+}
+
+.review-card .actions .delete-btn {
+    background-color: red;
+}
+
+.review-card .actions .delete-btn:hover {
+    background-color: darkred;
+    
+}
+/*footer*/
+.footer {
+    background-color: #000000fd;
+    color: #c21450;
+    padding: 20px 0;
+    width: 100%;
+    margin-top: 200px;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+
+
+.social-icons a img {
+    width: 30px;
+    margin: 0 10px;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.footer-links>div {
+    flex: 1;
+    min-width: 200px;
+    padding: 20px 0;
+}
+
+.footer-links h3 {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.footer-links ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-links ul li {
+    margin-bottom: 10px;
+}
+
+.footer-links ul li a {
+    text-decoration: none;
+    color: #fff;
+}
+
+.footer-links ul li a:hover {
+    text-decoration: underline;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding: 20px 0;
+    border-top: 1px solid #ddd;
+}
+
+.footer-bottom p {
+    margin: 10px 0;
+}
+
+.footer-bottom-links {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    margin: 10px 0;
+}
+
+.footer-bottom-links li {
+    margin: 0 10px;
+}
+
+.footer-bottom-links a {
+    text-decoration: none;
+    color: #333;
+}
+
+.footer-bottom-links a:hover {
+    text-decoration: underline;
+}
+
+.payment-methods img {
+    width: 50px;
+    margin: 0 5px;
+}
+
+</style>
+<body>
+     
+        <div id="quickViewModal" class="modal">
+            <div class="modal-content">
+                <div class="product-details-container">
+                    <div class="pds">
+                        <div class="product-images">
+                            <img id="mainImage" class="product-main-image" src="{{ product.main_image.url }}" alt="">
+                            <div class="product-thumbnail-images">
+                                <img id="thumb1" src="{{ product.main_image.url }}" alt="">
+                                <img id="thumb2" src="{{ product.secondary_image.url }}" alt="">
+                                <img id="thumb3" src="{{ product.extra_image1.url }}" alt="">
+                                <img id="thumb4" src="{{ product.extra_image2.url }}" alt="">
+                            </div>
+                        </div>
+                        <div class="product-details">
+                            <h1 id="productTitle">
+                                {% with product as product %}
+                                   {{ product.name }}
+                                {% endwith %}
+                            </h1>
+                            <br>
+                            <p id="productDescription">
+                                {% with product as product %}
+                                   {{ product.description | safe }}
+                                {% endwith %}
+                            </p>
+                            <br>
+                            <p class="price" id="productPrice">
+                                {% with product as product %}
+                                   MMK {{ product.get_price }}
+                                {% endwith %}
+                            </p>
+                            <button class="add-to-bag" data-product-id="{{ product.id }}" onclick="addToCart({{ product.id }})">Add to Cart</button>
+                            <!-- <button class="add-to-cart" data-product-id="{{ product.id }}" onclick="addToCart({{ product.id }})">Add to Cart</button> -->
+                        </div>
+                    </div>
+                    <div class="description-container">
+                        <div class="dtabs">
+                            <div class="dtab active" data-content="description">DESCRIPTION</div>
+                            <div class="dtab" data-content="keyIngredients">Key Ingredients</div>
+                            <div class="dtab" data-content="how-to-use">HOW TO USE IT</div>
+                        </div>
+                        <div class="dcontent active" id="description">
+                            {% with product as product %}
+                                   {{ product.description | safe}}
+                                {% endwith %}
+                        </div>
+                        <div class="dcontent" id="keyIngredients">
+                            {% with product as product %}
+                                   {{ product.key_ingredients }}
+                                {% endwith %}
+                        </div>
+                        <div class="dcontent" id="how-to-use">
+                            {% with product as product %}
+                                   {{ product.how_to_use }}
+                            {% endwith %}
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+        </div>
+
+        {% comment %} <div class="related-products-section">
+            <h2>Related Products</h2>
+            <div class="related-carousel" id="relatedCarousel"></div>
+        </div> {% endcomment %}
+         <!-- Review Form -->
+  <div class="write-review">
+    <label for="email">E-mail <span>*</span></label><br>
+    <input type="email" id="email" placeholder="Enter your email address" required><br>
+    <label for="review">Review <span>*</span></label><br>
+    <textarea id="reviewText" placeholder="Tell us what you think of this product...." required></textarea>
+    <h3>How would you rate this product? <span>*</span></h3>
+    <div class="rrating">
+        <input type="radio" id="star5" name="rating" value="5">
+        <label for="star5">★</label>
+
+        <input type="radio" id="star4" name="rating" value="4">
+        <label for="star4">★</label>
+
+        <input type="radio" id="star3" name="rating" value="3">
+        <label for="star3">★</label>
+
+        <input type="radio" id="star2" name="rating" value="2">
+        <label for="star2">★</label>
+
+        <input type="radio" id="star1" name="rating" value="1">
+        <label for="star1">★</label>
+    </div>
+    <label for="file">Attach a photo (optional)</label><br>
+    <input type="file" accept="image/*" id="screenshot"><br>
+    <button onclick="postReview()">Post</button>
+</div>
+
+<div id="review-section"></div>
+<!----footer-->
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-logo">
+            <div class="social-icons">
+                <a href="#"><img src="{% static 'imges/icons8-instagram-24.png' %}" alt="Facebook"></a>
+                <a href="#"><img src="{% static 'imges/icons8-facebook-24.png' %}" alt="Instagram"></a>
+            </div>
+        </div>
+        <div class="footer-links">
+            <div>
+                <h3>Customer Service</h3>
+                <ul>
+                    <li><a href="{% url 'aboutus' %}">Frequently Asked Questions</a></li>
+                    <li><a href="#">Returns Policy</a></li>
+                    <li><a href="#">Shipping Information</a></li>
+                    <li><a href="#">Afterpay</a></li>
+                    <li><a href="#">+95 092342210</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3>Products</h3>
+                <ul>
+                    <li><a href="#">Beauty Blogs</a></li>
+                    <li><a href="{% url 'brandcover' %}">Brands</a></li>
+                    <li><a href="#">Promotions</a></li>
+                    <li><a href="#">Videos</a></li>
+
+                </ul>
+            </div>
+            <div>
+                <h3>About Us</h3>
+                <ul>
+                    <li><a href="{% url 'aboutus' %}">About Us</a></li>
+                    <li><a href="{% url 'blogpost'%}">Blog</a></li>
+                    <li><a href="{% url 'accsetting' %}">Account</a></li>
+                    
+                </ul>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2024 Cosmetic Capital</p>
+                <div class="payment-methods">
+                    <img src="{% static 'imges/kpay.png'%}" alt="PayPal">
+                    <img src="{% static 'imges/visa.png' %}" alt="Afterpay">
+                    <img src="{% static 'imges/paypal_PNG9.png'%}" alt="Zip">
+
+                </div>
+            </div>
+        </div>
+</footer>
+
+
+</body>
+</html>
+<script src="https://unpkg.com/@phosphor-icons/web"></script>
+ <!-- sticky -->
+ <script>
+    window.addEventListener('scroll', function () {
+        const header = document.querySelector('.header_top');
+        header.classList.toggle('sticky-header', window.scrollY > 50);
+    });
+</script>
+<script>
+    const tabs = document.querySelectorAll('.dtab');
+    const contents = document.querySelectorAll('.dcontent');
+
+    tabs.forEach(dtab => {
+        dtab.addEventListener('click', () => {
+            tabs.forEach(t => t.classList.remove('active'));
+            contents.forEach(c => c.classList.remove('active'));
+
+            dtab.classList.add('active');
+            document.getElementById(dtab.dataset.content).classList.add('active');
+        });
+    });
+</script>
+<script>
+const mainImage = document.getElementById('mainImage');
+
+// Get the thumbnail images (including the default main image)
+const defaultImage = document.querySelector('.product-thumbnail-images img:nth-child(1)'); // Default image (main image)
+const sideImage = document.getElementById('thumb2');
+const topImage = document.getElementById('thumb3');
+const bottomImage = document.getElementById('thumb4');
+
+// Add click event listeners to each thumbnail
+defaultImage.addEventListener('click', function() {
+    mainImage.src = defaultImage.src; // Change the main image source back to default
+});
+
+sideImage.addEventListener('click', function() {
+    mainImage.src = sideImage.src; // Change the main image source to side image
+});
+
+topImage.addEventListener('click', function() {
+    mainImage.src = topImage.src; // Change the main image source to top image
+});
+
+bottomImage.addEventListener('click', function() {
+    mainImage.src = bottomImage.src; // Change the main image source to bottom image
+});
+
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        loadReviews();
+    });
+
+    function postReview(isEdit = false, index = null) {
+        const email = document.getElementById('email').value.trim();
+        const reviewText = document.getElementById('reviewText').value.trim();
+        const rating = document.querySelector('.write-review input[name="rating"]:checked');
+        const screenshotInput = document.getElementById('screenshot');
+        const timestamp = new Date().toLocaleString();
+        let existingScreenshot = '';
+
+        // If editing, retain the old screenshot if no new one is uploaded
+        if (isEdit && index !== null) {
+            let reviews = JSON.parse(localStorage.getItem('reviews')) || [];
+            existingScreenshot = reviews[index].screenshot;
+        }
+
+        if (email && rating && reviewText) {
+            const review = {
+                email,
+                rating: rating.value,
+                text: reviewText,
+                timestamp,
+                screenshot: existingScreenshot
+            };
+
+            if (screenshotInput.files.length > 0) {
+                const file = screenshotInput.files[0];
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    review.screenshot = e.target.result; // Replace screenshot if a new one is uploaded
+                    saveReview(review, isEdit, index);
+                };
+                reader.readAsDataURL(file);
+            } else {
+                saveReview(review, isEdit, index);
+            }
+
+            resetForm();
+        } else {
+            alert('Please fill out all fields.');
+        }
+    }
+
+    function resetForm() {
+        document.getElementById('email').value = '';
+        document.getElementById('reviewText').value = '';
+        document.querySelector('.write-review input[name="rating"]:checked').checked = false;
+        document.getElementById('screenshot').value = ''; // Reset file input
+    }
+
+    function saveReview(review, isEdit, index) {
+        let reviews = JSON.parse(localStorage.getItem('reviews')) || [];
+        if (isEdit) {
+            reviews[index] = review;
+        } else {
+            reviews.unshift(review);
+        }
+        localStorage.setItem('reviews', JSON.stringify(reviews));
+        loadReviews();
+    }
+
+    function loadReviews() {
+        const reviewSection = document.getElementById('review-section');
+        reviewSection.innerHTML = '';
+
+        const reviews = JSON.parse(localStorage.getItem('reviews')) || [];
+
+        reviews.forEach((review, index) => {
+            const reviewCard = document.createElement('div');
+            reviewCard.classList.add('review-card');
+
+            reviewCard.innerHTML = `
+                <div class="rleft">
+                    <div class="stars">${generateStars(review.rating)}</div>
+                    <div class="rscreenshot">${review.screenshot ? `<img src="${review.screenshot}" alt="Screenshot">` : ''}</div>
+                </div>
+                <div class="rcontent">
+                    <h3>${review.email}</h3>
+                    <p>${review.text}</p>
+                </div>
+                <div class="rfooter">
+                    <span>Reviewed on ${review.timestamp}</span>
+                    <div class="actions">
+                        <button onclick="editReview(${index})">Edit</button>
+                        <button class="delete-btn" onclick="deleteReview(${index})">Delete</button>
+                    </div>
+                </div>
+            `;
+            reviewSection.appendChild(reviewCard);
+        });
+    }
+
+    function generateStars(rating) {
+      let stars = '';
+      for (let i = 0; i < 5; i++) {
+          stars += i < rating 
+              ? '<span style="color: darkpink;">★</span>' 
+              : '<span style="color: darkpink;">☆</span>';
+      }
+      return stars;
+  }
+  
+
+    function editReview(index) {
+        const reviews = JSON.parse(localStorage.getItem('reviews')) || [];
+        const review = reviews[index];
+
+        document.getElementById('email').value = review.email;
+        document.getElementById('reviewText').value = review.text;
+        document.querySelector(`.write-review input[name="rating"][value="${review.rating}"]`).checked = true;
+
+        // Remove any previously added event listeners to avoid duplication
+        const postButton = document.querySelector('.write-review button');
+        postButton.onclick = function () {
+            postReview(true, index);
+        };
+    }
+
+    function deleteReview(index) {
+        let reviews = JSON.parse(localStorage.getItem('reviews')) || [];
+        reviews.splice(index, 1);
+        localStorage.setItem('reviews', JSON.stringify(reviews));
+        loadReviews();
+    }
+</script>
+
+<script>
+    let cart = [];
+    let wishlist = [];
+    let count = 0;
+
+    // DOM Elements
+    const cartCount = document.getElementById("count");
+    const cartIcon = document.getElementById("cartIcon");
+    const cartOverlay = document.getElementById("cartOverlay");
+    const closeCart = document.getElementById("closeCart");
+    const cartContent = document.getElementById("cartContent");
+    const total = document.getElementById("total");
+    const wishlistCount = document.getElementById("wishlistCount");  // Assuming wishlist counter
+
+    // Utility functions for cart and wishlist localStorage
+    const saveToLocalStorage = (key, data) => localStorage.setItem(key, JSON.stringify(data));
+    const loadFromLocalStorage = (key) => JSON.parse(localStorage.getItem(key)) || [];
+
+    // Load cart from localStorage
+    const loadCartFromLocalStorage = () => {
+        cart = loadFromLocalStorage("cart");
+        count = cart.reduce((acc, item) => acc + item.quantity, 0);
+        cartCount.innerHTML = count;
+        updateCartDisplay();
+    };
+
+    // Add to Cart Function
+    const addToCart = () => {
+        const productTitle = document.getElementById("productTitle").textContent;
+        const productPrice = parseFloat(document.getElementById("productPrice").textContent.replace("MMK", ""));
+        const productImage = document.getElementById("mainImage").src;
+        const productInCart = cart.find(item => item.title === productTitle);
+
+        if (productInCart) {
+            productInCart.quantity += 1;
+        } else {
+            const newProduct = {
+                id: cart.length + 1,
+                title: productTitle,
+                price: productPrice,
+                mainImage: productImage,
+                quantity: 1
+            };
+            cart.push(newProduct);
+        }
+
+        count++;
+        cartCount.innerHTML = count;
+        updateCartDisplay();
+        saveCartToLocalStorage();
+    };
+
+    // Update Cart Display
+    const updateCartDisplay = () => {
+        cartContent.innerHTML = cart.length > 0 ? '' : '<p>Your shopping cart is empty!</p>';
+        let totalPrice = 0;
+
+        cart.forEach(item => {
+            totalPrice += item.price * item.quantity;
+            const cartItemHTML = `
+            <div class="cart_item">
+                <img src="${item.mainImage}" alt="${item.title}">
+                <span>${item.title}</span>
+                <div class="quantity-controls">
+                    <span onclick="updateQuantity(${item.id}, false, event)">-</span>
+                    <span>${item.quantity}</span>
+                    <span onclick="updateQuantity(${item.id}, true, event)">+</span>
+                </div>
+                <span>MMK ${item.price * item.quantity}</span>
+                <i class="fas fa-trash remove-item" onclick="removeFromCart(${item.id}, event)"></i>
+            </div>
+        `;
+            cartContent.innerHTML += cartItemHTML;
+        });
+
+        total.innerHTML = `MMK ${totalPrice}.00`;
+    };
+
+    // Save the updated cart to localStorage
+    const saveCartToLocalStorage = () => {
+        localStorage.setItem("cart", JSON.stringify(cart));
+        localStorage.setItem("checkoutCart", JSON.stringify(cart));  // Sync with main cart
+    };
+
+    // Cart Icon and Overlay Control
+    cartIcon.addEventListener("click", () => {
+        cartOverlay.classList.add("cart-active");
+    });
+
+    closeCart.addEventListener("click", () => {
+        cartOverlay.classList.remove("cart-active");
+    });
+
+    // Update Quantity
+    const updateQuantity = (id, increment, event) => {
+        event.stopPropagation();
+        const productInCart = cart.find(item => item.id === id);
+
+        if (productInCart) {
+            if (increment) {
+                productInCart.quantity += 1;
+                count++;
+            } else if (productInCart.quantity > 1) {
+                productInCart.quantity -= 1;
+                count--;
+            } else {
+                removeFromCheckout(id);
+                return;
+            }
+        }
+        updateCartState();
+    };
+// Remove from Cart
+const removeFromCart = (id, event) => {
+    event.stopPropagation();
+    const productIndex = cart.findIndex(item => item.id === id);
+    if (productIndex !== -1) {
+        count -= cart[productIndex].quantity;
+        cart.splice(productIndex, 1);
+    }
+    cartCount.innerHTML = count;
+    updateCartDisplay();
+    saveCartToLocalStorage();
+};
+
+    // Remove from Checkout
+    const removeFromCheckout = (id) => {
+        const productIndex = cart.findIndex(item => item.id === id);
+        if (productIndex !== -1) {
+            count -= cart[productIndex].quantity;
+            cart.splice(productIndex, 1);
+        }
+        updateCartState();
+    };
+
+    // Update Cart State
+    const updateCartState = () => {
+        cartCount.innerHTML = count;
+        saveToLocalStorage("cart", cart);
+        updateCartDisplay();
+    };
+
+    // Wishlist Functions
+    const addToWishlist = (id) => {
+        const productInWishlist = wishlist.find(item => item.id === id);
+        if (!productInWishlist) {
+            const productToLike = products.find(prod => prod.id === id); // Assuming products array
+            wishlist.push({ ...productToLike });
+        }
+        wishlistCount.innerHTML = wishlist.length;
+        updateWishlistDisplay();
+        saveWishlistToLocalStorage();
+    };
+
+    const updateWishlistDisplay = () => {
+        // Update the wishlist display on wishlist.html (you'll need to implement this part)
+    };
+
+    const saveWishlistToLocalStorage = () => {
+        localStorage.setItem("wishlist", JSON.stringify(wishlist));
+    };
+
+    const loadWishlistFromLocalStorage = () => {
+        wishlist = loadFromLocalStorage("wishlist");
+        wishlistCount.innerHTML = wishlist.length;
+    };
+
+    // Checkout function
+    {% comment %} const checkout = async () => {
+        if (cart.length === 0) {
+            alert("Your cart is empty!");
+            return;
+        }
+    
+        try {
+            const csrftoken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+            console.log("CSRF Token:", csrftoken);
+            const response = await fetch(createOrderUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": csrftoken
+                },
+                body: JSON.stringify({ cart })
+            });
+    
+            // Log the response for debugging
+            console.log("Response Status:", response.status);
+            console.log("Response Headers:", response.headers);
+    
+            // Check if the response is not OK
+            if (!response.ok) {
+                const errorData = await response.json(); // Try to get the error response
+                console.error("HTTP error", response.status, errorData);  // Log the HTTP status and response
+                alert("An error occurred on the server: " + (errorData.message || "Please try again."));
+                return;
+            }
+    
+            const data = await response.json();
+    
+            // Check if the response indicates success
+            if (data.status === "success") {
+                alert("Order placed successfully! Your order ID is: " + data.order_id);
+                localStorage.removeItem("cart");
+                location.href = `${orderConfirmationUrl}?order_id=${data.order_id}`;
+            } else {
+                console.error("Server error:", data);  // Log server response
+                alert("Failed to place order. Please try again.");
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            alert("An error occurred. Please try again.");
+        }
+    }; {% endcomment %}
+    
+    const checkout = () => {
+        if (cart.length === 0) {
+            alert("Your cart is empty!");
+            return;
+        }
+        saveToLocalStorage("checkoutCart", cart);
+        window.location.href =  "{% url 'check' %}";
+    };
+    
+    // Initialize Cart and Wishlist on Page Load
+    loadCartFromLocalStorage();
+    loadWishlistFromLocalStorage();
+
+    // Add event listener to the "ADD TO cart" button
+    document.getElementById("addToCart").addEventListener("click", addToCart);
+</script>
+<script>
+    $(document).ready(function(){
+        $('.quick-view').click(function(e){
+            e.preventDefault();
+            var productId = $(this).data('product-id');
+            
+            $.ajax({
+                url: '/quick_view/' + productId + '/',
+                type: 'GET',
+                success: function(data) {
+                    $('#quickViewModal #mainImage').attr('src', data.main_image);
+                    $('#quickViewModal #thumb1').attr('src', data.main_image);
+                    $('#quickViewModal #thumb2').attr('src', data.secondary_image || '');
+                    $('#quickViewModal #thumb3').attr('src', data.extra_image1 || '');
+                    $('#quickViewModal #thumb4').attr('src', data.extra_image2 || '');
+                    
+                    $('#quickViewModal #productTitle').text(data.name);
+                    $('#quickViewModal #productPrice').text('$ ' + data.price);
+                    $('#quickViewModal #productDescription').text(data.description);
+                    $('#quickViewModal #keyIngredients').text(data.key_ingredients);
+                    $('#quickViewModal #howToUse').text(data.how_to_use);
+                    
+                    $('#quickViewModal').show();  // Show the modal
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error loading quick view:', error);
+                }
+            });
+        });
+        
+        // Close the modal
+        $('.close').click(function() {
+            $('#quickViewModal').hide();
+        });
+    });
+    
+</script>
+
+{% endblock %}

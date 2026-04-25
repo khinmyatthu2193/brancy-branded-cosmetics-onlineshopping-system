@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block content %}
+
+
+    <title>Account Page</title>
+    <style>
+     
+
+        .acontainer {
+            width: 100%;
+            height: 90vh;
+        }
+
+        .acc {
+            background-image: url('{% static 'imges/breadcrumb-01.jpg' %}'); /* Add your image URL */
+            background-position: top;
+            background-repeat: no-repeat;
+            height: 200px;
+            text-align: center;
+            color: rgba(0, 0, 0, 0.5);
+            width: 100%;
+            opacity: 0.7;
+
+        }
+
+        .acc h1 {
+            font-size: 40px;
+            color: #000;
+            margin-top: 30px;
+            padding: 20px;
+
+        }
+
+        .acc nav {
+            font-size: 1.2em;
+            color: #444;
+        }
+
+       .acc nav a {
+            color: #444;
+            text-decoration: none;
+        }
+
+       .acc nav a:hover {
+            text-decoration: underline;
+        }
+        
+        .account-content {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px 50px;
+            margin-left: 190px;
+            margin-top: 30px;
+
+        }
+
+        .account-content h2 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .account-details, .order-history {
+            width: 45%;
+        }
+
+
+        .account-details {
+            font-size: 30px;
+
+        }
+
+        .account-details a {
+            color: #ff6f61;
+            text-decoration: none;
+        }
+
+        .account-details a:hover {
+            text-decoration: underline;
+        }
+
+        .logout-link {
+            color: #ff6f61;
+            text-decoration: underline;
+            cursor: pointer;
+            margin-bottom: 30px;
+        }
+        .btn{
+            font-size: 30px;
+            text-decoration: underline;  
+
+            
+        }
+        .a{
+            text-decoration: underline;
+        }
+       
+        
+
+    </style>
+</head>
+<body>
+  
+ 
+  {% if messages %}
+  <div>
+    {% for message in messages %}
+      <div class="alert" style="border: 1px solid #ffc107; background-color: #fff3cd; color: #856404; padding: 10px; margin: 10px 0; position: relative;">
+        {{ message }}
+        <button onclick="this.parentElement.style.display='none'" style="position: absolute; right: 10px; top: 5px; border: none; background: none; color: #856404; font-weight: bold; cursor: pointer;">&times;</button>
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+
+<div class="acontainer">
+    <div class="acc">
+        <h1>ACCOUNT</h1>
+        <nav>
+            <a href="{% url 'home' %}">Home</a> / Account
+        </nav>
+    </div>
+    <br>
+    <br>
+    <div class="account-content" id="accountContent">
+    <br>
+        <div class="account-details">
+        <h2 style="font-size: 35px;">Account details</h2><br>
+
+        <!-- User authentication check -->
+        {% if user.is_authenticated %}
+            <p><b>User Name : </b>{{ user.username}}<br><br><b>Full Name : </b>{{ user.first_name}}&nbsp;{{ user.last_name}}<br><br><b>Email Address : </b>{{ user.email }}</p>
+        {% else %}
+            <p>Please <a href="{% url 'login' %}">log in</a> to view your account details.</p>
+        {% endif %}
+        <br>
+        <a href="{% url 'update_user' %}">Update Your Profile</a><br><br>
+        </div>
+        
+        <div class="account-details">
+            <h2 style="font-size: 35px;">Orders</h2><br>
+            <a href="{% url 'order_history' %}" class="btn">View Order History</a><br><br>
+
+                <p style="font-size: 25px;">If there is any problem in your product, don't forget to connect us within 7 days.</p><br>
+                <p style="font-size: 25px;">Thank you so much for supporting us!!!  </p><br>
+                <p style="font-size: 25px;">Explore more here <a href="{% url 'blogpost' %}">Blog Post</a></p>
+        </div>
+    </div>
+    </div>
+
+ 
+
+</body>
+</html>
+{% endblock %}

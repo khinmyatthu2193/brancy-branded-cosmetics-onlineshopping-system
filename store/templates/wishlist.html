@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block content %}
+<title>Liked Products</title>
+<style>
+    /* Style your liked products page */
+    .wishlist-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .wishlist-item {
+        border: 1px solid #ccc;
+        padding: 10px;
+        width: 250px;
+    }
+</style>
+
+<body>
+    <h1>Liked Products</h1>
+    <div class="wishlist-container" id="wishlistContainer"></div>
+
+    <script>
+
+        // Retrieve liked products from localStorage
+        const wishlistContainer = document.getElementById("wishlistContainer");
+        let storedWishlist = localStorage.getItem("wishlist");
+
+        if (storedWishlist) {
+            let wishlist = JSON.parse(storedWishlist);
+
+            wishlist.forEach((item, index) => {
+                const wishlistItem = `
+                        <div class="wishlist-item" id="wishlist-item-${item.id}">
+                            <img src="${item.mainImage}" alt="${item.title}" width="100%">
+                            <h3>${item.title}</h3>
+                            <p>Price: MMK ${item.price}</p>
+                            <button class="remove-wishlist" onclick="removeFromWishlist(${item.id})">Remove</button>
+                        </div>
+                    `;
+                wishlistContainer.innerHTML += wishlistItem;
+            });
+        } else {
+            wishlistContainer.innerHTML = '<p>No liked products yet.</p>';
+        }
+
+
+
+
+        document.addEventListener("DOMContentLoaded", () => {
+            loadCartFromLocalStorage();
+            loadWishlistFromLocalStorage();
+        });
+
+    </script>
+
+
+</body>
+
+</html>
+{% endblock %}

@@ -1,0 +1,569 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block content %}
+<style>
+
+      
+        .container {
+            display: flex;
+            width: 100%;
+            height: 200vh;
+            margin-top: 100px;
+        }
+
+        .left {
+            width: 20%;
+            line-height: 30px;
+        }
+
+        .filter {
+
+            background-color: #c2145150;
+            padding: 20px;
+            border-right: 1px solid #ddd;
+            height: 1350px;
+        }
+
+        .filter h2 {
+            margin-bottom: 15px;
+            border-bottom: 2px solid #000;
+            font-size: 20px;
+            line-height: 30px;
+        }
+        .filter h5{
+            margin-bottom: 30px;
+            font-size: 17px;
+            line-height: 30px;
+        }
+
+        .filter label {
+            display: block;
+            margin-bottom: 10px;
+            cursor: pointer;
+            line-height: 30px;
+        }
+
+        
+
+        
+        .products {
+            width: 90%;
+            padding: 10px;
+            overflow-y: auto;
+        }
+
+        .products::-webkit-scrollbar {
+            display: none;
+        }
+
+        .products {
+            scrollbar-width: none;
+        }
+
+        .pcontainer {
+            width: 100%;
+            margin-left: 0;
+            height: 170%;
+            padding: 15px;
+            overflow-y: auto;
+            overflow-x: hidden;
+
+        }
+
+        .pcarousel-item {
+            flex: 0 0 240px;
+            margin: 0 5px;
+            text-align: left;
+            position: relative;
+            padding: 5px;
+        }
+
+        .timage-container {
+            position: relative;
+            width: 225px;
+            height: 260px;
+            overflow: hidden;
+        }
+
+        .image-main,
+        .image-secondary {
+            width: 245px;
+            height: 260px;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1;
+        }
+
+        .image-secondary {
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .timage-container:hover .overlay {
+            opacity: 1;
+        }
+
+        .timage-container:hover .image-secondary {
+            opacity: 1;
+        }
+
+        .quick-shop {
+            background-color: rgba(255, 192, 203, 0.566);
+            color: #000;
+            border: none;
+            cursor: pointer;
+            z-index: 999;
+            margin-top: 220px;
+            padding: 10px 10px;
+            width: 300px;
+            font-size: 15px;
+        }
+
+        .add-to-cart {
+            background-color: black;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+            width: 100%;
+            font-size: 15px;
+        }
+
+        .product-info {
+            font-size: 14px;
+            color: #333;
+            margin-top: 10px;
+            line-height: 20px;
+        }
+
+        .product-info h3 {
+            font-size: 16px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .product-info p {
+            margin: 0;
+        }
+#s{
+    background-color: #c21450;
+    height: 30px;
+    margin-top: 50px;
+}
+.pcarousel-item{
+    margin-top: 50px;
+}
+
+        .product-info .heart i {
+            position: absolute;
+            left: 220px;
+            bottom: 20px;
+        }
+
+        .pcarousel-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+    
+       /*toggle*/ 
+        .categories {
+            list-style-type: none;
+            padding: 0;
+        }
+        
+        .categories li {
+            margin-bottom: 10px;
+            padding:5px;
+            font-weight: bold;
+            font-size: 17px;
+            width: 230px;
+
+        }
+        
+        .ccategories {
+            list-style-type: none;
+            margin-left: 10px;
+            max-height: 0px;
+            width: 500px;
+            transition: max-height 0.5s ease;        }
+        .ccategories.open {
+            max-height: 100px;
+            opacity: 1;
+
+            /* Adjust based on content */
+        }
+       
+        .subcategories {
+            list-style-type: none;
+            padding-left: 10px;
+        }
+        
+        .toggle-btn {
+            font-weight: bold;
+            margin-left: 40px;
+            padding: 5px;
+            cursor: pointer;
+            color: #000;
+            transition: transform 0.5s ease;
+            font-size: 18px;
+            border: 3px #000 solid;
+
+        }
+        
+       
+        .category-link {
+            line-height: 40px;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .category-link:hover {
+            color: #c21451;
+        }
+        
+        /*css for products */
+        .sort-bar {
+            display: flex;
+            justify-content: space-between;
+            background-color: #000;
+            width: 99%;
+            height: 30px;
+            padding: 10px 20px;
+        }
+
+        .dropdown {
+            display: flex;
+            justify-content: center; /* Center horizontally */
+            align-items: center;    /* Center vertically */
+            height: 30px;           /* Adjust the height as needed */
+            background-color: black; /* Example background color for visibility */
+            padding: 2px;
+        }
+        
+        .dropdown label,
+        .dropdown form {
+            margin: 0 10px;         /* Add some spacing between label and dropdown */
+        }
+        
+        .white-text {
+            color: white;
+        }
+        
+        .dropdown select {
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+        
+
+        .poster {
+            width: 100%;
+            height: 430px;
+            background-image: url({% static 'imges/shop.jpg'%});
+            background-repeat: no-repeat;
+            background-position: top;
+            background-size: cover;
+
+        }
+
+        .postercontent {
+            position: absolute;
+            background-color: #00000062;
+            width: 500px;
+            height: 300px;
+            top: 200px;
+            padding: 20px;
+            line-height: 40px;
+            margin-left: 500px;
+            color: #ccc;
+        }
+
+        .postercontent h6 {
+            text-align: left;
+            color: #c21450;
+            line-height: 35px;
+            margin-bottom: 30px;
+
+
+        }
+
+        .postercontent h1 {
+            font-size: 35px;
+            color: #fff;
+            margin-bottom: 30px;
+            letter-spacing: 20px;
+        }
+
+
+    </style>
+</head>
+
+<body>
+   
+    <div class="poster">
+        <div class="postercontent">
+            <h6>SHOP ALL</h6>
+            <h1>Beauty beyond bounderies..</h1>
+            <h4>Our luxury products are functional and radiate your skin energy so just browse them.</h4>
+        </div>
+    </div>
+    
+
+    <div class="container">
+        <!-- Filter Frame (25%) -->
+        <div class="left">
+            <div class="filter">
+                <h2>Filter by Collection</h2>
+                <br>
+                <h5>CATEGORIES</h5>
+                <div>
+                    <ul class="categories">
+                        
+                            <ul class="ccategories">
+                                {% for category in categories %}
+                                    <li >
+                                        <a href="{% url 'product_list_by_category' category.id %}?sort={{ request.GET.sort }}" class="category-link" data-category-id="{{ category.id }}">
+                                            {{ category.name }}
+                                        </a>
+                                        <span class="toggle-btn" onclick="toggleSubcategories(this)">+</span>
+                                        <ul class="subcategories" style="display: none;">
+                                            {% for subcategory in category.ccategories.all %}
+                                                <li>
+                                                    <a href="{% url 'product_list_by_subcategory' subcategory.id %}?sort={{ request.GET.sort }}" class="category-link" data-subcategory-id="{{ subcategory.id }}">
+                                                        {{ subcategory.name }}
+                                                    </a>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        
+                    </ul>
+                    
+                </div>
+            </div>
+          
+        </div>
+        
+        <!-- Products Frame (75%) -->
+        <div class="products">
+            <!-- products section -->
+            <div class="sort-bar">
+                <div class="view-toggle">
+                    <button id="grid-view" class="active"><i class="ph ph-dots-nine"></i></button>
+                    <button id="list-view"><i class="ph ph-list-bullets"></i></button>
+                </div>
+                <div class="dropdown">
+                    <label for="sort-options" class="white-text">Sort By:</label>
+                    <form method="GET" action="{% url 'product_filter_brand' %}" id="sortForm">
+                        <select name="sort" id="sort-options" onchange="this.form.submit()">
+                            <option value="default" {% if request.GET.sort == "default" %}selected{% endif %}>Default</option>
+                            <option value="name-asc" {% if request.GET.sort == "name-asc" %}selected{% endif %}>Name (A - Z)</option>
+                            <option value="name-desc" {% if request.GET.sort == "name-desc" %}selected{% endif %}>Name (Z - A)</option>
+                            <option value="price-asc" {% if request.GET.sort == "price-asc" %}selected{% endif %}>Price (Low > High)</option>
+                            <option value="price-desc" {% if request.GET.sort == "price-desc" %}selected{% endif %}>Price (High > Low)</option>
+                        </select>
+                    </form>
+                </div>
+            </div>
+       <br><br> 
+    <h1>{{ category_name }}</h1>
+    <div class="pcarousel-items" >      
+        {% for product in combined_items %}
+            {% if product.is_sale %}
+            <div class="pcarousel-item">
+                <div class="timage-container" >
+                    <img class="image-main" src="{{ product.main_image.url }}" alt="{{ product.name }}">
+                    <img class="image-secondary" src="{{ product.secondary_image.url }}" alt="{{ product.name }}">
+                    <div
+                        style="position: absolute; top: 0.5rem; right: 0.5rem; background-color: #dc3545; color: white; padding: 0.25rem 0.5rem; border-radius: 0.7rem; font-size: 1rem;">
+                        Sale
+                    </div>
+                    <div class="overlay">
+                        <button class="quick-shop"><a href="{% url 'productDetail' product.id %}">Quick Shop</a></button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <h3>{{ product.name }}</h3>
+                    <p class="price-info">
+                        <span class="regular-price">Price: <strike>MMK {{ product.price }}</strike></span>
+                        <span class="sale-price">MMK {{ product.sale_price }}</span>
+                    </p>
+                    <span class="heart">
+                        <i class="fas fa-heart" onclick="addToWishlist({{ product.id }})"></i>
+                    </span>
+                    <button class="add-to-cart" data-product-id="{{ product.id }}" onclick="addToCart({{ product.id }})">Add to Cart</button>
+                </div>
+            </div>
+            {% else %}
+            <div class="pcarousel-item">
+                <div class="timage-container">
+                    <img class="image-main" src="{{ product.main_image.url }}" alt="{{ product.name }}">
+                    <img class="image-secondary" src="{{ product.secondary_image.url }}" alt="{{ product.name }}">
+                    <div class="overlay">
+                        <button class="quick-shop"><a href="{% url 'productDetail' product.id %}">Quick Shop</a></button>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <h3>{{ product.name }}</h3>
+                    <p class="sale-price">Price: MMK {{ product.price }}</p>
+                    <span class="heart">
+                        <i class="fas fa-heart" onclick="addToWishlist({{ product.id }})"></i>
+                    </span>
+                    <button class="add-to-cart" data-product-id="{{ product.id }}" onclick="addToCart({{ product.id }})">Add to Cart</button>
+                </div>
+            </div>
+                        {% endif %}
+                        {% empty %}
+                        {% comment %} <p>No products found.</p> {% endcomment %}
+                    {% endfor %}
+            </div>
+
+            <div class="pcarousel-items">      
+                {% for product in products %}
+                    {% if product.is_sale %}
+                    <div class="pcarousel-item">
+                        <div class="timage-container">
+                            <img class="image-main" src="{{ product.main_image.url }}" alt="{{ product.name }}">
+                            <img class="image-secondary" src="{{ product.secondary_image.url }}" alt="{{ product.name }}">
+                            <div
+                                style="position: absolute; top: 0.5rem; right: 0.5rem; background-color: #dc3545; color: white; padding: 0.25rem 0.5rem; border-radius: 0.7rem; font-size: 1rem;">
+                                Sale
+                            </div>
+                            <div class="overlay">
+                                <button class="quick-shop"><a href="{% url 'productDetail' product.id %}">Quick Shop</a></button>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h3>{{ product.name }}</h3>
+                            <p class="price-info">
+                                <span class="regular-price">Price: <strike>MMK {{ product.price }}</strike></span>
+                                <span class="sale-price">MMK {{ product.sale_price }}</span>
+                            </p>
+                            <span class="heart">
+                                <i class="fas fa-heart" onclick="addToWishlist({{ product.id }})"></i>
+                            </span>
+                            <button class="add-to-cart" data-product-id="{{ product.id }}" onclick="addToCart({{ product.id }})">Add to Cart</button>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="pcarousel-item">
+                        <div class="timage-container">
+                            <img class="image-main" src="{{ product.main_image.url }}" alt="{{ product.name }}">
+                            <img class="image-secondary" src="{{ product.secondary_image.url }}" alt="{{ product.name }}">
+                            <div class="overlay">
+                                <button class="quick-shop"><a href="{% url 'productDetail' product.id %}">Quick Shop</a></button>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h3>{{ product.name }}</h3>
+                            <p class="sale-price">Price: MMK {{ product.price }}</p>
+                            <span class="heart">
+                                <i class="fas fa-heart" onclick="addToWishlist({{ product.id }})"></i>
+                            </span>
+                            <button class="add-to-cart" data-product-id="{{ product.id }}" onclick="addToCart({{ product.id }})">Add to Cart</button>
+                        </div>
+                    </div>
+                            {% endif %}
+                            {% empty %}
+                                {% comment %} <p>No products found.</p> {% endcomment %}
+                            {% endfor %}
+                    </div>
+
+
+            <div class="pcarousel-items" style="margin-top: 40px;">
+                
+
+                {% if searched %}
+                {% if results %}
+                <h2>Search results for: "{{ searched }}"</h2>
+
+                    <img src="{% static 'imges/gin.png'%}" style="min-height: 0.1cm;">
+                    
+                    {% for product in results %}
+                        {% if product.is_sale %}
+                        <div class="pcarousel-item">
+                            <div class="timage-container">
+                                <img class="image-main" src="{{ product.main_image.url }}" alt="{{ product.name }}">
+                                <img class="image-secondary" src="{{ product.secondary_image.url }}" alt="{{ product.name }}">
+                                <div
+                                    style="position: absolute; top: 0.5rem; right: 0.5rem; background-color: #dc3545; color: white; padding: 0.25rem 0.5rem; border-radius: 0.7rem; font-size: 1rem;">
+                                    Sale
+                                </div>
+                                <div class="overlay">
+                                    <button class="quick-shop"><a href="{% url 'productDetail' product.id %}">Quick Shop</a></button>
+                                </div>
+                            </div>
+                            <div class="product-info">
+                                <h3>{{ product.name }}</h3>
+                                <p class="price-info">
+                                    <span class="regular-price">Price: <strike>MMK {{ product.price }}</strike></span>
+                                    <span class="sale-price">MMK {{ product.sale_price }}</span>
+                                </p>
+                                <span class="heart">
+                                    <i class="fas fa-heart" onclick="addToWishlist({{ product.id }})"></i>
+                                </span>
+                                <button class="add-to-cart" data-product-id="{{ product.id }}" onclick="addToCart({{ product.id }})">Add to Cart</button>
+                            </div>
+                        </div>
+                        {% else %}
+                        <div class="pcarousel-item">
+                            <div class="timage-container">
+                                <img class="image-main" src="{{ product.main_image.url }}" alt="{{ product.name }}">
+                                <img class="image-secondary" src="{{ product.secondary_image.url }}" alt="{{ product.name }}">
+                                <div class="overlay">
+                                    <button class="quick-shop"><a href="{% url 'productDetail' product.id %}">Quick Shop</a></button>
+                                </div>
+                            </div>
+                            <div class="product-info">
+                                <h3>{{ product.name }}</h3>
+                                <p class="sale-price">Price: MMK {{ product.price }}</p>
+                                <span class="heart">
+                                    <i class="fas fa-heart" onclick="addToWishlist({{ product.id }})"></i>
+                                </span>
+                                <button class="add-to-cart" data-product-id="{{ product.id }}" onclick="addToCart({{ product.id }})">Add to Cart</button>
+                            </div>
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    <p>No products found for "{{ searched }}".</p>
+                {% endif %}
+            {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    {% if messages %}
+    <div>
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+          {{ message }}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+  
+
+   
+    
+{% endblock %}
