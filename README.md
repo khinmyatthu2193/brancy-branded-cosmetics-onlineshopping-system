@@ -89,9 +89,33 @@ This project was developed collaboratively at **Myanmar Institute of Information
 
 ![Home Page](screenshots/home_page.png)
 
-### 🛍 Product Categories
+### Product Page
 
-![Product Categories](screenshots/product_categories_page.png)
+![Product Page](screenshots/product.png)
+
+### Product Filter & Categories
+
+![Product Categories and Filter](screenshots/product_categories_page.png)
+
+
+### Brand Page
+
+![Brand Page](screenshots/brand_page.png)
+
+### Cart
+
+![Cart Page](screenshots/cart.png)
+
+
+### Checkout Page
+
+![Checkout](screenshots/checkout_page.png)
+
+
+### Invoice Page
+
+![Invoice](screenshots/invoice.png)
+
 
 ### Customer Login
 
@@ -101,17 +125,15 @@ This project was developed collaboratively at **Myanmar Institute of Information
 
 ![Create Account](screenshots/customer_create_account_page.png)
 
+### Account Details
+
+![Account Details Page](screenshots/account_details.png)
+
 ### Logout
 
 ![Logout](screenshots/customer_logout_page.png)
 
-### Brand Page
 
-![Brand Page](screenshots/brand_page.png)
-
-### Checkout Page
-
-![Checkout](screenshots/checkout_page.png)
 
 ### Django Admin Panel
 
