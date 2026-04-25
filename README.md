@@ -1,6 +1,6 @@
-# 💄 BRANCY - Branded Cosmetics Website
+# BRANCY - Branded Cosmetics Website
 
-## 📌 Overview
+## Overview
 
 BRANCY is a web-based e-commerce platform designed to provide a seamless and user-friendly shopping experience for branded cosmetic products. The system allows users to browse products, manage accounts, and place orders efficiently while enabling administrators to manage inventory and customer data.
 
@@ -8,9 +8,9 @@ This project was developed as part of a Special Project at Myanmar Institute of 
 
 ---
 
-## 🚀 Features
+## Features
 
-### 👤 Customer
+### Customer
 
 * User registration and login
 * Browse products by categories
@@ -18,14 +18,14 @@ This project was developed as part of a Special Project at Myanmar Institute of 
 * Add to cart and checkout
 * Track order status
 
-### 🛠 Admin
+### Admin
 
 * Manage products and inventory
 * View customer data and orders
 * Update product listings
 * Monitor system activities
 
-### 💬 Support
+### Support
 
 * Handle customer inquiries
 * Manage feedback and reviews
@@ -33,7 +33,7 @@ This project was developed as part of a Special Project at Myanmar Institute of 
 
 ---
 
-## 🛠 Tech Stack
+## Tech Stack
 
 **Frontend**
 
@@ -57,7 +57,7 @@ This project was developed as part of a Special Project at Myanmar Institute of 
 
 ---
 
-## 🧠 Project Purpose
+## Project Purpose
 
 The goal of this project is to:
 
@@ -66,7 +66,9 @@ The goal of this project is to:
 * Offer detailed product information for better decision-making
 * Deliver a smooth and responsive user experience
 
-## 🤝 Project Team
+---
+
+## Project Team
 
 This project was developed collaboratively at **Myanmar Institute of Information Technology (MIIT)**.
 
@@ -81,9 +83,9 @@ This project was developed collaboratively at **Myanmar Institute of Information
 * Daw Yin Myo Kay Khine Thaw
 
 
-## 📸 Screenshots
+## Screenshots
 
-### 🏠 Home Page
+### Home Page
 
 ![Home Page](screenshots/home_page.png)
 
@@ -91,33 +93,33 @@ This project was developed collaboratively at **Myanmar Institute of Information
 
 ![Product Categories](screenshots/product_categories_page.png)
 
-### 🔐 Customer Login
+### Customer Login
 
 ![Login](screenshots/customer_login_page.png)
 
-### 📝 Create Account
+### Create Account
 
-![Create Account](screenshots/create_account_page.png)
+![Create Account](screenshots/customer_create_account_page.png)
 
-### 🚪 Logout
+### Logout
 
 ![Logout](screenshots/customer_logout_page.png)
 
-### 💄 Brand Page
+### Brand Page
 
 ![Brand Page](screenshots/brand_page.png)
 
-### 🛒 Checkout Page
+### Checkout Page
 
 ![Checkout](screenshots/checkout_page.png)
 
-### ⚙️ Django Admin Panel
+### Django Admin Panel
 
-![Admin](screenshots/django_administration_page.png)
+![Admin](screenshots/django_administration.png)
 
 ---
 
-## ⚙️ Installation & Setup
+## Installation & Setup
 
 ```bash
 # Clone the repository
@@ -141,7 +143,7 @@ python manage.py runserver
 
 ---
 
-## 🧩 Project Structure
+## Project Structure
 
 ```
 onlineshop/
@@ -157,7 +159,7 @@ onlineshop/
 
 ---
 
-## ⚠️ Limitations
+## Limitations
 
 * Requires internet connection
 * Focused only on cosmetics products
@@ -165,7 +167,7 @@ onlineshop/
 
 ---
 
-## 🧪 Challenges Faced
+## Challenges Faced
 
 * Learning Django framework
 * Integrating frontend with backend
@@ -174,7 +176,7 @@ onlineshop/
 
 ---
 
-## 👩‍💻 My Contribution
+## My Contribution
 
 * Developed frontend using HTML, CSS, JavaScript
 * Implemented backend using Django
@@ -183,7 +185,7 @@ onlineshop/
 
 ---
 
-## 📚 References
+## References
 
 * https://www.geeksforgeeks.org/
 * https://www.youtube.com/
@@ -191,26 +193,15 @@ onlineshop/
 
 ---
 
-## ⚠️ Notice
 
-This project is created for educational and portfolio purposes only.
-Please do not copy, reuse, or redistribute without permission.
 
----
-
-## 📄 License
-
-This project is licensed under the MIT License.
-
----
-
-## 🙌 Acknowledgement
+## Acknowledgement
 
 This project was developed under the guidance of instructors at Myanmar Institute of Information Technology (MIIT).
 
 ---
 
-## ⭐ Final Note
+## Final Note
 
 This repository represents a student project and learning journey.
 Feedback and suggestions are always welcome.
