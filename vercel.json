@@ -1,0 +1,8 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "functions": {
+    "onlineshop/wsgi.py": {
+      "excludeFiles": "{media/**,static/**,screenshots/**,staticfiles/**,.venv*/**,.vercel/**}"
+    }
+  }
+}
