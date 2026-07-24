@@ -40,7 +40,6 @@
 
 </style>
 
-<body>
   <!--headerbottomend-->
   <div class="carousel">
     <div class="carousel-slides">
@@ -158,7 +157,7 @@
   <!-- best seller -->
   <div class="homecontainer" width="100%">
       <h6 class="section-subtitle" style="font-size: 25pt; margin-top: 10px;color: #000;" >Browse our authentic products</h6>
-      <div class="hcarousel-wrapper" style="width: 100%; align-items: center; margin-left: 130px;">
+      <div class="hcarousel-wrapper">
 
         <div class="pcarousel-items">      
           {% for product in combined_items %}
@@ -636,9 +635,6 @@
     </div>
     
 
-</body>
-
-</html>
 <script src="https://unpkg.com/@phosphor-icons/web"></script>
 <!-- sticky -->
 <script>
@@ -702,13 +698,20 @@
 <script>
   const carouselContainer = document.querySelector('.carousel-container');
 
-  document.querySelector('.next').addEventListener('click', () => {
-    carouselContainer.scrollBy({ left: 300, behavior: 'smooth' });
-  });
+  const nextButton = document.querySelector('.next');
+  const previousButton = document.querySelector('.prev');
 
-  document.querySelector('.prev').addEventListener('click', () => {
-    carouselContainer.scrollBy({ left: -300, behavior: 'smooth' });
-  });
+  if (carouselContainer && nextButton) {
+    nextButton.addEventListener('click', () => {
+      carouselContainer.scrollBy({ left: 300, behavior: 'smooth' });
+    });
+  }
+
+  if (carouselContainer && previousButton) {
+    previousButton.addEventListener('click', () => {
+      carouselContainer.scrollBy({ left: -300, behavior: 'smooth' });
+    });
+  }
 </script>
 
 

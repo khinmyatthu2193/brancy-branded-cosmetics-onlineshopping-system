@@ -6,9 +6,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- <link rel="stylesheet" href="{% static 'path/to/bootstrap.min.css' %}"> -->
-    <link rel="stylesheet" href="../../../../static/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/all.min.css' %}">
     <script src="{% static 'path/to/bootstrap.bundle.min.js' %}"></script>
-    <title>Document</title>
+    <title>BRANCY | Beauty & Cosmetics</title>
     <link rel="icon" href="{% static 'imges/logo-02.png' %}" type="image/icon">
 
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> -->
@@ -1918,17 +1918,21 @@
             font-size: 14px;
         }
     </style>
+    <link rel="stylesheet" href="{% static 'css/ux.css' %}">
 </head>
 
 <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
 
     <!-- <div class="home_black_version"> -->
     <header class="header_area header_black">
-        <div class="header_top sticky-header">
+        <div class="header_top">
             <div class="top_right">
                 <ul>
                     <li class="top_links">
-                        <i class="fa fa-globe"></i>
+                        <button class="icon-button" type="button" aria-label="Choose language">
+                            <i class="fa fa-globe" aria-hidden="true"></i>
+                        </button>
                         <ul class="dropdown_links">
                             <li><a onclick="changeLanguage('en')">English</a></li>
                             <li><a onclick="changeLanguage('my')">Myanmar</a></li>
@@ -1937,7 +1941,7 @@
                 </ul>
                 <ul>
                     <li class="top_links">
-                        <a href="{% url 'accsetting' %}"><i class="fa fa-user"></i></a>
+                        <a href="{% url 'accsetting' %}" aria-label="Account"><i class="fa fa-user" aria-hidden="true"></i></a>
                         <ul class="dropdown_links">
                             {% if user.is_authenticated %}
                             <li><a href="{% url 'logout' %}">Logout</a></li>
@@ -1950,22 +1954,25 @@
                 </ul>
             </div>
             <div class="logoname">
-                <h1>BRANCY</h1>
+                <a href="{% url 'home' %}" aria-label="BRANCY home">BRANCY</a>
             </div>
             <div class="middel_right">
                 <form method="POST" action="{% url 'search' %}" class="search-form">
                     {% csrf_token %}
                     <div class="search-container">
-                        <input type="text" class="form-control" placeholder="Search with Product name..."
-                            name="searched" required>
-
+                        <label class="sr-only" for="site-search">Search products</label>
+                        <input id="site-search" type="search" class="form-control" placeholder="Search products"
+                            name="searched" autocomplete="off" required>
+                        <button type="submit" class="search-submit" aria-label="Search">
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                        </button>
                     </div>
                 </form>
 
                 <div class="hearti">
                     <div class="heart" id="heartIcon">
                         <a href="{% url 'wishlist' %}">
-                            <i class="fa fa-heart"></i>
+                            <i class="fa fa-heart" aria-hidden="true"></i>
                         </a>
                         <p id="wishlistCount">0</p> <!-- Corrected ID -->
                     </div>
@@ -1973,16 +1980,19 @@
 
                 <div class="carti">
                     <!-- <div class="cart" id="cartIcon"><i class="ph ph-shopping-cart-simple"></i> -->
-                    <div class="cart" id="cartIcon"><i class="fa fa-cart-plus"></i>
+                    <button class="cart icon-button" id="cartIcon" type="button" aria-label="Open shopping cart"><i class="fa fa-cart-plus" aria-hidden="true"></i>
                         <p id="count">0</p>
-                    </div>
+                    </button>
                 </div>
             </div>
         </div>
-        </div>
         <!-- header middle starts -->
         <div class="header_bottom ">
-            <nav class="navbar">
+            <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation">
+                <i class="fa fa-bars" aria-hidden="true"></i>
+                <span>Menu</span>
+            </button>
+            <nav class="navbar" id="primary-navigation" aria-label="Primary navigation">
                 <div>
                     <a href="{% url 'home' %}" class="csss" id="homeLink">Home</a>
                 </div>
@@ -1991,7 +2001,7 @@
                 </div>
                 
                 <div class="pagedropdown">
-                    <a href="#" id='brandLink' class="csss">Brand</a>
+                    <button type="button" id="brandLink" class="csss dropdown-toggle">Brand</button>
                     <div class="pagedropdown-content">
                         <a href="{% url 'b_brandcover' %}" id='localBrandLink' >Local Brands</a>
                         <a href="{% url 'brandcover' %}" id='internationalBrandLink' >International Brands</a>
@@ -2003,7 +2013,7 @@
                 
                 
                 <div class="pagedropdown">
-                    <a href="#" id = 'pagedropdown' class="csss">Pages</a>
+                    <button type="button" id="pagedropdown" class="csss dropdown-toggle">Pages</button>
                     <div class="pagedropdown-content">
                         <a href="{% url 'aboutus' %}"  id = 'aboutUsLink'>About us</a>
                         <a href="{% url 'skin_quiz' %}"  id='skinQuizLink'>Skin Quiz</a>
@@ -2014,10 +2024,10 @@
         </div>
     </header>
     <!-- Cart Overlay -->
-    <div class="cart-overlay" id="cartOverlay">
+    <div class="cart-overlay" id="cartOverlay" role="dialog" aria-modal="true" aria-labelledby="cart-title">
         <div class="cart-header">
-            <h2>CART</h2>
-            <span class="close-btn" id="closeCart">&times;</span>
+            <h2 id="cart-title">Your cart</h2>
+            <button class="close-btn" id="closeCart" type="button" aria-label="Close cart">&times;</button>
         </div>
         <div class="cart-content" id="cartContent">
             <p id="cartItem">Your shopping cart is empty!</p>
@@ -2044,5 +2054,3 @@
         {% endfor %}
     </div>
     {% endif %}
-</body>
-</html>
