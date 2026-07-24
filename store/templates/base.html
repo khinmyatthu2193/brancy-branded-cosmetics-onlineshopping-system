@@ -2,10 +2,8 @@
 
 {% include 'nav.html'%}
 
-<main id="main-content">
-    {% block content %}
-    {% endblock %}
-</main>
+{% block content %}
+{% endblock %}
 <!--footer-->
 <footer class="footer">
     <div class="footer-container">
@@ -43,7 +41,7 @@
             </div>
 
             <div class="footer-bottom">
-                <p>&copy; 2026 BRANCY Cosmetics</p>
+                <p>&copy; 2024 Cosmetic Capital</p>
                 <div class="payment-methods">
                     <img src="{% static 'imges/kpay.png' %}" alt="PayPal">
                     <img src="{% static 'imges/visa.png' %}" alt="Afterpay">
@@ -59,34 +57,8 @@
 
 <script src="https://unpkg.com/@phosphor-icons/web"></script>
 <script>
-    const menuToggle = document.querySelector('.menu-toggle');
-    const primaryNavigation = document.getElementById('primary-navigation');
 
-    if (menuToggle && primaryNavigation) {
-        menuToggle.addEventListener('click', function () {
-            const isOpen = primaryNavigation.classList.toggle('is-open');
-            menuToggle.setAttribute('aria-expanded', String(isOpen));
-        });
-
-        primaryNavigation.querySelectorAll('a').forEach(function (link) {
-            link.addEventListener('click', function () {
-                primaryNavigation.classList.remove('is-open');
-                menuToggle.setAttribute('aria-expanded', 'false');
-            });
-        });
-    }
-
-    document.querySelectorAll('.dropdown-toggle').forEach(function (toggle) {
-        toggle.addEventListener('click', function () {
-            const dropdown = toggle.closest('.pagedropdown');
-            if (window.matchMedia('(max-width: 800px)').matches && dropdown) {
-                dropdown.classList.toggle('is-open');
-            }
-        });
-    });
-
-    const searchIcon = document.getElementById("search-icon");
-    if (searchIcon) searchIcon.addEventListener("click", function () {
+    document.getElementById("search-icon").addEventListener("click", function () {
         var searchBar = document.getElementById("search-bar");
         if (searchBar.style.display === "flex") {
             searchBar.style.display = "none";
@@ -187,7 +159,6 @@
     // Function to update the display of the wishlist
     const updateWishlistDisplay = () => {
         const wishlistContainer = document.getElementById("wishlistContent");
-        if (!wishlistContainer) return;
         wishlistContainer.innerHTML = ''; // Clear the container before updating
 
         if (wishlist.length === 0) {
@@ -444,16 +415,16 @@ const cchheecckk = async () => {
         cartOverlay.classList.remove("cart-active");
     }
 
-    if (cartIcon) cartIcon.addEventListener("click", openCart);
-    if (closeCart) closeCart.addEventListener("click", closeCartOverlay);
+    cartIcon.addEventListener("click", openCart);
+    closeCart.addEventListener("click", closeCartOverlay);
 
     document.addEventListener("click", function (event) {
-        if (cartOverlay && cartIcon && !cartOverlay.contains(event.target) && !cartIcon.contains(event.target)) {
+        if (!cartOverlay.contains(event.target) && !cartIcon.contains(event.target)) {
             closeCartOverlay();
         }
     });
 
-    if (cartOverlay) cartOverlay.addEventListener("click", function (event) {
+    cartOverlay.addEventListener("click", function (event) {
         event.stopPropagation();
     });
 
@@ -597,5 +568,3 @@ const cchheecckk = async () => {
         }
     });
 </script>
-</body>
-</html>
