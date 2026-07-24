@@ -1,8 +1,31 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "functions": {
-    "onlineshop/wsgi.py": {
-      "excludeFiles": "{media/**,static/**,screenshots/**,staticfiles/**,.venv*/**,.vercel/**}"
+  "version": 2,
+  "builds": [
+    {
+      "src": "onlineshop/wsgi.py",
+      "use": "@vercel/python",
+      "config": {
+        "excludeFiles": "{public,screenshots}/**"
+      }
+    },
+    {
+      "src": "public/**",
+      "use": "@vercel/static"
     }
-  }
+  ],
+  "routes": [
+    {
+      "src": "/static/(.*)",
+      "dest": "/public/static/$1"
+    },
+    {
+      "src": "/media/(.*)",
+      "dest": "/public/media/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "onlineshop/wsgi.py"
+    }
+  ]
 }
