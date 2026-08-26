@@ -159,9 +159,16 @@ venv\Scripts\activate
 # Install dependencies
 pip install -r requirements.txt
 
+# Create the database and load the sample catalogue
+python manage.py migrate
+python manage.py seed_store
+
 # Run server
 python manage.py runserver
 ```
+
+Local development enables Django's static and media file serving automatically.
+Set `DJANGO_DEBUG=false` outside local development.
 
 ---
 

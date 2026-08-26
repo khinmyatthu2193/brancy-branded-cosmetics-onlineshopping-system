@@ -527,9 +527,9 @@
                             <img id="mainImage" class="product-main-image" src="{{ product.main_image.url }}" alt="">
                             <div class="product-thumbnail-images">
                                 <img id="thumb1" src="{{ product.main_image.url }}" alt="">
-                                <img id="thumb2" src="{{ product.secondary_image.url }}" alt="">
-                                <img id="thumb3" src="{{ product.extra_image1.url }}" alt="">
-                                <img id="thumb4" src="{{ product.extra_image2.url }}" alt="">
+                                {% if product.secondary_image %}<img id="thumb2" src="{{ product.secondary_image.url }}" alt="{{ product.name }}">{% endif %}
+                                {% if product.extra_image1 %}<img id="thumb3" src="{{ product.extra_image1.url }}" alt="{{ product.name }}">{% endif %}
+                                {% if product.extra_image2 %}<img id="thumb4" src="{{ product.extra_image2.url }}" alt="{{ product.name }}">{% endif %}
                             </div>
                         </div>
                         <div class="product-details">

@@ -33,10 +33,7 @@ def custom_login_view(request):
 
 
 def home(request):
-    # List of specific product IDs you want to display
-    product_ids = [ 74, 35, 67, 65]  # Replace these with the actual IDs of the products you want to show
-    products = Product.objects.filter(id__in=product_ids)  # Filter products by the specified IDs
-
+    products = Product.objects.select_related('category', 'brand').order_by('-id')[:8]
     return render(request, 'home.html', {'products': products})
 
 def register_user(request):
@@ -188,15 +185,19 @@ def blogpost(request):
     return render(request, 'blogpost.html', { })
 
 def shoppage(request):
-    products = Product.objects.all()
-    categories = Category.objects.all()
-    # Setting up pagination
-    paginator = Paginator(products, 5000)  # Show 20 products per page
+    products = Product.objects.select_related('category', 'brand', 'subCategory').order_by('name')
+    categories = Category.objects.prefetch_related('ccategories').all()
+    paginator = Paginator(products, 20)
     page_number = request.GET.get('page')  # Get the page number from the URL query parameters
     page_obj = paginator.get_page(page_number)  # Get the specific page of products
     # Render the template with the page object
-    combined_items = list(chain(products))
-    return render(request, 'shoppage.html', {'combined_items': combined_items, 'page_obj':page_obj, 'categories': categories})
+    return render(request, 'shoppage.html', {
+        'combined_items': [],
+        'products': page_obj.object_list,
+        'page_obj': page_obj,
+        'categories': categories,
+        'brands': Brand.objects.all(),
+    })
 def brandshoppage(request, brand_name):
     # Retrieve the brand object by name
     brand = get_object_or_404(Brand, name=brand_name)
@@ -213,7 +214,13 @@ def search(request):
         searched = request.POST.get('searched', '')
         if searched:
             results = Product.objects.filter(name__icontains=searched)
-            return render(request, 'shoppage.html', {'searched': searched, 'results': results})
+            return render(request, 'shoppage.html', {
+                'searched': searched,
+                'results': results,
+                'products': [],
+                'combined_items': [],
+                'categories': Category.objects.prefetch_related('ccategories'),
+            })
         else:
             return render(request, 'shoppage.html', {'error': 'No search term entered'})
     return render(request, 'shoppage.html', {'searched': None, 'results': None})
